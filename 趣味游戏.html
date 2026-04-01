@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>节气小花园 - 知识问答养成</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            background-color: #f5f0e5;
+            color: #333;
+            padding-top: 70px;
+            scroll-behavior: smooth;
+        }
+
+        .header-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 998;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            background-color: rgba(204, 165, 147, 0.8);
+            padding: 15px 20px;
+            height: 70px;
+        }
+        .nav-item { position: relative; margin: 0 10px; }
+        .header-nav a {
+            color: #fff; text-decoration: none;
+            padding: 8px 20px; font-size: 20px;
+            text-shadow: 0 0 3px rgba(0,0,0,0.3);
+            border-radius: 4px; transition: 0.3s;
+        }
+        .header-nav a:hover { background: rgba(255,255,255,0.3); }
+        .dropdown {
+            position: absolute; top: 100%; left: 0;
+            background: rgba(250,245,235,0.95);
+            border-radius: 6px; min-width: 120px;
+            display: none; box-shadow: 0 3px 8px rgba(100,80,50,0.15);
+            padding: 3px 0;
+        }
+        .dropdown a {
+            padding: 12px 18px; color: #5a4028;
+            font-size: 15px; display: block;
+        }
+        .nav-item:hover .dropdown { display: block; animation: fadeDown 0.3s ease; }
+        @keyframes fadeDown { from{opacity:0;transform:translateY(-4px);}to{opacity:1;transform:translateY(0);} }
+
+        .container {
+            width: 90%; max-width: 1100px;
+            margin: 0 auto; padding: 20px;
+        }
+
+        .game-title {
+            text-align: center;
+            font-size: 30px;
+            color: #8b5a2b;
+            margin: 20px 0 10px;
+        }
+        .game-desc {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .game-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: flex-start;
+        }
+
+        .plant-box {
+            flex: 1 1 320px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .plant-box h2 {
+            color: #8b5a2b;
+            margin-bottom: 16px;
+            font-size: 22px;
+        }
+        .season-label {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #e8d8c3;
+            color: #8b5a2b;
+            border-radius: 30px;
+            font-size: 15px;
+            margin-bottom: 20px;
+        }
+        .plant-img {
+            width: 190px;
+            height: 190px;
+            margin: 0 auto 20px;
+            object-fit: contain;
+            transition: 0.5s;
+        }
+        .resource-bar {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 16px 0;
+            font-size: 16px;
+        }
+        .resource {
+            color: #8b5a2b;
+            font-weight: bold;
+        }
+        .level-bar {
+            width: 100%;
+            height: 10px;
+            background: #f0e6d6;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        .level-progress {
+            height: 100%;
+            background: #a8e6cf;
+            width: 30%;
+            transition: 0.5s;
+        }
+        .daily-box {
+            margin-top:10px;
+            font-size:14px;
+            color:#666;
+        }
+        .nick-box {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+        }
+        .nick-input {
+            padding: 6px 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            width: 120px;
+            text-align: center;
+        }
+        .nick-btn {
+            padding: 6px 10px;
+            background: #8b5a2b;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .quiz-box {
+            flex: 1 1 450px;
+            background: #fff;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .quiz-box h2 {
+            color: #8b5a2b;
+            margin-bottom: 20px;
+            font-size: 22px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+        .rank-btn {
+            padding:6px 12px;
+            background:#8b5a2b;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+        .question {
+            font-size: 18px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #3d2a16;
+            min-height:50px;
+        }
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .option-btn {
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background: #faf6f0;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: left;
+            transition: 0.2s;
+        }
+        .option-btn:hover {
+            background: #f0e6d6;
+            border-color: #8b5a2b;
+        }
+        .option-btn.correct {
+            background: #d4edda;
+            border-color: #5cb85c;
+        }
+        .option-btn.wrong {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        .tip {
+            margin-top: 16px;
+            font-size: 15px;
+            color: #777;
+            height:20px;
+        }
+
+        .rank-modal {
+            position:fixed;
+            top:0;left:0;right:0;bottom:0;
+            background:rgba(0,0,0,0.4);
+            display:none;
+            align-items:center;
+            justify-content:center;
+            z-index:9999;
+        }
+        .rank-card {
+            background:#fff;
+            width:90%;
+            max-width:500px;
+            border-radius:16px;
+            padding:30px;
+            max-height:80vh;
+            overflow-y:auto;
+        }
+        .rank-card h3 {
+            color:#8b5a2b;
+            margin-bottom:20px;
+            text-align:center;
+        }
+        .rank-item {
+            padding:10px 14px;
+            border-bottom:1px solid #eee;
+            display:flex;
+            justify-content:space-between;
+        }
+        .rank-me {
+            background: #fff8e1;
+            font-weight: bold;
+            color: #8b5a2b;
+        }
+        .close-rank {
+            text-align:center;
+            margin-top:20px;
+        }
+        .close-btn {
+            padding:8px 20px;
+            background:#8b5a2b;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+
+        @keyframes growUp {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .grow-animate {
+            animation: growUp 0.8s ease forwards;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="header-nav">
+        <a href="index.html">首页</a>
+        <div class="nav-item">
+            <a href="节气大全(二级).html">节气大全</a>
+        </div>
+        <div class="nav-item">
+            <a>文化分类</a>
+            <div class="dropdown">
+                <a href="春季文化.html">春季文化</a>
+                <a href="夏季文化.html">夏季文化</a>
+                <a href="秋季文化.html">秋季文化</a>
+                <a href="冬季文化.html">冬季文化</a>
+            </div>
+        </div>
+		<a>节气游戏</a>
+        <a href="节气穿搭.html">节气穿搭</a>
+        <a href="关于我们.html">关于我们</a>
+    </nav>
+
+    <div class="container">
+        <h1 class="game-title">🌱 节气小花园 · 知识问答养成</h1>
+        <p class="game-desc">答对节气题目 → 获得露珠与养料 → 培育四季植物</p>
+
+        <div class="game-layout">
+            <div class="plant-box">
+                <h2>我的节气植物</h2>
+                <div class="season-label" id="seasonText">春季 · 兰花</div>
+                <img id="plantImage" class="plant-img" src="">
+                <div class="nick-box">
+                    <input type="text" id="nickInput" placeholder="输入昵称" class="nick-input">
+                    <button class="nick-btn" onclick="saveNick()">保存</button>
+                </div>
+                <div class="resource-bar">
+                    <div class="resource">💧 露珠: <span id="dew">0</span></div>
+                    <div class="resource">🌱 养料: <span id="nutri">0</span></div>
+                </div>
+                <div class="level-bar">
+                    <div class="level-progress" id="progress"></div>
+                </div>
+                <p>等级：<span id="level">1</span> 级</p>
+                <p id="stageText" style="margin-top:6px;color:#8b5a2b;font-weight:bold;"></p>
+                <div class="daily-box">今日答题：<span id="todayCount">0</span>/10</div>
+            </div>
+
+            <div class="quiz-box">
+                <h2>
+                    📝 节气知识问答
+                    <button class="rank-btn" onclick="openRank()">排行榜</button>
+                </h2>
+                <div class="question" id="question">题目加载中...</div>
+                <div class="options" id="options"></div>
+                <div class="tip" id="tip"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="rank-modal" id="rankModal">
+        <div class="rank-card">
+            <h3>🏆 节气达人排行榜</h3>
+            <div id="rankList"></div>
+            <div class="close-rank">
+                <button class="close-btn" onclick="closeRank()">关闭</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ======================
+        // 四季植物配置
+        // ======================
+        const month = new Date().getMonth() + 1;
+        let season, plantKey;
+        if (month >= 3 && month <= 5) {
+            season = "春季"; plantKey = "orchid";
+        } else if (month >= 6 && month <= 8) {
+            season = "夏季"; plantKey = "lotus";
+        } else if (month >= 9 && month <= 11) {
+            season = "秋季"; plantKey = "chrys";
+        } else {
+            season = "冬季"; plantKey = "plum";
+        }
+
+        const plantImages = {
+            orchid: [
+                "https://i.ibb.co/Qbn0rL0/seedling.png",
+                "https://i.ibb.co/F5vGz1L/growing.png",
+                "https://i.ibb.co/Sw7HcVV/blossom.png",
+                "https://i.ibb.co/M5nLpzq/full.png"
+            ],
+            lotus: [
+                "https://i.ibb.co/Qbn0rL0/seedling.png",
+                "https://i.ibb.co/F5vGz1L/growing.png",
+                "https://i.ibb.co/Sw7HcVV/blossom.png",
+                "https://i.ibb.co/M5nLpzq/full.png"
+            ],
+            chrys: [
+                "https://i.ibb.co/Qbn0rL0/seedling.png",
+                "https://i.ibb.co/F5vGz1L/growing.png",
+                "https://i.ibb.co/Sw7HcVV/blossom.png",
+                "https://i.ibb.co/M5nLpzq/full.png"
+            ],
+            plum: [
+                "https://i.ibb.co/Qbn0rL0/seedling.png",
+                "https://i.ibb.co/F5vGz1L/growing.png",
+                "https://i.ibb.co/Sw7HcVV/blossom.png",
+                "https://i.ibb.co/M5nLpzq/full.png"
+            ]
+        };
+        const stageNames = ["幼苗", "成长", "盛开", "繁盛"];
+        document.getElementById("seasonText").innerText = `${season} · 植物`;
+
+        // ======================
+        // 随机昵称库
+        // ======================
+        const nameAdj = ["小", "青", "风", "月", "星", "云", "雪", "松", "竹", "梅", "兰", "荷", "秋", "凉", "暖", "甜", "笨", "傻", "呆", "萌"];
+        const nameNoun = ["豆", "茶", "糖", "球", "兔", "猫", "鸟", "鱼", "叶", "果", "米", "糕", "丸", "仔", "宝", "爷", "哥", "妹", "仙", "客"];
+
+        function randomName() {
+            const a = nameAdj[Math.floor(Math.random() * nameAdj.length)];
+            const b = nameNoun[Math.floor(Math.random() * nameNoun.length)];
+            return a + b + Math.floor(Math.random() * 100);
+        }
+
+        // ======================
+        // 游客ID（模拟IP区分）
+        // ======================
+        function getUid() {
+            let u = localStorage.getItem("player_uid");
+            if (!u) {
+                u = "user_" + Date.now() + "_" + Math.random().toString(36).slice(2,6);
+                localStorage.setItem("player_uid", u);
+            }
+            return u;
+        }
+
+        // ======================
+        // 日期与每日答题
+        // ======================
+        function getToday() {
+            return new Date().toISOString().split("T")[0];
+        }
+
+        // ======================
+        // 玩家数据
+        // ======================
+        function getPlayer() {
+            const uid = getUid();
+            let all = JSON.parse(localStorage.getItem("game_players") || "{}");
+            if (!all[uid]) {
+                all[uid] = {
+                    uid,
+                    nick: randomName(),
+                    dew: 0, nutri:0, level:1, exp:0, score:0,
+                    day: getToday(), today:0
+                };
+                saveAllPlayers(all);
+            }
+            const p = all[uid];
+            if (p.day !== getToday()) {
+                p.day = getToday();
+                p.today = 0;
+                saveAllPlayers(all);
+            }
+            return p;
+        }
+
+        function savePlayer(p) {
+            const all = JSON.parse(localStorage.getItem("game_players") || "{}");
+            all[p.uid] = p;
+            saveAllPlayers(all);
+        }
+
+        function saveAllPlayers(all) {
+            localStorage.setItem("game_players", JSON.stringify(all));
+        }
+
+        // ======================
+        // 昵称修改
+        // ======================
+        function saveNick() {
+            const val = document.getElementById("nickInput").value.trim();
+            if (!val) return alert("请输入昵称");
+            const p = getPlayer();
+            p.nick = val;
+            savePlayer(p);
+            alert("昵称保存成功");
+        }
+
+        // ======================
+        // 植物阶段
+        // ======================
+        function getStage(level) {
+            if (level < 5) return 0;
+            if (level < 10) return 1;
+            if (level < 15) return 2;
+            return 3;
+        }
+
+        // ======================
+        // 界面刷新
+        // ======================
+        function renderUI() {
+            const p = getPlayer();
+            document.getElementById("dew").innerText = p.dew;
+            document.getElementById("nutri").innerText = p.nutri;
+            document.getElementById("level").innerText = p.level;
+            document.getElementById("todayCount").innerText = p.today;
+            document.getElementById("nickInput").value = p.nick;
+            const st = getStage(p.level);
+            document.getElementById("plantImage").src = plantImages[plantKey][st];
+            document.getElementById("stageText").innerText = `状态：${stageNames[st]}`;
+            const prog = Math.min(100, (p.exp / 20) * 100);
+            document.getElementById("progress").style.width = prog + "%";
+        }
+
+        // ======================
+        // 节气题库（30题）
+        // ======================
+        const questions = [
+            {q:"二十四节气中，哪个标志春天开始？",a:["立春","雨水","惊蛰","春分"],c:0},
+            {q:"下列哪个节气属于夏天？",a:["清明","小满","霜降","大寒"],c:1},
+            {q:"‘春雨惊春清谷天’中‘清’是？",a:["清明","清晨","清雨","清风"],c:0},
+            {q:"夏至时会发生什么？",a:["白昼最长","黑夜最长","昼夜等长","气温最低"],c:0},
+            {q:"哪个节气表示秋天开始？",a:["立秋","处暑","白露","秋分"],c:0},
+            {q:"冬至传统吃什么？",a:["饺子","汤圆","月饼","粽子"],c:0},
+            {q:"‘露从今夜白’指哪个节气？",a:["白露","寒露","霜降","小雪"],c:0},
+            {q:"芒种适合做什么？",a:["播种","收获","修剪","冬眠"],c:0},
+            {q:"哪个节气最冷？",a:["大寒","小寒","立冬","小雪"],c:0},
+            {q:"惊蛰是什么苏醒？",a:["昆虫","花草","河水","候鸟"],c:0},
+            {q:"下列哪个是节气？",a:["端午","中秋","清明","重阳"],c:2},
+            {q:"处暑代表什么？",a:["炎热结束","炎热开始","寒冷开始","丰收"],c:0},
+            {q:"秋分昼夜？",a:["等长","昼长夜短","昼短夜长","极昼"],c:0},
+            {q:"霜降在哪个季节？",a:["秋","夏","春","冬"],c:0},
+            {q:"谷雨前后适合？",a:["播种","收割","避寒","赏花"],c:0},
+            {q:"小大雪节气会？",a:["下雪","下雨","高温","大风"],c:0},
+            {q:"一年中昼夜等长的是？",a:["春分秋分","夏至冬至","立春立秋","雨水白露"],c:0},
+            {q:"哪个节气在五月？",a:["立夏","立秋","立冬","立春"],c:0},
+            {q:"‘秋处露秋寒霜降’第二个秋是？",a:["秋分","立秋","中秋","深秋"],c:0},
+            {q:"惊蛰在几月？",a:["3月","5月","9月","11月"],c:0},
+            {q:"小满指什么满？",a:["麦粒","湖水","气温","树叶"],c:0},
+            {q:"哪个节气最热？",a:["大暑","小暑","处暑","大暑"],c:0},
+            {q:"寒食节与哪个节气接近？",a:["清明","谷雨","立夏","小满"],c:0},
+            {q:"立冬代表什么？",a:["冬季开始","冬季结束","最冷","降雪"],c:0},
+            {q:"哪个节气昼夜平分？",a:["春分","夏至","冬至","大雪"],c:0},
+            {q:"‘夏满芒夏暑相连’第一个夏是？",a:["立夏","夏至","大暑","小暑"],c:0},
+            {q:"霜降后下一个节气？",a:["立冬","小雪","大雪","冬至"],c:0},
+            {q:"哪个节气表示雨水增多？",a:["雨水","谷雨","白露","寒露"],c:0},
+            {q:"梅花开放对应节气？",a:["小寒大寒","立春雨水","惊蛰春分","清明谷雨"],c:0},
+            {q:"菊花盛开在？",a:["秋季","春季","夏季","冬季"],c:0}
+        ];
+
+        let currentQ;
+        function loadQuestion() {
+            const p = getPlayer();
+            if (p.today >= 10) {
+                document.getElementById("question").innerText = "今日答题次数已用完，明天再来吧～";
+                document.getElementById("options").innerHTML = "";
+                document.getElementById("tip").innerText = "";
+                return;
+            }
+            currentQ = questions[Math.floor(Math.random() * questions.length)];
+            document.getElementById("question").innerText = currentQ.q;
+            document.getElementById("options").innerHTML = currentQ.a.map((txt, i) => `
+                <button class="option-btn" data-idx="${i}">${txt}</button>
+            `).join('');
+            document.getElementById("tip").innerText = "";
+            document.querySelectorAll(".option-btn").forEach(btn => btn.onclick = choose);
+        }
+
+        // ======================
+        // 答题逻辑
+        // ======================
+        function choose(e) {
+            const btn = e.target;
+            const idx = +btn.dataset.idx;
+            const ok = idx === currentQ.c;
+            const p = getPlayer();
+
+            document.querySelectorAll(".option-btn").forEach(b => b.disabled = true);
+            btn.classList.add(ok ? "correct" : "wrong");
+
+            if (ok) {
+                document.getElementById("tip").innerText = "✅ 回答正确！露珠+10 养料+5 积分+5";
+                p.dew += 10;
+                p.nutri += 5;
+                p.exp += 5;
+                p.score += 5;
+                if (p.exp >= 20) {
+                    p.level++;
+                    p.exp = 0;
+                    const img = document.getElementById("plantImage");
+                    img.classList.add("grow-animate");
+                    setTimeout(() => img.classList.remove("grow-animate"), 800);
+                }
+            } else {
+                document.getElementById("tip").innerText = "❌ 答错啦，再试试！";
+            }
+            p.today += 1;
+            savePlayer(p);
+            renderUI();
+            setTimeout(loadQuestion, 1500);
+        }
+
+        // ======================
+        // 多人排行榜
+        // ======================
+        function openRank() {
+            const uid = getUid();
+            const all = JSON.parse(localStorage.getItem("game_players") || "{}");
+            const list = Object.values(all).sort((a, b) => b.score - a.score);
+            let html = '';
+            list.forEach((it, i) => {
+                const isMe = it.uid === uid ? " rank-me" : "";
+                html += `
+                <div class="rank-item${isMe}">
+                    <span>${i+1}. ${it.nick}</span>
+                    <span>${it.score} 分</span>
+                </div>`;
+            });
+            document.getElementById("rankList").innerHTML = html;
+            document.getElementById("rankModal").style.display = "flex";
+        }
+
+        function closeRank() {
+            document.getElementById("rankModal").style.display = "none";
+        }
+
+        // ======================
+        // 启动
+        // ======================
+        window.onload = () => {
+            renderUI();
+            loadQuestion();
+        };
+    </script>
+</body>
+</html>
