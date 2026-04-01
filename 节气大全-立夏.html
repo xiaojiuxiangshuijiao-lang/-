@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>廿四风物志-立夏</title>
+		<style>
+		        * {
+		            margin: 0;
+		            padding: 0;
+		            box-sizing: border-box;
+		            font-family: "微软雅黑", sans-serif;
+		        }
+		        body {
+		            background-color: #f5f0e5;
+		        }
+		        /* 导航栏核心样式 - 顶部通栏 */
+		        .header-nav {
+		            position: fixed; 
+		            top: 0;
+		            left: 0;
+		            right: 0;
+		            z-index: 998; 
+		            display: flex;
+		            justify-content: right; /* 水平靠右对齐 */
+		            align-items: center;
+		            gap: 1px;
+		            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+		            padding: 15px 20px;
+		            border-radius: 0; /* 取消圆角，通栏展示 */
+		            height: 70px; 
+		        }
+		        
+		        /* 导航项容器 - 包裹主菜单+下拉菜单 */
+		        .nav-item {
+		            position: relative;
+		            margin: 0 10px; /* 导航项之间的间距 */
+		        }
+		        
+		        /* 主导航链接基础样式 */
+		        .header-nav a {
+		            color: #fff;
+		            text-decoration: none;
+		            padding: 8px 20px; /* 扩大点击区域 */
+		            font-size: 20px;
+		            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+		            display: block;
+		            transition: background-color 0.3s;
+		            border-radius: 4px;
+		            white-space: nowrap; /* 防止文字换行 */
+		        }
+		        
+		        /* 主导航链接 hover 效果 */
+		        .header-nav a:hover {
+		            background: rgba(255, 255, 255, 0.2);
+		        }
+		        
+		      /* 下拉菜单容器样式 */
+		              .dropdown {
+		                  position: absolute;
+		                  top: 100%;
+		                  left: 0;
+		                  background: rgba(250, 245, 235, 0.95);
+		                  border-radius: 6px;
+		                  min-width: 120px;
+		                  display: none;
+		                  box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+		                  z-index: 20;
+		                  margin-top: 5px;
+		                  border: 1px solid rgba(200, 180, 150, 0.3);
+		                  padding: 3px 0;
+		              }
+		      			 
+		              /* 下拉菜单内链接样式 */
+		              .dropdown a {
+		                  padding: 12px 18px;
+		                  text-shadow: none;
+		      				  color: #5a4028;
+		                  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		                  font-size: 15px;
+		      				 position: relative; /* 为左侧竖杠提供定位参考 */
+		      				line-height: 1.4; /* 固定行高，方便竖杠对齐文字 */
+		              }
+		      
+		              /* 下拉菜单最后一个链接取消底部边框 */
+		              .dropdown a:last-child {
+		                  border-bottom: none;
+		              }
+		      
+		              /* 下拉菜单链接 hover 效果 */
+		              .dropdown a:hover {
+		                 background: rgba(223, 209, 186, 1.0);
+		      				color: #3d2a16;
+		              }
+		      			.dropdown a:hover::before {
+		      			    content: ""; /* 伪元素必填空内容 */
+		      			    position: absolute;
+		      			    left: 0; /* 贴左侧对齐 */
+		      			    /* 垂直居中定位：让竖杠与文字居中对齐，不顶上下边 */
+		      			    top: 50%;
+		      			    transform: translateY(-50%);
+		      			    /* 调整高度：不设100%，改为适配文字高度的固定值（可微调） */
+		      			    height: 16px; /* 关键：固定高度，不铺满链接，刚好对应文字高度 */
+		      			    width: 2px; /* 竖杠宽度，保持不变 */
+		      			    background-color: #a87f4e; /* 古风配色，可按需修改 */
+		      			    transition: all 0.2s ease; /* 平滑过渡 */
+		      			}
+		      
+		              /* 悬停导航项时显示下拉菜单 + 触发动画 */
+		              .nav-item:hover .dropdown {
+		                  display: block;
+		                  animation: fadeDown 0.3s ease;
+		              }
+		      
+		              /* 下拉菜单展开动画 */
+		              @keyframes fadeDown {
+		                  from {
+		                      opacity: 0;
+		                      transform: translateY(-4px);
+		                  }
+		                  to {
+		                      opacity: 1;
+		                      transform: translateY(0);
+		                  }
+		              }
+		      			.nav-item {
+		      					position: relative;
+		      					}
+		        
+		        /* 锚点定位偏移（适配导航栏遮挡问题，属于导航栏配套优化） */
+		        :target {
+		            scroll-margin-top: 80px !important;
+		        }
+				.logo {
+				                position: fixed; 
+				                top: 10px;
+				                left: 80px;
+				                font-size: 40px;
+				                font-family: "隶书", "LiSu", serif;
+				                color: #fff;
+				                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+				                font-weight: normal;
+				                z-index: 1000; 
+				            }
+		        /* 头部背景图 */
+		        .header-bg {
+		            height: 450px;
+		            background: url('img/立夏首图.jpg');
+		            background-size: cover;
+		            background-position: center;
+		        }
+		        /* 内容区域 */
+		        .content {
+		            max-width: 1200px;
+		            margin: -20px auto 40px;
+		            padding: 30px;
+		            background-color: #f5f0e5;
+		            border-radius: 10px;
+		            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		        }
+		        .title {
+		            font-size: 36px;
+		            color: #5a7d5a;
+		            margin-bottom: 20px;
+		            font-family: "楷体", serif;
+		        }
+		        .date {
+		            text-align: right;
+		            font-size: 25px;
+		            color: #5a7d5a;
+		            margin-bottom: 30px;
+					font-family:"Ma Shan Zheng", cursive;
+		        }
+		        .row {
+		            display: flex;
+		            flex-wrap: wrap;
+		            gap: 30px;
+		            margin-bottom: 30px;
+		        }
+		        .col {
+		            flex: 1;
+		            min-width: 300px;
+		        }
+		        .section-title {
+		            display: inline-block;
+		            background-color: #5a7d5a;
+		            color: #fff;
+		            padding: 8px 20px;
+		            border-radius: 20px;
+		            font-family: "楷体", serif;
+		            font-size: 20px;
+		            margin-bottom: 15px;
+		        }
+		        .section-content {
+		            font-size: 16px;
+		            line-height: 1.8;
+		            color: #333;
+		        }
+		        .section-image {
+		            width: 100%;
+		            border-radius: 8px;
+		            margin-top: 10px;
+		        }
+		    </style>
+	</head>
+	<body>
+		 <div class="logo">廿四风物志</div>
+		     <!-- 重构后的导航栏 - 带下拉菜单 -->
+		             <nav class="header-nav">
+		                 <a href="首页.html">首页</a >
+		                 
+		                <!-- 节气大全下拉菜单 -->
+		                <div class="nav-item">
+		                    <a href="节气大全(二级).html">节气大全</a>
+		                </div>
+		                 
+		                <!-- 文化分类下拉菜单 -->
+		                <div class="nav-item">
+		                    <a >文化分类</a>
+		                    <div class="dropdown">
+		                        <a href="春季文化.html">春季文化</a>
+		                        <a href="夏季文化.html">夏季文化</a>
+		                        <a href="秋季文化.html">秋季文化</a>
+		                        <a href="冬季文化.html">冬季文化</a>
+		                    </div>
+		                </div>
+		                 
+		                 <a href="节气穿搭.html">节气穿搭</a >
+		                 <a href="关于我们.html">关于我们</a >
+		             </nav>
+		         </header>
+		 </div>
+		    <!-- 头部背景图 -->
+		    <div class="header-bg"></div>
+		    <!-- 内容区域 -->
+		    <div class="content">
+		        <h1 class="title">二十四节气·立夏</h1>
+		        <div class="date">每年5月5日-7日</div>
+		        <div class="row">
+		            <div class="col">
+		                <div class="section-title">节气简介</div>
+		                <div class="section-content">
+		                    立夏，为二十四节气中的第七个节气，又名孟夏节、初夏节、正阳节等。立，是 “开始” 之意；夏，代表着炎热、繁茂。在自然界，立夏最显著的特点就是万物进入旺盛生长的阶段。立夏乃炎暑将临、生机盎然之义也，意味着盛夏时节的序幕已拉开。
+		                </div>
+		                <img src="img/立夏（2）.png" alt="立夏景象" class="section-image" width="220px" height="300px">
+						
+						<div class="section-title">发展历程</div>
+						<div class="section-content">
+							廿四节气是上古农耕文明的结晶，立夏在战国末年（公元前239年）就已经确立了，预示着季节的转换，为古时按农历划分四季之夏季开始的日子。《后汉书·祭祀志》：“立夏之日，迎夏于南郊，祭赤帝祝融，车旗服饰皆赤，歌《朱明》，八佾舞《云翘》之舞。”至宋时礼节更繁，除迎夏外，还要祀南岳衡山于衡州，祀南镇会稽于越州，祀南海于广州，祀江渎于成都。到明代始有尝新风俗。到清代，风俗内容更加丰富。
+						</div>
+						<img src="img/立夏（3）.png" alt="立夏景象" class="section-image" width="220px" height="300px">
+						
+		            </div>
+		            <div class="col">
+		                <img src="img/立夏（4）.png" alt="立夏景象" class="section-image" width="220px" height="300px">
+		                <div class="section-title">气象变化</div>
+		                <div class="section-content">
+		                    立夏时节，西太平洋副热带高压开始向北抬升，暖湿气流逐渐增强，北方冷空气势力进一步减弱并逐步北撤，冷暖空气交汇频繁的区域由南向北推移，江淮地区即将进入多雨的梅雨前期阶段。立夏，在自然界，最显著的特点是万物进入旺盛生长的阶段。
+		                </div>
+						<img src="img/立夏（5）.png" alt="立夏景象" class="section-image" width="220px" height="300px">
+						<div class="section-title">物候现象</div>
+						<div class="section-content">
+						   中国古代一些著作将立夏的十五天分为三候：“一候蝼蝈鸣，二候蚯蚓出，三候王瓜生”，说的是夏日初至，田间的蝼蝈开始聒噪着鸣叫。立夏五日后，藏于泥土中的蚯蚓感知到阳气渐盛，纷纷钻出土层活动，再过五日，山野间的王瓜藤蔓快速攀爬生长，日渐繁茂，宣告着盛夏的生机已然铺展。
+						</div>
+		            </div>
+					
+		    </div>
+	</body>
+</html>

@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>廿四风物志-节气大全</title>
+    <style>
+        /* 全局样式重置与基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        
+        body {
+            /* 替换为渐变背景，更有层次感 */
+            background: linear-gradient(135deg, #f5f0e5 0%, #f8f3eb 50%, #f0e8d8 100%);
+            padding-top: 90px;
+            /* 防止内容溢出时出现横向滚动 */
+            overflow-x: hidden;
+        }
+
+        /* 导航栏滚动时的动态效果 */
+        .header-nav {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 998; 
+            display: flex;
+            justify-content: right; 
+            align-items: center;
+            gap: 1px;
+            /* 滚动时背景加深，增加层次感 */
+            background-color: rgba(0, 0, 0, 0.4);
+            padding: 15px 20px;
+            border-radius: 0; 
+            height: 70px;
+            /* 导航栏过渡动画 */
+            transition: background-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        /* 滚动后导航栏样式变化 */
+        .header-nav.scrolled {
+            background-color: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            position: fixed; 
+            top: 10px;
+            left: 80px;
+            font-size: 40px;
+            font-family: "隶书", "LiSu", serif;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            font-weight: normal;
+            z-index: 1000;
+            /* 增加logo的轻微动画 */
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.05);
+        }
+        
+        /* 导航项容器 - 包裹主菜单+下拉菜单 */
+        .nav-item {
+            position: relative;
+            margin: 0 10px; 
+        }
+        
+        /* 主导航链接基础样式 */
+        .header-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 20px; 
+            font-size: 20px;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+            display: block;
+            transition: all 0.3s ease; /* 增加过渡属性 */
+            border-radius: 4px;
+            white-space: nowrap; 
+        }
+        
+        /* 主导航链接 hover 效果 */
+        .header-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px); /* 轻微上移 */
+        }
+        
+        /* 下拉菜单容器样式 */
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(250, 245, 235, 0.98); /* 更不透明 */
+            border-radius: 8px; /* 更大圆角 */
+            min-width: 120px;
+            display: none;
+            box-shadow: 0 8px 24px rgba(100, 80, 50, 0.2); /* 更明显的阴影 */
+            z-index: 20;
+            margin-top: 5px;
+            border: 1px solid rgba(200, 180, 150, 0.3);
+            padding: 3px 0;
+            /* 增加下拉菜单的透视效果 */
+            transform-origin: top center;
+        }
+        
+        /* 下拉菜单内链接样式 */
+        .dropdown a {
+            padding: 12px 18px;
+            text-shadow: none;
+            color: #5a4028;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 15px;
+            position: relative; 
+            line-height: 1.4; 
+        }
+
+        /* 下拉菜单最后一个链接取消底部边框 */
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+
+        /* 下拉菜单链接 hover 效果 */
+        .dropdown a:hover {
+            background: rgba(223, 209, 186, 1.0);
+            color: #3d2a16;
+            transform: translateX(4px); /* 轻微右移 */
+        }
+        
+        .dropdown a:hover::before {
+            content: ""; 
+            position: absolute;
+            left: 0; 
+            top: 50%;
+            transform: translateY(-50%);
+            height: 16px; 
+            width: 2px; 
+            background-color: #a87f4e; 
+            transition: all 0.2s ease; 
+        }
+
+        /* 悬停导航项时显示下拉菜单 + 触发动画 */
+        .nav-item:hover .dropdown {
+            display: block;
+            animation: fadeDown 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* 更丝滑的缓动 */
+        }
+
+        /* 下拉菜单展开动画 - 增加缩放效果 */
+        @keyframes fadeDown {
+            from {
+                opacity: 0;
+                transform: translateY(-4px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* 锚点定位偏移 */
+        :target {
+            scroll-margin-top: 80px !important;
+        }
+
+        /* 季节区块通用样式 */
+        .season {
+            margin: 60px auto; /* 增加上下间距 */
+            width: 90%;
+            max-width: 1200px;
+            /* 增加滚动渐入的初始状态 */
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        /* 滚动到可视区域时的动画 */
+        .season.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .season-title {
+            display: inline-block;
+            padding: 12px 24px; /* 增加内边距 */
+            border-radius: 50px; /* 全圆角 */
+            color: #fff;
+            font-family: "宋体", serif;
+            font-size: 24px; /* 增大字体 */
+            margin-bottom: 30px; /* 增加底部间距 */
+            /* 增加标题的光影效果 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            /* 标题渐变背景 */
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 为标题增加渐变叠加 */
+        .season-title::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: all 0.6s ease;
+        }
+
+        .season-title:hover::after {
+            left: 100%;
+        }
+
+        .spring .season-title {
+            background: linear-gradient(135deg, #8fbfa8 0%, #7aa88c 100%);
+        }
+
+        .summer .season-title {
+            background: linear-gradient(135deg, #e6c180 0%, #d9b068 100%);
+        }
+
+        .autumn .season-title {
+            background: linear-gradient(135deg, #e0b090 0%, #d19e78 100%);
+        }
+
+        .winter .season-title {
+            background: linear-gradient(135deg, #a8c5e0 0%, #94b4d0 100%);
+        }
+
+        /* 节气卡片容器与卡片样式 */
+        .jieqi-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            gap: 30px; /* 增大卡片间距 */
+        }
+
+        .jieqi-card {
+            /* 渐变背景 */
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            padding: 20px 15px; /* 增加内边距 */
+            border-radius: 12px; /* 更大圆角 */
+            width: 150px; /* 增大卡片宽度 */
+            text-align: center;
+            /* 增加卡片阴影 */
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.05);
+            /* 增加卡片的3D效果 */
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            /* 初始状态 */
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            /* 卡片位置初始状态 */
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+        }
+
+        /* 卡片渐入动画 */
+        .jieqi-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        /* 卡片hover效果增强 */
+        .jieqi-card:hover {
+            cursor: pointer; 
+            /* 更细腻的背景变化 */
+            background: linear-gradient(145deg, rgba(255,255,255,0.95), rgba(255,255,255,0.85));
+            /* 更大的放大效果 */
+            transform: scale(1.08) translateY(-5px); 
+            /* 更强的阴影 */
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 点击时的“按下”效果优化 */
+        .jieqi-card:active {
+            transform: scale(0.98) translateY(-2px); 
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.08);
+            transition: all 0.1s ease;
+        }
+
+        /* 不同季节卡片的背景色 */
+        .spring .jieqi-card {
+            background: linear-gradient(145deg, rgba(143, 191, 168, 0.25), rgba(143, 191, 168, 0.15));
+            border: 1px solid rgba(143, 191, 168, 0.3);
+        }
+
+        .summer .jieqi-card {
+            background: linear-gradient(145deg, rgba(230, 193, 128, 0.25), rgba(230, 193, 128, 0.15));
+            border: 1px solid rgba(230, 193, 128, 0.3);
+        }
+
+        .autumn .jieqi-card {
+            background: linear-gradient(145deg, rgba(224, 176, 144, 0.25), rgba(224, 176, 144, 0.15));
+            border: 1px solid rgba(224, 176, 144, 0.3);
+        }
+
+        .winter .jieqi-card {
+            background: linear-gradient(145deg, rgba(168, 197, 224, 0.25), rgba(168, 197, 224, 0.15));
+            border: 1px solid rgba(168, 197, 224, 0.3);
+        }
+
+        .jieqi-card h3 {
+            font-size: 20px; /* 增大字体 */
+            margin-bottom: 10px;
+            color: #4a3826; /* 更深的文字颜色 */
+            /* 增加文字阴影 */
+            text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .jieqi-card p {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #6b5440; /* 调整日期颜色 */
+        }
+
+        .jieqi-card a {
+            font-size: 13px;
+            /* 不同季节对应不同的链接颜色 */
+            text-decoration: none;
+            /* 链接hover效果 */
+            transition: all 0.3s ease;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        /* 不同季节链接颜色 */
+        .spring .jieqi-card a {
+            color: #6b7b6f;
+        }
+        .spring .jieqi-card a:hover {
+            color: #4a6052;
+            background: rgba(143, 191, 168, 0.2);
+        }
+
+        .summer .jieqi-card a {
+            color: #8a7550;
+        }
+        .summer .jieqi-card a:hover {
+            color: #705c38;
+            background: rgba(230, 193, 128, 0.2);
+        }
+
+        .autumn .jieqi-card a {
+            color: #8a6b55;
+        }
+        .autumn .jieqi-card a:hover {
+            color: #705440;
+            background: rgba(224, 176, 144, 0.2);
+        }
+
+        .winter .jieqi-card a {
+            color: #6b7c8a;
+        }
+        .winter .jieqi-card a:hover {
+            color: #506070;
+            background: rgba(168, 197, 224, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="logo">廿四风物志</div>
+    <!-- 重构后的导航栏 - 带下拉菜单 -->
+    <nav class="header-nav">
+        <a href="首页.html">首页</a >
+        
+        <!-- 节气大全下拉菜单 -->
+        <div class="nav-item">
+            <a >节气大全</a>
+        </div>
+        
+        <!-- 文化分类下拉菜单 -->
+        <div class="nav-item">
+            <a>文化分类</a>
+            <div class="dropdown">
+                <a href="春季文化.html">春季文化</a>
+                <a href="夏季文化.html">夏季文化</a>
+                <a href="秋季文化.html">秋季文化</a>
+                <a href="冬季文化.html">冬季文化</a>
+            </div>
+        </div>
+        
+        <a href="节气穿搭.html">节气穿搭</a >
+        <a href="关于我们.html">关于我们</a >
+    </nav>
+
+    <!-- 春季节气 -->
+    <div class="season spring">
+        <div class="season-title">春季节气</div>
+        <div class="jieqi-container">
+            <div class="jieqi-card">
+                <h3>立春</h3>
+                <p>2月3日-5日</p>
+                <a href="节气大全-立春.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>雨水</h3>
+                <p>2月18日-20日</p>
+                <a href="节气大全-雨水.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>惊蛰</h3>
+                <p>3月5日-7日</p>
+                <a href="节气大全-惊蛰.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>春分</h3>
+                <p>3月20日-22日</p>
+                <a href="节气大全-春分.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>清明</h3>
+                <p>4月4日-6日</p>
+                <a href="节气大全-清明.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>谷雨</h3>
+                <p>4月19日-21日</p>
+                <a href="节气大全-谷雨.html">了解更多>>></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 夏季节气 -->
+    <div class="season summer">
+        <div class="season-title">夏季节气</div>
+        <div class="jieqi-container">
+            <div class="jieqi-card">
+                <h3>立夏</h3>
+                <p>5月5日-7日</p>
+                <a href="节气大全-立夏.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>小满</h3>
+                <p>5月20日-22日</p>
+                <a href="节气大全-小满.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>芒种</h3>
+                <p>6月5日-7日</p>
+                <a href="节气大全-芒种.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>夏至</h3>
+                <p>6月21日-22日</p>
+                <a href="节气大全-夏至.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>小暑</h3>
+                <p>7月6日-8日</p>
+                <a href="节气大全-小暑.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>大暑</h3>
+                <p>7月22日-24日</p>
+                <a href="节气大全-大暑.html">了解更多>>></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 秋季节气 -->
+    <div class="season autumn">
+        <div class="season-title">秋季节气</div>
+        <div class="jieqi-container">
+            <div class="jieqi-card">
+                <h3>立秋</h3>
+                <p>8月7日-9日</p>
+                <a href="节气大全-立秋.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>处暑</h3>
+                <p>8月22日-24日</p>
+                <a href="节气大全-处暑.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>白露</h3>
+                <p>9月7日-9日</p>
+                <a href="节气大全-白露.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>秋分</h3>
+                <p>9月22日-24日</p>
+                <a href="节气大全-秋分.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>寒露</h3>
+                <p>10月8日-9日</p>
+                <a href="节气大全-寒露.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>霜降</h3>
+                <p>10月23日-24日</p>
+                <a href="节气大全-霜降.html">了解更多>>></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- 冬季节气 -->
+    <div class="season winter">
+        <div class="season-title">冬季节气</div>
+        <div class="jieqi-container">
+            <div class="jieqi-card">
+                <h3>立冬</h3>
+                <p>11月7日-8日</p>
+                <a href="节气大全-立冬.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>小雪</h3>
+                <p>11月22日-23日</p>
+                <a href="节气大全-小雪.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>大雪</h3>
+                <p>12月6日-8日</p>
+                <a href="节气大全-大雪.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>冬至</h3>
+                <p>12月21日-23日</p>
+                <a href="节气大全-冬至.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>小寒</h3>
+                <p>1月5日-7日</p>
+                <a href="节气大全-小寒.html">了解更多>>></a>
+            </div>
+            <div class="jieqi-card">
+                <h3>大寒</h3>
+                <p>1月20日-21日</p>
+                <a href="节气大全-大寒.html">了解更多>>></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 导航栏滚动效果
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('.header-nav');
+            if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+            } else {
+                nav.classList.remove('scrolled');
+            }
+        });
+
+        // 滚动渐入动画
+        function setupScrollAnimation() {
+            // 观察器配置
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            // 创建观察器
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // 对于季节区块，还要触发子元素卡片的动画
+                        if (entry.target.classList.contains('season')) {
+                            setTimeout(() => {
+                                const cards = entry.target.querySelectorAll('.jieqi-card');
+                                cards.forEach((card, index) => {
+                                    // 卡片依次出现，增加层次感
+                                    setTimeout(() => {
+                                        card.classList.add('visible');
+                                    }, index * 100);
+                                });
+                            }, 200);
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // 观察所有需要动画的元素
+            const seasonalSections = document.querySelectorAll('.season');
+            seasonalSections.forEach(section => {
+                observer.observe(section);
+            });
+        }
+
+        // 页面加载完成后初始化动画
+        window.addEventListener('DOMContentLoaded', setupScrollAnimation);
+    </script>
+</body>
+</html>

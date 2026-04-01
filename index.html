@@ -1,0 +1,1796 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>廿四风物志</title>
+	<script type="module">
+	  // Import the functions you need from the SDKs you need
+	  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-app.js";
+	  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-analytics.js";
+	  // TODO: Add SDKs for Firebase products that you want to use
+	  // https://firebase.google.com/docs/web/setup#available-libraries
+	
+	  // Your web app's Firebase configuration
+	  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+	  const firebaseConfig = {
+	    apiKey: "AIzaSyALAfgp59BuKjZPA8lYHMFrIDm4tJtofaU",
+	    authDomain: "twenty-four-solar-terms-7b2e3.firebaseapp.com",
+	    databaseURL: "https://twenty-four-solar-terms-7b2e3-default-rtdb.asia-southeast1.firebasedatabase.app",
+	    projectId: "twenty-four-solar-terms-7b2e3",
+	    storageBucket: "twenty-four-solar-terms-7b2e3.firebasestorage.app",
+	    messagingSenderId: "447350389010",
+	    appId: "1:447350389010:web:d45f92492b86c4d1af1bcb",
+	    measurementId: "G-PXQT637GTZ"
+	  };
+	
+	  // Initialize Firebase
+	  const app = initializeApp(firebaseConfig);
+	  const analytics = getAnalytics(app);
+	</script>
+	<style>
+	        * {
+	            margin: 0;
+	            padding: 0;
+	            box-sizing: border-box;
+	        }
+	        body {
+	            font-family: "Microsoft Yahei", sans-serif;
+	            background-color: #f5f0e5;
+	            color: #333;
+	            scroll-behavior: smooth;
+	            padding-top: 70px;
+	        }
+	        header {
+	            position: relative;
+	            height: 560px;
+	            overflow: hidden;
+	            margin-top: -70px;
+	        }
+	
+	        /* 导航栏核心样式 - 顶部通栏 */
+	        .header-nav {
+	            position: fixed;
+	            top: 0;
+	            left: 0;
+	            right: 0;
+	            z-index: 998;
+	            display: flex;
+	            justify-content: right;
+	            align-items: center;
+	            gap: 1px;
+	            background-color: rgba(0, 0, 0, 0.5);
+	            padding: 15px 20px;
+	            border-radius: 0;
+	            height: 70px;
+	        }
+	
+	        /* 导航项容器 - 包裹主菜单和下拉菜单 */
+	        .nav-item {
+	            position: relative;
+	            margin: 0 10px;
+	        }
+	
+	        /* 主导航链接样式 */
+	        .header-nav a {
+	            color: #fff;
+	            text-decoration: none;
+	            padding: 8px 20px;
+	            font-size: 20px;
+	            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+	            display: block;
+	            transition: background-color 0.3s;
+	            border-radius: 4px;
+	            white-space: nowrap;
+	        }
+	
+	        .header-nav a:hover {
+	            background: rgba(255, 255, 255, 0.2);
+	        }
+	
+	        /* 下拉菜单容器样式 */
+	                .dropdown {
+	                    position: absolute;
+	                    top: 100%;
+	                    left: 0;
+	                    background: rgba(250, 245, 235, 0.95);
+	                    border-radius: 6px;
+	                    min-width: 120px;
+	                    display: none;
+	                    box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+	                    z-index: 20;
+	                    margin-top: 5px;
+	                    border: 1px solid rgba(200, 180, 150, 0.3);
+	                    padding: 3px 0;
+	                }
+	        			 
+	                /* 下拉菜单内链接样式 */
+	                .dropdown a {
+	                    padding: 12px 18px;
+	                    text-shadow: none;
+	        				  color: #5a4028;
+	                    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	                    font-size: 15px;
+	        				 position: relative; /* 为左侧竖杠提供定位参考 */
+	        				line-height: 1.4; /* 固定行高，方便竖杠对齐文字 */
+	                }
+	        
+	                /* 下拉菜单最后一个链接取消底部边框 */
+	                .dropdown a:last-child {
+	                    border-bottom: none;
+	                }
+	        
+	                /* 下拉菜单链接 hover 效果 */
+	                .dropdown a:hover {
+	                   background: rgba(223, 209, 186, 1.0);
+	        				color: #3d2a16;
+	                }
+	        			.dropdown a:hover::before {
+	        			    content: ""; /* 伪元素必填空内容 */
+	        			    position: absolute;
+	        			    left: 0; /* 贴左侧对齐 */
+	        			    /* 垂直居中定位：让竖杠与文字居中对齐，不顶上下边 */
+	        			    top: 50%;
+	        			    transform: translateY(-50%);
+	        			    /* 调整高度：不设100%，改为适配文字高度的固定值（可微调） */
+	        			    height: 16px; /* 关键：固定高度，不铺满链接，刚好对应文字高度 */
+	        			    width: 2px; /* 竖杠宽度，保持不变 */
+	        			    background-color: #a87f4e; /* 古风配色，可按需修改 */
+	        			    transition: all 0.2s ease; /* 平滑过渡 */
+	        			}
+	        
+	                /* 悬停导航项时显示下拉菜单 + 触发动画 */
+	                .nav-item:hover .dropdown {
+	                    display: block;
+	                    animation: fadeDown 0.3s ease;
+	                }
+	        
+	                /* 下拉菜单展开动画 */
+	                @keyframes fadeDown {
+	                    from {
+	                        opacity: 0;
+	                        transform: translateY(-4px);
+	                    }
+	                    to {
+	                        opacity: 1;
+	                        transform: translateY(0);
+	                    }
+	                }
+	        			.nav-item {
+	        					position: relative;
+	        					}
+	
+	        /* 锚点定位偏移（避免导航栏遮挡）- 增强优先级 */
+	        :target {
+	            scroll-margin-top: 80px !important;
+	        }
+	
+	        /* 轮播图样式（修复层级+删除重复） */
+	        .carousel-container {
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+	            z-index: 1;
+	        }
+	       /* 轮播图片美化（背景图模式） */
+	       .carousel-image {
+	           position: absolute;
+	           top: 0;
+	           left: 0;
+	           width: 100%;
+	           height: 100%;
+	           background-size: cover; /* 背景图铺满容器，不变形 */
+	           background-position: center; /* 背景图居中显示 */
+	           background-repeat: no-repeat;
+	           opacity: 0; /* 默认隐藏 */
+	           transition: opacity 0.8s ease-in-out; /* 淡入淡出过渡，更流畅 */
+	           z-index: 1;
+	       }
+	       
+	       /* 激活的轮播图片显示 */
+	       .carousel-image.active {
+	           opacity: 1;
+	           z-index: 2;
+	       }
+	        .carousel-controls {
+	            position: absolute;
+	            bottom: 20px;
+	            left: 50%;
+	            transform: translateX(-50%);
+	            z-index: 10;
+	            display: flex;
+	            gap: 10px;
+	        }
+	       /* ========== 指示点美化 ========== */
+	       .carousel-controls {
+	           position: absolute;
+	           bottom: 20px;
+	           left: 50%;
+	           transform: translateX(-50%);
+	           display: flex;
+	           gap: 12px; /* 指示点之间的间距 */
+	           z-index: 10;
+	       }
+	       
+	       .carousel-dot {
+	           width: 12px; /* 指示点大小 */
+	           height: 12px;
+	           border-radius: 50%; /* 圆形指示点 */
+	           background: rgba(255, 255, 255, 0.4); /* 未激活状态颜色 */
+	           cursor: pointer;
+	           transition: all 0.3s ease; /* 过渡动画 */
+	       }
+	       
+	       /* 激活的指示点样式 */
+	       .carousel-dot.active {
+	           background: #fff; /* 激活状态白色高亮 */
+	           width: 30px; /* 激活时变宽，更醒目（可选：保持圆形则注释此行） */
+	           border-radius: 6px; /* 变宽后改为椭圆，更有辨识度 */
+	       }
+	        .carousel-arrow {
+	            position: absolute;
+	            top: 50%;
+	            transform: translateY(-50%);
+	            width: 50px;
+	            height: 50px;
+	            background-color: rgba(0, 0, 0, 0.3);
+	            color: white;
+	            border: none;
+	            font-size: 24px;
+	            cursor: pointer;
+	            z-index: 10;
+	            display: flex;
+	            align-items: center;
+	            justify-content: center;
+	            transition: background-color 0.3s ease;
+	            border-radius: 50%;
+	        }
+	        .carousel-arrow:hover {
+	            background-color: rgba(0, 0, 0, 0.5);
+	        }
+	        .prev-arrow {
+	            left: 20px;
+	        }
+	        .next-arrow {
+	            right: 20px;
+	        }
+			
+			.prev-arrow::before {
+			    content: "\f060"; /* 左箭头图标（可自行更换） */
+			    font-family: "Font Awesome 6 Free"; /* 指定字体库 */
+			    font-weight: 900; /* 加粗显示图标 */
+			}
+			.next-arrow::before {
+			    content: "\f061"; /* 右箭头图标（可自行更换） */
+			    font-family: "Font Awesome 6 Free";
+			    font-weight: 900;
+			}
+	
+	        .logo {
+	            position: fixed;
+	            top: 10px;
+	            left: 80px;
+	            font-size: 40px;
+	            font-family: "隶书", "LiSu", serif;
+	            color: #fff;
+	            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+	            font-weight: normal;
+	            z-index: 1000;
+	        }
+	
+	        .header-title {
+	            position: absolute;
+	            top: 50%;
+	            right: 80px;
+				
+	            transform: translateY(-50%);
+	            font-size: 70px;
+	            color: #fff;
+	            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+	            z-index: 999;
+	            transition: opacity 1s ease-in-out;
+	        }
+	        .section {
+	            padding: 30px 20px;
+	        }
+	        .section-title {
+	            text-align: center;
+	            margin-bottom: 20px;
+	            font-size: 30px;
+	            color: #4a4a4a;
+	        }
+	        /* 近期节气推荐模块美化 */
+	        .card-container {
+	            display: flex;
+	            justify-content: space-around;
+	            flex-wrap: wrap;
+	            gap: 30px;
+	        }
+	        .card {
+	            width: 360px;
+	            background-color: #f9f6ed;
+	            border-radius: 15px;
+	            overflow: hidden;
+	            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	            margin-bottom: 20px;
+	            display: flex;
+	            flex-direction: column;
+	            align-items: center;
+	            cursor: pointer;
+	            transition: transform 0.3s ease;
+	        }
+	        .card:hover {
+	            transform: translateY(-5px);
+	        }
+	        .card-img {
+	            width: 100%;
+	            height: 200px;
+	            background-size: cover;
+	            background-position: center;
+	            border-radius: 15px 15px 0 0;
+	        }
+	        .card-text {
+	            padding: 15px;
+	            text-align: center;
+	        }
+	        .card-title {
+	            font-size: 28px;
+	            color: #5d4a36;
+	            margin-bottom: 10px;
+	            font-weight: bold;
+	        }
+	        .card-content {
+	            font-size: 14px;
+	            line-height: 1.6;
+	            color: #444;
+	        }
+	        /* 节气大全模块美化 */
+	        .solar-terms-section {
+	            padding: 60px 20px;
+	            background-size: cover;
+	            background-position: center;
+	            background-attachment: fixed;
+	            position: relative;
+	        }
+	        .solar-terms-section::before {
+	            content: '';
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+	            background-color: #f4f0e6;
+	            z-index: 0;
+	        }
+	        .terms-container {
+	            position: relative;
+	            z-index: 2;
+	            max-width: 1200px;
+	            margin: 0 auto;
+	        }
+	        .terms-title {
+	            text-align: center;
+	            font-size: 30px;
+	            color: #5d4a36;
+	            margin-bottom: 40px;
+	            position: relative;
+	            padding-bottom: 20px;
+	        }
+	        .terms-title::after {
+	            content: '';
+	            position: absolute;
+	            bottom: 0;
+	            left: 50%;
+	            transform: translateX(-50%);
+	            width: 80px;
+	            height: 3px;
+	            background-color: #b89e76;
+	        }
+	        .season-cards {
+	            display: flex;
+	            justify-content: center; /* 保持整体居中 */
+	            gap: 30px; /* 卡片间距 */
+	            flex-wrap: wrap; /* 超出自动换行 */
+	            margin: 20px 0;
+	            /* 关键新增：最大宽度=2*卡片宽度+间距（400*2+30=830px），强制一行排2个 */
+	            max-width: 830px;
+	            /* 让season-cards自身也居中（兜底，确保整体居中效果） */
+	            margin: 20px auto;
+	        }
+	        .season-card {
+	            width: 400px;
+	            padding: 30px 20px;
+	            border-radius: 12px;
+	            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+	            transition: all 0.3s ease;
+	            cursor: pointer;
+	            text-align: center;
+	            position: relative;
+	            overflow: hidden;
+	        }
+	        .season-card::before {
+	            content: '';
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+	            opacity: 0.9;
+	            z-index: 1;
+	        }
+	        .season-card > * {
+	            position: relative;
+	            z-index: 2;
+	        }
+	        .season-icon {
+	            width: 60px;
+	            height: 60px;
+	            border-radius: 50%;
+	            display: flex;
+	            align-items: center;
+	            justify-content: center;
+	            margin: 0 auto 20px;
+	            color: white;
+	            font-size: 24px;
+	        }
+	        .season-card h3 {
+	            font-size: 22px;
+	            margin-bottom: 20px;
+	            color: #333;
+	        }
+	        .season-card p {
+	            font-size: 15px;
+	            line-height: 1.6;
+	            color: #555;
+	        }
+	        .season-card:hover {
+	            transform: translateY(-8px) scale(1.02);
+	            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+	        }
+	        /* 四季卡片颜色 */
+	        .spring {
+	            background-color: #e6f7ee;
+	        }
+	        .spring::before {
+	            background-color: #e6f0e0;
+	        }
+	        .spring .season-icon {
+	            background-color: #d9f0d0;
+	        }
+	        .summer {
+	            background-color: #fff7e6;
+	        }
+	        .summer::before {
+	            background-color: #f5f0d8;
+	        }
+	        .summer .season-icon {
+	            background-color: #f1e5bb;
+	        }
+	        .autumn {
+	            background-color: #ffe6e6;
+	        }
+	        .autumn::before {
+	            background-color: #f1e6d6;
+	        }
+	        .autumn .season-icon {
+	            background-color: #f0dbc6;
+	        }
+	        .winter {
+	            background-color: #e6f0ff;
+	        }
+	        .winter::before {
+	            background-color: #dee3ec;
+	        }
+	        .winter .season-icon {
+	            background-color: #c7d3ed;
+	        }
+			
+	    /* 文化分类模块 */
+	    .culture-section {
+	      padding: 50px 20px;
+	      scroll-margin-top: 80px;
+	    }
+	    
+	    .culture-cards {
+	      display: flex;
+	      justify-content: center;
+	      align-items: center;
+	      gap: 10px;
+	      padding: 20px 60px;
+	      max-width: 1400px;
+	      margin: 0 auto;
+	      position: relative;
+	      overflow: visible;
+	    }
+	    
+	    /* 初始卡片更宽 */
+	    .culture-card {
+	      width: 220px;
+	      height: 380px;
+	      border-radius: 16px;
+	      position: relative;
+	      overflow: visible;
+	      flex: 0 0 220px;
+	      cursor: pointer;
+	      transition: all 0.4s cubic-bezier(0.32, 1, 0.4, 1);
+	      z-index: 1;
+	    }
+	    
+	    .culture-card .card-img {
+	      width: 100%;
+	      height: 100%;
+	      border-radius: 16px;
+	      overflow: hidden;
+	      position: relative;
+	      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+	    }
+	    
+	    .culture-card .card-img img {
+	      width: 100%;
+	      height: 100%;
+	      object-fit: cover;
+	      transition: transform 0.4s ease;
+	    }
+	    
+	    .culture-card:hover .card-img img {
+	      transform: scale(1.05);
+	    }
+	    
+	    .culture-card .season-text {
+	      position: absolute;
+	      top: 24px;
+	      left: 20px;
+	      font-size: 32px;
+	      color: #fff;
+	      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.35);
+	      writing-mode: vertical-rl;
+	      z-index: 2;
+	    }
+	    
+	    /* 右侧展开面板 */
+	    .culture-card .expand-panel {
+	      position: absolute;
+	      left: 100%;
+	      top: 0;
+	      width: 300px;
+	      height: 380px;
+	      margin-left: 8px;
+	      background: rgba(255, 255, 255, 0.97);
+	      border-radius: 16px;
+	      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+	      display: flex;
+	      flex-direction: column;
+	      justify-content: center;
+	      align-items: center;
+	      padding: 32px;
+	      opacity: 0;
+	      visibility: hidden;
+	      transform: translateX(-10px);
+	      transition: all 0.4s ease;
+	      z-index: 10;
+	    }
+	    
+	    .culture-card:hover .expand-panel {
+	      opacity: 1;
+	      visibility: visible;
+	      transform: translateX(0);
+	    }
+	    
+	    /* ========================== */
+	    /* 对称位移 */
+	    /* ========================== */
+	    #spring-culture:hover ~ .culture-card,
+	    #summer-culture:hover ~ .culture-card {
+	      transform: translateX(330px);
+	    }
+	    
+	    #autumn-culture:hover,
+	    #winter-culture:hover {
+	      z-index: 5;
+	    }
+	    
+	    #autumn-culture:hover ~ #winter-culture {
+	      transform: translateX(330px);
+	    }
+	    
+	    #autumn-culture:hover ~ #spring-culture,
+	    #autumn-culture:hover ~ #summer-culture,
+	    #winter-culture:hover ~ #spring-culture,
+	    #winter-culture:hover ~ #summer-culture {
+	      transform: translateX(-380px);
+	    }
+	    
+	    /* ========================== */
+	    /* 核心：悬浮卡片不变窄，其他变窄 */
+	    /* ========================== */
+	    .culture-cards:has(.culture-card:hover) .culture-card {
+	      flex: 0 0 140px;
+	      width: 140px;
+	    }
+	    
+	    .culture-cards .culture-card:hover {
+	      flex: 0 0 220px !important;
+	      width: 220px !important;
+	    }
+	    
+	    /* 面板文字动画 */
+	    .expand-panel h3,
+	    .expand-panel p,
+	    .expand-panel a {
+	      opacity: 0;
+	      transform: translateY(10px);
+	      transition: all 0.35s ease;
+	    }
+	    
+	    .culture-card:hover .expand-panel h3 {
+	      opacity: 1;
+	      transform: translateY(0);
+	      transition-delay: 0.1s;
+	    }
+	    .culture-card:hover .expand-panel p {
+	      opacity: 1;
+	      transform: translateY(0);
+	      transition-delay: 0.2s;
+	    }
+	    .culture-card:hover .expand-panel a {
+	      opacity: 1;
+	      transform: translateY(0);
+	      transition-delay: 0.3s;
+	    }
+	    
+	    .expand-panel h3 {
+	      font-size: 24px;
+	      color: #5d4a36;
+	      margin-bottom: 16px;
+	    }
+	    .expand-panel p {
+	      font-size: 15px;
+	      color: #666;
+	      line-height: 1.6;
+	      text-align: center;
+	      margin-bottom: 24px;
+	    }
+	    .expand-panel a {
+	      padding: 10px 28px;
+	      background: #b89e76;
+	      color: #fff;
+	      border-radius: 30px;
+	      text-decoration: none;
+	      transition: background 0.3s;
+	    }
+	    .expand-panel a:hover {
+	      background: #8a7660;
+	    }
+	
+	        /* 页脚样式 */
+	        footer {
+	            background-color: #e8e0d0;
+	            padding: 40px 20px;
+	            display: flex;
+	            justify-content: space-around;
+	            flex-wrap: wrap;
+	        }
+	
+	        .footer-column {
+	            width: 32%;
+	            min-width: 200px;
+	            margin-bottom: 20px;
+	        }
+	
+	        .footer-column h3 {
+	            margin-bottom: 10px;
+	            font-size: 24px;
+	            color: #666;
+	            font-family: 微软雅黑;
+	        }
+	
+	        .footer-column p, .footer-column a {
+	            font-size: 22px;
+	            color: #333;
+	            text-decoration: none;
+	            line-height: 1.5;
+	            font-family: 楷体;
+	        }
+	
+	        .footer-column a {
+	            display: block;
+	        }
+	
+	        /* 节气详情弹窗样式 */
+	        .modal {
+	            display: none;
+	            position: fixed;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 100%;
+	            background-color: rgba(0, 0, 0, 0.7);
+	            z-index: 1000;
+	            overflow: auto;
+	            animation: fadeIn 0.3s ease;
+	        }
+	        .modal-content {
+	            background-color: #f9f6ed;
+	            margin: 5% auto;
+	            padding: 30px;
+	            border-radius: 10px;
+	            width: 80%;
+	            max-width: 800px;
+	            position: relative;
+	            animation: slideIn 0.4s ease;
+	        }
+	        .close-modal {
+	            position: absolute;
+	            top: 15px;
+	            right: 20px;
+	            font-size: 28px;
+	            cursor: pointer;
+	            color: #5d4a36;
+	        }
+	        .modal-header {
+	            text-align: center;
+	            margin-bottom: 20px;
+	        }
+	        .modal-title {
+	            font-size: 36px;
+	            color: #5d4a36;
+	            margin-bottom: 10px;
+	        }
+	        .modal-date {
+	            color: #777;
+	            font-style: italic;
+	        }
+	        .modal-body {
+	            display: flex;
+	            flex-wrap: wrap;
+	            gap: 20px;
+	        }
+	        .modal-image {
+	            flex: 1;
+	            min-width: 300px;
+	            border-radius: 8px;
+	            overflow: hidden;
+	        }
+	        .modal-image img {
+	            width: 100%;
+	            height: 300px;
+	            object-fit: cover;
+	        }
+	        .modal-info {
+	            flex: 2;
+	            min-width: 300px;
+	        }
+	        .info-section {
+	            margin-bottom: 20px;
+	        }
+	        .info-section h4 {
+	            font-size: 18px;
+	            color: #5d4a36;
+	            margin-bottom: 10px;
+	            border-bottom: 1px solid #d9c8a0;
+	            padding-bottom: 5px;
+	        }
+	        .info-section p {
+	            line-height: 1.6;
+	        }
+	
+	        @keyframes fadeIn {
+	            from {opacity: 0;}
+	            to {opacity: 1;}
+	        }
+	        @keyframes slideIn {
+	            from {transform: translateY(-50px); opacity: 0;}
+	            to {transform: translateY(0); opacity: 1;}
+	        }
+	
+	        /* 响应式样式 */
+	        @media (max-width: 768px) {
+	            body {
+	                padding-top: 60px;
+	            }
+	            header {
+	                height: 250px;
+	                margin-top: -60px;
+	            }
+	            .header-nav {
+	                padding: 10px 15px;
+	                height: 60px;
+	            }
+	            .header-nav a {
+	                margin: 0 5px;
+	                font-size: 14px;
+	                padding: 6px 10px;
+	            }
+	            .dropdown {
+	                min-width: 120px;
+	            }
+	            .dropdown a {
+	                padding: 10px 15px;
+	                font-size: 13px;
+	            }
+	            .logo {
+	                font-size: 30px;
+	                left: 30px;
+	                top: 15px;
+	            }
+	            .header-title {
+	                font-size: 40px;
+	                right: 30px;
+	            }
+	            .card-container, .season-cards, .culture-cards {
+	                flex-direction: column;
+	                align-items: center;
+	            }
+	            .card, .season-card, .culture-card {
+	                width: 90%;
+	                margin-bottom: 20px;
+	            }
+	            .culture-section {
+	                padding: 30px 20px;
+	            }
+	            .footer-column {
+	                width: 100%;
+	                text-align: center;
+	            }
+	            .modal-content {
+	                width: 95%;
+	                margin: 10% auto;
+	                padding: 20px;
+	            }
+	        }
+	        /* 核心卡片样式 */
+	        .welcome-card {
+	            width: 90%;
+	            max-width: 500px;
+	            background: linear-gradient(135deg, #f9f6ed 0%, #f4f0e6 100%);
+	            border-radius: 20px;
+	            padding: 40px 30px;
+	            box-shadow: 
+	                0 8px 24px rgba(0, 0, 0, 0.08),
+	                0 2px 6px rgba(93, 74, 54, 0.05);
+	            border: 1px solid rgba(255, 255, 255, 0.8);
+	            position: relative;
+	            overflow: hidden;
+	            transition: transform 0.3s ease, box-shadow 0.3s ease;
+	            margin: 0 auto 40px;
+	        }
+	
+	        /* 卡片悬浮效果 */
+	        .welcome-card:hover {
+	            transform: translateY(-5px);
+	            box-shadow: 
+	                0 12px 30px rgba(0, 0, 0, 0.12),
+	                0 4px 10px rgba(93, 74, 54, 0.08);
+	        }
+	
+	        /* 装饰元素 */
+	        .welcome-card::before {
+	            content: "";
+	            position: absolute;
+	            top: 0;
+	            left: 0;
+	            width: 100%;
+	            height: 6px;
+	            background: linear-gradient(90deg, #d9f0d0, #f1e5bb, #f0dbc6, #c7d3ed);
+	        }
+	
+	        .card-decoration {
+	            position: absolute;
+	            top: 20px;
+	            right: 20px;
+	            width: 60px;
+	            height: 60px;
+	            opacity: 0.15;
+	        }
+	
+	        /* 文字样式 */
+	        .card-title {
+	            font-size: 28px;
+	            color: #5d4a36;
+	            text-align: center;
+	            margin-bottom: 15px;
+	            font-weight: 600;
+	            position: relative;
+	            padding-bottom: 15px;
+	        }
+	
+	        .card-title::after {
+	            content: "";
+	            position: absolute;
+	            bottom: 0;
+	            left: 50%;
+	            transform: translateX(-50%);
+	            width: 80px;
+	            height: 2px;
+	            background: linear-gradient(90deg, transparent, #b89e76, transparent);
+	        }
+	
+	        .card-subtitle {
+	            font-size: 16px;
+	            color: #7a6955;
+	            text-align: center;
+	            line-height: 1.6;
+	            opacity: 0.9;
+	        }
+			
+			/* 节气穿搭板块：进一步放大整体占比，解决头重脚轻 */
+			.dressing-section {
+			  padding: 80px 20px; /* 比之前更大的上下内边距，提升板块高度 */
+			  text-align: center;
+			  width: 100%;
+			  margin: 0 auto;
+			}
+			
+			/* 核心容器：略微放大尺寸，保持精致感 */
+			.dressing-container {
+			  max-width: 950px; /* 比之前宽50px，更饱满 */
+			  margin: 0 auto;
+			  padding: 60px 40px; /* 放大内边距，增加容器饱满度 */
+			  border: 2px solid #f0e6d8;
+			  border-radius: 28px; /* 更大圆角，更显精致 */
+			  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.07); /* 稍重阴影，增强立体感 */
+			  background-color: #f4f1e8;
+			  position: relative;
+			  /* 新增：容器轻微装饰，不依赖背景图 */
+			  overflow: hidden;
+			}
+			/* 容器边角小装饰（提升精致感，可选） */
+			.dressing-container::before {
+			  content: "";
+			  position: absolute;
+			  top: 20px;
+			  left: 20px;
+			  width: 40px;
+			  height: 40px;
+			  border-top: 3px solid #d9c8b4;
+			  border-left: 3px solid #d9c8b4;
+			  border-radius: 8px 0 0 0;
+			  opacity: 0.7;
+			}
+			.dressing-container::after {
+			  content: "";
+			  position: absolute;
+			  bottom: 20px;
+			  right: 20px;
+			  width: 40px;
+			  height: 40px;
+			  border-bottom: 3px solid #d9c8b4;
+			  border-right: 3px solid #d9c8b4;
+			  border-radius: 0 0 8px 0;
+			  opacity: 0.7;
+			}
+			
+			.dressing-title::after {
+			  content: "";
+			  position: absolute;
+			  bottom: -12px;
+			  left: 50%;
+			  transform: translateX(-50%);
+			  width: 140px;
+			  height: 4px;
+			  background: linear-gradient(90deg, #d9c8b4, #bfa890, #d9c8b4);
+			  border-radius: 2px;
+			}
+			
+			/* 扩充后的副标题：优化行高，提升可读性 */
+			.dressing-subtitle {
+			  font-size: 19px; /* 略微放大字号 */
+			  color: #9a8b78;
+			  margin-bottom: 45px;
+			  line-height: 1.8; /* 增大行高，更易阅读 */
+			  max-width: 700px;
+			  margin-left: auto;
+			  margin-right: auto;
+			}
+			
+			.dressing-btn-card {
+			  padding: 45px 30px;
+			  border-radius: 20px;
+			  background-color: rgba(250, 247, 243, 0.5); /* 原有颜色+0.8透明度，更淡 */
+			  box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.04);
+			  position: relative;
+			  border: 1px solid transparent;
+			  background-clip: padding-box, border-box;
+			  background-origin: padding-box, border-box;
+			  /* 内层渐变背景也使用对应透明色，保持一致 */
+			  background-image: linear-gradient(rgba(250, 247, 243, 0.8), rgba(250, 247, 243, 0.8)), 
+			                    linear-gradient(135deg, #d9c8b4, #f0e6d8, #d9c8b4);
+			}
+			
+			/* 新增卡片描述文字：丰富内容，放大板块 */
+			.card-desc {
+			  font-size: 17px;
+			  color: #8a7b68;
+			  margin-bottom: 30px; /* 与按钮保持间距 */
+			  line-height: 1.7;
+			  max-width: 600px;
+			  margin-left: auto;
+			  margin-right: auto;
+			}
+			
+			/* 按钮：进一步美化，放大尺寸 */
+			.dressing-btn {
+			  font-size: 22px; /* 放大按钮文字 */
+			  padding: 20px 40px; /* 更大的内边距，提升按钮占比 */
+			  border: none;
+			  border-radius: 50px;
+			  background-color: #b8a899;
+			  color: #ffffff;
+			  font-weight: 600;
+			  cursor: pointer;
+			  transition: all 0.3s ease;
+			  box-shadow: 0 8px 18px rgba(107, 91, 73, 0.25); /* 稍重阴影，更显立体 */
+			  /* 新增：按钮文字间距，提升美观度 */
+			  letter-spacing: 1px;
+			}
+			.dressing-btn:hover {
+			  background-color: #8a7660;
+			  transform: scale(1.05); /* 稍大的悬浮放大效果，更醒目 */
+			  box-shadow: 0 10px 25px rgba(107, 91, 73, 0.3);
+			}
+			
+	    </style>
+			     <!-- 可选：引入图标库增加装饰 -->
+			     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <!-- 引入Font Awesome图标库 -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="carousel-container">
+            <div class="carousel-image active" data-title="立春" data-id="lichun" style="background-image: url('img/立春.jpg');"></div>
+            <div class="carousel-image" data-title="寒露" data-id="hanlu" style="background-image: url('img/寒露.jpg');"></div>
+            <div class="carousel-image" data-title="霜降" data-id="shuangjiang" style="background-image: url('img/霜降.jpg');"></div>
+        </div>
+         
+        <!-- 轮播图控制按钮 -->
+        <button class="carousel-arrow prev-arrow"></button>
+        <button class="carousel-arrow next-arrow"></button>
+        <div class="carousel-controls"></div>
+        
+        <div class="logo">廿四风物志</div>
+        
+        <!-- 重构后的导航栏 - 带下拉菜单 -->
+        <nav class="header-nav">
+            <a href="#home">首页</a>
+            
+            <!-- 节气大全下拉菜单 -->
+            <div class="nav-item">
+                <a href="节气大全(二级).html">节气大全</a>
+                
+            </div>
+            
+            <!-- 文化分类下拉菜单 -->
+            <div class="nav-item">
+                <a href="#culture-all">节气文化</a>
+                <div class="dropdown">
+                    <a href="春季文化.html">春季文化</a>
+                    <a href="夏季文化.html">夏季文化</a>
+                    <a href="秋季文化.html">秋季文化</a>
+                    <a href="冬季文化.html">冬季文化</a>
+                </div>
+            </div>
+            
+            <a href="节气穿搭.html">节气穿搭</a>
+            <a href="关于我们.html">关于我们</a>
+        </nav>
+        
+        <div class="header-title">立春</div>
+    </header>
+
+    <!-- 首页锚点 - 保留 -->
+    <section id="home" class="section">
+        <h2 class="terms-title">近期节气推荐</h2>
+		    <!-- 替换原有静态卡片，改为动态渲染容器 -->
+		    <div id="recent-terms-list" class="card-container">
+		        <!-- 动态卡片将在这里生成 -->
+		    </div>
+    </section>
+
+    <section id="terms-all" class="solar-terms-section">
+		<h2 class="terms-title">节气大全</h2>
+            <div class="season-cards">
+                       <a href="节气大全(二级).html" style="text-decoration: none; display: block;">
+                           <div id="spring-terms" class="season-card spring">
+                               <div class="season-icon">🌱</div>
+                               <h3>春季节气</h3>
+                               <p>立春、雨水、惊蛰、春分、清明、谷雨</p>
+                           </div>
+                       </a>
+                       <a href="节气大全(二级).html" style="text-decoration: none; display: block;">
+                           <div id="summer-terms" class="season-card summer">
+                               <div class="season-icon">☀️</div>
+                               <h3>夏季节气</h3>
+                               <p>立夏、小满、芒种、夏至、小暑、大暑</p>
+                           </div>
+                       </a>
+                       <a href="节气大全(二级).html" style="text-decoration: none; display: block;">
+                           <div id="autumn-terms" class="season-card autumn">
+                               <div class="season-icon">🍂</div>
+                               <h3>秋季节气</h3>
+                               <p>立秋、处暑、白露、秋分、寒露、霜降</p>
+                           </div>
+                       </a>
+                       <a href="节气大全(二级).html" style="text-decoration: none; display: block;">
+                           <div id="winter-terms" class="season-card winter">
+                               <div class="season-icon">❄️</div>
+                               <h3>冬季节气</h3>
+                               <p>立冬、小雪、大雪、冬至、小寒、大寒</p>
+                           </div>
+                       </a>
+            </div>
+        </section>
+ <section id="terms-all" class="solar-terms-section">
+		<h2 class="terms-title">节气文化</h2>
+			<div class="culture-cards">
+				<div id="spring-culture" class="culture-card">
+					<div class="card-img">
+					<img src="img/春季.jpg" alt="春季">
+			<div class="season-text">春季</div>
+			</div>
+			<div class="expand-panel">
+				<h3>春季文化</h3>
+				<p>立春、雨水、惊蛰、春分、清明、谷雨，万物复苏，春意盎然，习俗雅致。</p>
+				<a href="春季文化.html">查看详情</a>
+			</div>
+		</div>
+   
+     <div id="summer-culture" class="culture-card">
+       <div class="card-img">
+         <img src="img/夏季.jpg" alt="夏季">
+         <div class="season-text">夏季</div>
+       </div>
+       <div class="expand-panel">
+         <h3>夏季文化</h3>
+         <p>立夏、小满、芒种、夏至、小暑、大暑，荷风送香，避暑尝新，趣味十足。</p>
+         <a href="夏季文化.html">查看详情</a>
+       </div>
+     </div>
+   
+     <div id="autumn-culture" class="culture-card">
+       <div class="card-img">
+         <img src="img/秋季.jpg" alt="秋季">
+         <div class="season-text">秋季</div>
+       </div>
+       <div class="expand-panel">
+         <h3>秋季文化</h3>
+         <p>立秋、处暑、白露、秋分、寒露、霜降，登高赏菊，丰收纳福，意境悠远。</p>
+         <a href="秋季文化.html">查看详情</a>
+       </div>
+     </div>
+   
+     <div id="winter-culture" class="culture-card">
+       <div class="card-img">
+         <img src="img/冬季.jpg" alt="冬季">
+         <div class="season-text">冬季</div>
+       </div>
+       <div class="expand-panel">
+         <h3>冬季文化</h3>
+         <p>立冬、小雪、大雪、冬至、小寒、大寒，围炉进补，辞旧迎新，暖意融融。</p>
+         <a href="冬季文化.html">查看详情</a>
+       </div>
+     </div>
+   </div>
+   </section>
+	
+	<!-- 节气穿搭板块：调整结构，增加装饰元素 -->
+	<section class="dressing-section">
+	  <div class="dressing-container">
+	    <h2 class="terms-title">节气穿搭</h2>
+	    <!-- 增加装饰性副标题（可选） -->
+	    <p class="dressing-subtitle">跟着节气选穿搭，适配气温更舒适!</p>
+	    <!-- 交互按钮区域 -->
+	    <div class="dressing-btn-card">
+	      <a href="节气穿搭.html"><button class="dressing-btn">点击体验节气穿搭小游戏！</button></a>
+	    </div>
+	  </div>
+	</section>
+					
+    <footer>
+        <div class="footer-column">
+            <h3 >关于我们</h3>
+            <p>以节气为笔，绘四季养生图<br>让传统节气智慧，融入现代人的日常健康</p>
+        </div>
+        <div class="footer-column">
+            <h3>快速链接</h3>
+            <a href="#home">首页</a>
+            <a href="#terms-all">节气大全</a>
+            <a href="#culture-all">文化分类</a>
+            <a href="节气穿搭.html">节气穿搭</a>
+            <a href="关于我们.html">关于我们</a>
+        </div>
+        <div class="footer-column">
+            <h3>联系方式</h3>
+            <p>地址：扬州大学</p>
+            <p>邮箱：2312540645@qq.com</p>
+        </div>
+        <div class="footer-column" style="width: 100%; text-align: center;">
+            <p>© 2025 廿四风物志 - 传承千年节气智慧</p>
+        </div>
+    </footer>
+	
+
+   <!-- 节气详情弹窗 -->
+   <div id="solar-term-modal" class="modal">
+       <div class="modal-content">
+           <span class="close-modal">&times;</span>
+           <div class="modal-header">
+               <h2 class="modal-title">节气名称</h2>
+               <div class="modal-date">日期：每年X月X日前后</div>
+           </div>
+           <div class="modal-body">
+               <div class="modal-image">
+                   <img src="" alt="节气图片">
+               </div>
+               <div class="modal-info">
+                   <div class="info-section">
+                       <h4>节气简介</h4>
+                       <p id="term-description">节气描述内容将在这里显示...</p>
+                   </div>
+                   <div class="info-section">
+                       <h4>气候特点</h4>
+                       <p id="climate-features">气候特点内容将在这里显示...</p>
+                   </div>
+                   <div class="info-section">
+                       <h4>传统习俗</h4>
+                       <p id="customs">传统习俗内容将在这里显示...</p>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+   
+   
+   <script>
+       // 标签切换逻辑
+       const tabs = document.querySelectorAll('.tab');
+       const tabContents = document.querySelectorAll('.tab-content');
+   
+       tabs.forEach(tab => {
+           tab.addEventListener('click', () => {
+               const tabId = tab.getAttribute('data-tab');
+               
+               tabs.forEach(t => t.classList.remove('active'));
+               tab.classList.add('active');
+               
+               tabContents.forEach(content => content.classList.remove('active'));
+               document.getElementById(tabId).classList.add('active');
+           });
+       });
+	   
+     const solarTermsData = {
+         lichun: {
+             name: "立春",
+             date: "每年2月3-5日",
+             image: "img/节气大全-立春 (1).png",
+             description: "立春是二十四节气之首，标志着万物闭藏的冬季已过去，开始进入风和日暖、万物生长的春季。",
+             climate: "立春后气温开始回升，但冷空气仍会频繁来袭，昼夜温差较大。南方地区开始回暖，北方地区仍较寒冷。",
+             customs: "立春有迎春、打春牛、咬春（吃萝卜）等习俗，寓意着迎接春天的到来，祈求丰收。"
+         },
+         yushui: {
+             name: "雨水",
+             date: "每年2月18-20日",
+             image: "img/节气大全-雨水 (1).jpg",
+             description: "雨水是春季的第二个节气，此时气温回升、冰雪融化、降水增多，故名雨水。它标志着降雨开始，雨量渐增。",
+             climate: "雨水时节，北方冷空气活动仍较频繁，天气变化多端；南方大部分地区气温回升较快，降雨开始，以小雨或毛毛细雨为主。",
+             customs: "雨水有回娘屋、拉干爹、占稻色等习俗。川西一带民间有“雨水节，回娘家”的传统，寓意着对母亲的感恩与牵挂。"
+         },
+         jingzhe: {
+             name: "惊蛰",
+             date: "每年3月5-7日",
+             image: "img/节气大全-惊蛰 (1).jpg",
+             description: "惊蛰又名“启蛰”，是春季的第三个节气，此时春雷乍动，惊醒蛰伏在地下越冬的蛇虫鼠蚁，各种动物开始活跃起来。",
+             climate: "惊蛰时节，气温回升加快，南方暖湿气团开始活跃，北方气温也逐步升高，降水有所增加，部分地区会出现雷雨天气。",
+             customs: "惊蛰有祭白虎、吃梨、打小人等习俗。民间认为吃梨可以润肺止咳，远离疾病；祭白虎则是为了祈求一年平安，避免口舌是非。"
+         },
+         chunfen: {
+             name: "春分",
+             date: "每年3月20-22日",
+             image: "img/节气大全-春分 (2).jpg",
+             description: "春分是春季的第四个节气，此时太阳直射赤道，昼夜长短平均，寒暑平衡，故名“春分”，也标志着春季过半。",
+             climate: "春分时节，我国大部分地区进入明媚的春天，气温稳定回升，降水充沛，阳光充足，草木生长旺盛，呈现出一派欣欣向荣的景象。",
+             customs: "春分有竖蛋、放风筝、吃春菜、祭日等习俗。“春分到，蛋儿俏”的竖蛋游戏，是春分时节流传已久的民间趣味活动。"
+         },
+         qingming: {
+             name: "清明",
+             date: "每年4月4-6日",
+             image: "img/节气大全-清明 (2).jpg",
+             description: "清明既是二十四节气之一，也是我国传统节日，兼具自然与人文两大内涵，寓意着天气晴朗，草木繁茂。",
+             climate: "清明时节，气温进一步升高，雨量增多，我国南方地区已是春意盎然，北方地区也春暖花开，空气清新，适合踏青出游。",
+             customs: "清明有扫墓祭祖、踏青、插柳、吃青团等习俗。扫墓祭祖是表达对先祖的缅怀之情，踏青则是享受春日美景的传统活动。"
+         },
+         guyu: {
+             name: "谷雨",
+             date: "每年4月19-21日",
+             image: "img/节气大全-谷雨 (1).jpg",
+             description: "谷雨是春季的最后一个节气，取自“雨生百谷”之意，此时降水明显增多，有利于谷类农作物的生长，标志着春季即将结束。",
+             climate: "谷雨时节，气温偏高，雨量充沛，南方地区多暴雨或雷阵雨，北方地区降水也显著增加，空气湿度较大，适合农作物栽种。",
+             customs: "谷雨有祭仓颉、喝谷雨茶、赏牡丹、食香椿等习俗。谷雨茶被认为滋味醇厚，具有清火明目等功效，深受民间喜爱。"
+         },
+         lixia: {
+             name: "立夏",
+             date: "每年5月5-7日",
+             image: "img/立夏（2）.png",
+             description: "立夏是夏季的第一个节气，标志着万物进入生长旺季，此时春天结束，夏天正式到来，气温明显升高。",
+             climate: "立夏时节，我国南方地区气温已达20℃以上，北方地区也逐渐升温，降水开始增多，雷雨天气频发，农作物进入快速生长期。",
+             customs: "立夏有迎夏、尝新、称重、吃立夏蛋等习俗。民间认为立夏称重可以避免夏季消瘦，吃立夏蛋则能保佑夏日平安，强健体魄。"
+         },
+         xiaoman: {
+             name: "小满",
+             date: "每年5月20-22日",
+             image: "img/小满（2）.jpg",
+             description: "小满是夏季的第二个节气，“满”指农作物的籽粒开始灌浆饱满，但尚未成熟，只是小满，还未大满，故名小满。",
+             climate: "小满时节，气温显著升高，南北温差缩小，降水大幅增加，南方地区多暴雨天气，北方地区也进入雨季，空气湿度较大。",
+             customs: "小满有祭车神、祭蚕神、吃苦菜、抢水等习俗。祭蚕神是江浙一带蚕农的传统，祈求蚕茧丰收，保障生计来源。"
+         },
+         mangzhong: {
+             name: "芒种",
+             date: "每年6月5-7日",
+             image: "img/芒种第一.png",
+             description: "芒种又名“忙种”，是夏季的第三个节气，此时麦类等有芒作物成熟，需要及时收割，同时也是秋粮作物播种的关键时期，农事繁忙。",
+             climate: "芒种时节，气温进一步升高，我国大部分地区进入高温多雨的梅雨季节（南方），空气湿度大，日照时间长，有利于农作物生长。",
+             customs: "芒种有煮梅、安苗、送花神、打泥巴仗等习俗。煮梅是将青梅加工后食用，既可以开胃消食，也是古代文人雅士的风雅活动。"
+         },
+         xiazhi: {
+             name: "夏至",
+             date: "每年6月21-22日",
+             image: "img/夏至第四张.png",
+             description: "夏至是夏季的第四个节气，此时太阳直射北回归线，北半球各地白昼时间达到全年最长，黑夜时间最短，之后白昼逐渐变短。",
+             climate: "夏至时节，气温高、湿度大，我国大部分地区进入盛夏时节，南方地区梅雨天气持续，北方地区多晴热高温天气，雷雨天气频发。",
+             customs: "夏至有祭神祀祖、吃夏至面、消夏避伏、称重等习俗。民间有“冬至饺子夏至面”的说法，夏至吃面寓意着尝新和长寿。"
+         },
+         xiaoshu: {
+             name: "小暑",
+             date: "每年7月6-8日",
+             image: "img/小暑第四.png",
+             description: "小暑是夏季的第五个节气，“暑”表示炎热，小暑即小热，意味着天气开始炎热，但还未到最热的时候，故名小暑。",
+             climate: "小暑时节，气温持续升高，我国大部分地区进入高温天气，南方地区梅雨季节结束，转入伏旱期，北方地区也进入多雨季节。",
+             customs: "小暑有食新、吃藕、晒伏、喝羊汤等习俗。食新是将新收获的稻谷做成米饭，祭祀祖先之后全家食用，寓意着丰收的喜悦。"
+         },
+         dashu: {
+             name: "大暑",
+             date: "每年7月22-24日",
+             image: "img/节气大暑4.png",
+             description: "大暑是夏季的最后一个节气，也是一年中最热的节气，“大”表示炎热至极，此时气温最高，农作物生长最快，旱涝灾害频发。",
+             climate: "大暑时节，我国大部分地区处于一年中气温最高的时段，高温高湿，形成“桑拿天”，南方地区多台风和暴雨天气，北方地区晴热少雨。",
+             customs: "大暑有喝伏茶、晒伏姜、吃仙草、烧伏香等习俗。伏茶具有清凉解暑的功效，是民间夏季防暑降温的传统饮品。"
+         },
+         liqiu: {
+             name: "立秋",
+             date: "每年8月7-9日",
+             image: "img/立秋6.jpg",
+             description: "立秋是秋季的第一个节气，标志着炎热的夏季即将结束，秋天正式到来，此时草木开始结果，收获的季节即将来临。",
+             climate: "立秋时节，气温开始逐渐下降，但“秋老虎”依然会带来短期的晴热高温天气，南方地区降水逐渐减少，北方地区气温回落明显。",
+             customs: "立秋有贴秋膘、啃秋、晒秋、祭祀土地神等习俗。贴秋膘是通过食用肉类等油腻食物，弥补夏季消瘦的身体，增强体质。"
+         },
+         chushu: {
+             name: "处暑",
+             date: "每年8月22-24日",
+             image: "img/处暑8.jpg",
+             description: "处暑又名“出暑”，是秋季的第二个节气，意味着炎热天气即将结束，气温逐渐下降，暑气慢慢消退，故名处暑。",
+             climate: "处暑时节，“秋老虎”逐渐消失，气温明显下降，我国大部分地区天气转凉，降水大幅减少，空气干燥，昼夜温差加大。",
+             customs: "处暑有放河灯、开渔节、吃鸭子、煎药茶等习俗。开渔节是沿海地区的传统节日，标志着禁渔期结束，渔民开始出海捕鱼。"
+         },
+         bailu: {
+             name: "白露",
+             date: "每年9月7-9日",
+             image: "img/白露5.jpg",
+             description: "白露是秋季的第三个节气，此时气温降低，夜间水汽遇冷凝结成白露，附着在草木上，故名白露，标志着天气转凉。",
+             climate: "白露时节，我国大部分地区气温下降明显，昼夜温差进一步加大，空气湿度降低，天气干燥，北方地区开始出现早霜迹象。",
+             customs: "白露有收清露、祭禹王、喝白露茶、吃龙眼等习俗。白露茶香气浓郁，滋味醇厚，是秋季茶叶中的佳品。"
+         },
+         qiufen: {
+             name: "秋分",
+             date: "每年9月22-24日",
+             image: "img/秋分1.jpg",
+             description: "秋分，“分”即为“平分”、“半”的意思，除了指昼夜平分外，还有一层意思是平分了秋季。",
+             climate: "秋分时节，我国大部分地区已经进入凉爽的秋季，南下的冷空气与逐渐衰减的暖湿空气相遇，产生一次次的降水，气温也一次次地下降。",
+             customs: "秋分有祭月、吃秋菜、送秋牛等习俗。在岭南地区，昔日四邑（现在加上鹤山为五邑）的开平苍城镇的谢姓，有个不成节的习俗，叫做“秋分吃秋菜”。"
+         },
+         hanlu: {
+             name: "寒露",
+             date: "每年10月8-9日",
+             image: "img/寒露.jpg",
+             description: "寒露是秋季的第五个节气，表示秋季时节的正式结束。寒露的意思是气温比白露时更低，地面的露水更冷，快要凝结成霜了。",
+             climate: "寒露时节，我国大部分地区天气转凉，东北和西北地区已进入或即将进入冬季，雨水渐少，空气干燥。",
+             customs: "寒露有赏菊、登高、吃芝麻等习俗。民间有“寒露吃芝麻”的习俗，认为芝麻有滋补作用。"
+         },
+         shuangjiang: {
+             name: "霜降",
+             date: "每年10月23-24日",
+             image: "img/霜降.jpg",
+             description: "霜降是秋季的最后一个节气，是秋季到冬季的过渡。霜降节气特点是早晚天气较冷、中午则比较热，昼夜温差大，秋燥明显。",
+             climate: "霜降时节，冷空气南下，气温下降明显，昼夜温差加大。我国北方地区开始出现霜冻现象，南方地区气温也明显下降。",
+             customs: "霜降有赏菊、吃柿子、登高远眺、进补等风俗。民间认为霜降吃柿子，冬天就不会感冒、流鼻涕。"
+         },
+         lidong: {
+             name: "立冬",
+             date: "每年11月7-8日",
+             image: "img/立冬（1）.jpg",
+             description: "立冬是冬季的第一个节气，标志着冬季正式开始，此时草木凋零，万物闭藏，天地间进入休养生息的阶段，农事活动基本结束。",
+             climate: "立冬时节，我国北方地区气温已降至0℃左右，开始出现降雪天气，南方地区气温也大幅下降，天气转冷，降水减少。",
+             customs: "立冬有迎冬、祭祖祭天、吃饺子、补冬等习俗。民间有“立冬不端饺子碗，冻掉耳朵没人管”的说法，饺子寓意着温暖过冬。"
+         },
+         xiaoxue: {
+             name: "小雪",
+             date: "每年11月22-23日",
+             image: "img/小雪大背景.png",
+             description: "小雪是冬季的第二个节气，此时气温持续下降，开始出现降雪，但雪量较小，落地后容易融化，故名小雪。",
+             climate: "小雪时节，我国北方地区已进入严寒天气，降雪逐渐增多，南方地区气温继续下降，空气干燥，部分地区会出现小雨或冻雨天气。",
+             customs: "小雪有腌咸菜、晒鱼干、吃糍粑、酿小雪酒等习俗。腌咸菜是北方地区的传统，为冬季储备蔬菜；糍粑则是南方地区的特色美食。"
+         },
+         daxue: {
+             name: "大雪",
+             date: "每年12月6-8日",
+             image: "img/大雪（1）.jpg",
+             description: "大雪是冬季的第三个节气，“大雪”表示降雪的可能性比小雪时更大，雪量可能更大，地面容易形成积雪，故名大雪。",
+             climate: "大雪时节，我国北方地区气温极低，降雪量明显增加，积雪深厚，南方地区气温也降至较低水平，部分地区会出现降雪天气。",
+             customs: "大雪有赏雪、腌肉、喝红薯粥、封河等习俗。“小雪腌菜，大雪腌肉”是民间流传已久的习俗，腌肉为春节储备美食。"
+         },
+         dongzhi: {
+             name: "冬至",
+             date: "每年12月21-23日",
+             image: "img/冬至（3）.png",
+             description: "冬至是冬季的第四个节气，此时太阳直射南回归线，北半球各地白昼时间最短，黑夜时间最长，之后白昼逐渐变长。",
+             climate: "冬至时节，我国大部分地区进入一年中最冷的时段，北方地区严寒干燥，降雪频繁，南方地区气温也极低，部分地区会出现冰冻天气。",
+             customs: "冬至有祭祖、吃饺子、吃汤圆、数九等习俗。北方吃饺子、南方吃汤圆，均寓意着团团圆圆、平安过冬，数九则是记录冬季冷暖的传统方式。"
+         },
+         xiaohan: {
+             name: "小寒",
+             date: "每年1月5-7日",
+             image: "img/小寒(1).png",
+             description: "小寒是冬季的第五个节气，“寒”表示寒冷，小寒即小冷，意味着天气已经非常寒冷，但还未到最冷的时候，故名小寒。",
+             climate: "小寒时节，我国大部分地区气温降至全年最低水平，北方地区多寒潮天气，风力较大，南方地区也出现低温冰冻天气，空气干燥。",
+             customs: "小寒有吃腊八粥、探梅、冰戏、补阳等习俗。腊八粥食材丰富，具有滋补身体的功效，是小寒时节不可或缺的传统美食。"
+         },
+         dahan: {
+             name: "大寒",
+             date: "每年1月20-21日",
+             image: "img/大寒（1）.jpg",
+             description: "大寒是冬季的最后一个节气，也是一年中最冷的节气之一，“大”表示寒冷至极，此时天气严寒，万物闭藏，标志着一年的节气即将结束。",
+             climate: "大寒时节，我国大部分地区处于全年最低气温时段，北方地区暴雪严寒，南方地区低温冰冻，风力较大，空气湿度较低。",
+             customs: "大寒有尾牙祭、吃年糕、扫尘、准备年货等习俗。尾牙祭是祭祀土地公的传统活动，同时也意味着春节的脚步越来越近，开始筹备过年事宜。"
+         }
+     };
+     
+     // 1. 定义24节气的准确信息（按公历时间排序，对应solarTermsData的拼音键名）
+     const solarTermsList = [
+         { key: 'lichun', name: '立春', month: 2, day: 4 },    // 2月4日左右
+         { key: 'yushui', name: '雨水', month: 2, day: 19 },   // 2月19日左右
+         { key: 'jingzhe', name: '惊蛰', month: 3, day: 6 },   // 3月6日左右
+         { key: 'chunfen', name: '春分', month: 3, day: 21 },  // 3月21日左右
+         { key: 'qingming', name: '清明', month: 4, day: 5 },   // 4月5日左右
+         { key: 'guyu', name: '谷雨', month: 4, day: 20 },      // 4月20日左右
+         { key: 'lixia', name: '立夏', month: 5, day: 6 },      // 5月6日左右
+         { key: 'xiaoman', name: '小满', month: 5, day: 21 },   // 5月21日左右
+         { key: 'mangzhong', name: '芒种', month: 6, day: 6 },  // 6月6日左右
+         { key: 'xiazhi', name: '夏至', month: 6, day: 22 },    // 6月22日左右
+         { key: 'xiaoshu', name: '小暑', month: 7, day: 7 },    // 7月7日左右
+         { key: 'dashu', name: '大暑', month: 7, day: 23 },     // 7月23日左右
+         { key: 'liqiu', name: '立秋', month: 8, day: 8 },      // 8月8日左右
+         { key: 'chushu', name: '处暑', month: 8, day: 23 },    // 8月23日左右
+         { key: 'bailu', name: '白露', month: 9, day: 8 },      // 9月8日左右
+         { key: 'qiufen', name: '秋分', month: 9, day: 23 },    // 9月23日左右
+         { key: 'hanlu', name: '寒露', month: 10, day: 8 },     // 10月8日左右
+         { key: 'shuangjiang', name: '霜降', month: 10, day: 24 }, // 10月24日左右
+         { key: 'lidong', name: '立冬', month: 11, day: 8 },    // 11月8日左右
+         { key: 'xiaoxue', name: '小雪', month: 11, day: 23 },  // 11月23日左右
+         { key: 'daxue', name: '大雪', month: 12, day: 7 },     // 12月7日左右
+         { key: 'dongzhi', name: '冬至', month: 12, day: 22 },  // 12月22日左右
+         { key: 'xiaohan', name: '小寒', month: 1, day: 6 },    // 1月6日左右
+         { key: 'dahan', name: '大寒', month: 1, day: 20 }      // 1月20日左右
+     ];
+	 // ========== 在这里插入【随机数据源和记录变量】 ==========
+	 // 1. 提取所有节气key，生成随机轮播数据源（必须放在solarTermsList之后）
+	 const allSolarTermKeys = solarTermsList.map(term => term.key);
+	 // 用于记录上一个随机索引，避免连续出现同一节气
+	 let lastRandomIndex = -1;
+	 // ======================================================
+
+     
+     // 节气详情弹窗逻辑
+     const modal = document.getElementById('solar-term-modal');
+     const modalTitle = document.querySelector('.modal-title');
+     const modalDate = document.querySelector('.modal-date');
+     const modalImage = document.querySelector('.modal-image img');
+     const termDescription = document.getElementById('term-description');
+     const climateFeatures = document.getElementById('climate-features');
+     const customs = document.getElementById('customs');
+     const closeModalBtn = document.querySelector('.close-modal'); // 修正命名冲突，改为closeModalBtn
+     const cards = document.querySelectorAll('.card');
+     const carouselImages = document.querySelectorAll('.carousel-image');
+	 
+	 // ========== 在这里插入【不重复随机索引函数】 ==========
+	 // 2. 获取不重复的随机节气索引
+	 function getRandomTermIndex() {
+	     let randomIndex;
+	     // 确保随机索引与上一次不同，且有效（0 ~ 23，对应24个节气）
+	     do {
+	         randomIndex = Math.floor(Math.random() * allSolarTermKeys.length);
+	     } while (randomIndex === lastRandomIndex && allSolarTermKeys.length > 1);
+	     // 更新上一次索引
+	     lastRandomIndex = randomIndex;
+	     return randomIndex;
+	 }
+	 // ======================================================
+     
+    function getRecentSolarTerms(count = 3) {
+        // 获取当前日期
+        const now = new Date();
+        const currentMonth = now.getMonth() + 1; // 1-12月
+        const currentDay = now.getDate();
+        const currentMonthDay = currentMonth * 100 + currentDay; // 1224（12月24日）
+    
+        // 步骤1：给每个节气添加“可比较的月日数值”，方便后续排序
+        const solarTermsWithMD = solarTermsList.map(term => ({
+            ...term,
+            monthDay: term.month * 100 + term.day
+        }));
+    
+        // 步骤2：找到第一个“大于等于当前日期”的节气索引（核心修正：遍历匹配）
+        let startIndex = 0;
+        for (let i = 0; i < solarTermsWithMD.length; i++) {
+            const term = solarTermsWithMD[i];
+            // 找到第一个满足条件的节气，记录索引并退出循环
+            if (term.monthDay >= currentMonthDay) {
+                startIndex = i;
+                break;
+            }
+            // 特殊情况：当前日期是12月下旬（如1224），所有节气的monthDay都小于当前值
+            // 此时直接从大雪/冬至附近开始（索引20：大雪，21：冬至）
+            if (currentMonth === 12 && currentDay > 22) {
+                startIndex = 20; // 从大雪开始
+                break;
+            }
+        }
+    
+        // 步骤3：从startIndex开始向后取节气，不足则从列表头部补充（跨年度）
+        const recentTerms = [];
+        let currentIndex = startIndex;
+        const totalTerms = solarTermsWithMD.length;
+    
+        while (recentTerms.length < count) {
+            // 取当前索引的节气（去除monthDay属性，还原原有结构）
+            const { monthDay, ...originalTerm } = solarTermsWithMD[currentIndex];
+            recentTerms.push(originalTerm);
+            // 索引递增，超出列表长度则重置为0（跨年度：大寒→立春）
+            currentIndex = (currentIndex + 1) % totalTerms;
+        }
+    
+        return recentTerms;
+    }
+	
+	
+     
+     function renderRecentSolarTerms() {
+         const recentTermsList = document.getElementById('recent-terms-list');
+         if (!recentTermsList) {
+             console.error('未找到渲染容器：recent-terms-list');
+             return;
+         }
+         const recentTerms = getRecentSolarTerms(3);
+         recentTermsList.innerHTML = '';
+     
+         recentTerms.forEach(term => {
+             const termData = solarTermsData[term.key];
+             if (!termData) return;
+     
+             // 补全原有 .card 的完整结构（包含图片区和文本区）
+             const dynamicCard = document.createElement('div');
+             dynamicCard.className = 'card'; // 复用原有卡片样式类
+             dynamicCard.setAttribute('data-id', term.key);
+     
+             // 完整卡片内容（与静态卡片结构一致）
+             dynamicCard.innerHTML = `
+                 <div class="card-img" style="background-image: url('${termData.image}');"></div>
+                 <div class="card-text">
+                     <div class="card-title">${termData.name}</div>
+                     <div class="card-content">${termData.description}</div>
+                 </div>
+             `;
+     
+             // 绑定弹窗事件
+             dynamicCard.addEventListener('click', () => {
+                 openModal(term.key);
+             });
+     
+             recentTermsList.appendChild(dynamicCard);
+         });
+     }
+     
+     // 打开弹窗并加载数据
+     function openModal(termId) {
+         const termData = solarTermsData[termId];
+         if (termData) {
+             modalTitle.textContent = termData.name;
+             modalDate.textContent = `日期：${termData.date}`;
+             modalImage.src = termData.image;
+             modalImage.alt = termData.name;
+             termDescription.textContent = termData.description;
+             climateFeatures.textContent = termData.climate;
+             customs.textContent = termData.customs;
+     
+             modal.style.display = 'block';
+             document.body.style.overflow = 'hidden'; // 防止背景滚动
+         }
+     }
+     
+     // 关闭弹窗
+     function closeModalFunc() {
+         modal.style.display = 'none';
+         document.body.style.overflow = 'auto'; // 恢复背景滚动
+     }
+	 
+	// 修正后的 initRandomTermCarousel 函数（关键修改指示点逻辑）
+	function initRandomTermCarousel() {
+	    const carouselContainer = document.querySelector('.carousel-container');
+	    const carouselImages = document.querySelectorAll('.carousel-image');
+	    const headerTitle = document.querySelector('.header-title');
+	    const prevArrow = document.querySelector('.prev-arrow');
+	    const nextArrow = document.querySelector('.next-arrow');
+	    const controlsContainer = document.querySelector('.carousel-controls');
+	    let autoPlayInterval;
+	    const autoPlayTime = 5000;
+	    let dotCurrentIndex = 0; // 单独维护指示点的切换索引（核心新增）
+	    const dotCount = 3; // 指示点数量，固定为3
+	
+	    // 初始化指示点
+	    function initDots(count) {
+	        controlsContainer.innerHTML = '';
+	        for (let i = 0; i < count; i++) {
+	            const dot = document.createElement('div');
+	            dot.classList.add('carousel-dot');
+	            controlsContainer.appendChild(dot);
+	        }
+	        // 初始化激活第一个指示点
+	        const dots = document.querySelectorAll('.carousel-dot');
+	        if (dots.length > 0) {
+	            dots[0].classList.add('active');
+	        }
+	    }
+	
+	    // 激活指定索引的指示点（核心修改：只操作指示点，不依赖节气索引）
+	    function activateDot(index) {
+	        const dots = document.querySelectorAll('.carousel-dot');
+	        if (dots.length === 0) return;
+	        // 先移除所有指示点的激活状态
+	        dots.forEach(dot => dot.classList.remove('active'));
+	        // 激活当前索引的指示点
+	        dots[index].classList.add('active');
+	    }
+	
+	    // 指示点主动循环切换（核心新增：每次轮播，指示点索引+1，循环往复）
+	    function switchDot() {
+	        dotCurrentIndex = (dotCurrentIndex + 1) % dotCount; // 0→1→2→0 循环
+	        activateDot(dotCurrentIndex);
+	    }
+	
+	    // 加载随机节气到轮播图
+	    function loadRandomTerm() {
+	        const randomIndex = getRandomTermIndex();
+	        const termKey = allSolarTermKeys[randomIndex];
+	        const termData = solarTermsData[termKey];
+	        if (!termData) return;
+	
+	        // 更新轮播背景图
+	        const activeImg = carouselImages[0];
+	        activeImg.style.backgroundImage = `url('${termData.image}')`;
+	        activeImg.setAttribute('data-id', termKey);
+	        activeImg.setAttribute('data-title', termData.name);
+	
+	        // 更新标题
+	        headerTitle.textContent = termData.name;
+	
+	        // 切换指示点（每次加载节气，同步切换指示点）
+	        switchDot();
+	    }
+	
+	    // 初始化指示点
+	    initDots(dotCount);
+	
+	    // 随机切换节气
+	    function switchToRandomTerm() {
+	        loadRandomTerm();
+	        resetAutoPlay();
+	    }
+	
+	    // 手动切换箭头事件
+	    prevArrow.addEventListener('click', switchToRandomTerm);
+	    nextArrow.addEventListener('click', switchToRandomTerm);
+	
+	    // 指示点点击事件（点击指示点，切换到对应索引，并重置随机）
+	    controlsContainer.addEventListener('click', (e) => {
+	        if (e.target.classList.contains('carousel-dot')) {
+	            const dots = document.querySelectorAll('.carousel-dot');
+	            // 获取点击的指示点索引
+	            dotCurrentIndex = Array.from(dots).indexOf(e.target);
+	            activateDot(dotCurrentIndex);
+	            // 加载新的随机节气
+	            loadRandomTerm();
+	            resetAutoPlay();
+	        }
+	    });
+	
+	    // 自动轮播
+	    function startAutoPlay() {
+	        autoPlayInterval = setInterval(loadRandomTerm, autoPlayTime);
+	    }
+	
+	    // 重置自动轮播定时器
+	    function resetAutoPlay() {
+	        clearInterval(autoPlayInterval);
+	        startAutoPlay();
+	    }
+	
+	    // 鼠标移入暂停/移出恢复
+	    carouselContainer.addEventListener('mouseenter', () => clearInterval(autoPlayInterval));
+	    carouselContainer.addEventListener('mouseleave', startAutoPlay);
+	
+	    // 初始化
+	    loadRandomTerm();
+	    startAutoPlay();
+	}
+	 // ======================================================
+     
+     // 点击原有静态卡片打开对应节气详情
+     cards.forEach(card => {
+         card.addEventListener('click', () => {
+             const termId = card.getAttribute('data-id');
+             openModal(termId);
+         });
+     });
+     
+     // 点击轮播图中的节气打开详情
+     carouselImages.forEach(img => {
+         img.addEventListener('click', () => {
+             const termId = img.getAttribute('data-id');
+             if (termId) {
+                 openModal(termId);
+             }
+         });
+     });
+     
+     // 关闭按钮事件（使用修正后的变量名）
+     if (closeModalBtn) {
+         closeModalBtn.addEventListener('click', closeModalFunc);
+     }
+     
+     // 点击弹窗外部关闭弹窗
+     window.addEventListener('click', (event) => {
+         if (event.target === modal) {
+             closeModalFunc();
+         }
+     });
+     
+     // 按ESC键关闭弹窗
+     document.addEventListener('keydown', (event) => {
+         if (event.key === 'Escape' && modal.style.display === 'block') {
+             closeModalFunc();
+         }
+     });
+     
+     document.addEventListener('DOMContentLoaded', function() {
+         // 轮播图原有逻辑（不变）
+         const images = document.querySelectorAll('.carousel-image');
+         const headerTitle = document.querySelector('.header-title');
+         const prevArrow = document.querySelector('.prev-arrow');
+         const nextArrow = document.querySelector('.next-arrow');
+         const controlsContainer = document.querySelector('.carousel-controls');
+         let currentIndex = 0;
+         let interval;
+         const intervalTime = 5000;
+     
+         // 创建轮播图指示点、nextImage、prevImage等函数（不变）
+         // ...（保留原有轮播图逻辑代码）
+     
+         // 轮播图逻辑结束后，执行动态渲染
+        renderRecentSolarTerms();
+		initRandomTermCarousel();
+     });
+     
+   </script>
+</body>
+</html>

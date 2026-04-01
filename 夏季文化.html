@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>廿四风物志 - 食俗文化·夏季习俗</title>
+    <!-- 引入外部字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- 基础与变量 (保留夏季主题色) --- */
+        :root {
+            --color-primary: #3A7D44;    /* 盛夏绿 - 主色调 */
+            --color-primary-light: #61A568;/* 浅翠绿 - 主色调浅色 */
+            --color-secondary: #4A90E2;  /* 天空蓝 - 辅助色 */
+            --color-secondary-light: #8EC0E4;/* 淡湖蓝 - 辅助色浅色 */
+            --color-text: #3A3A3A;       /* 墨黑 - 正文颜色 */
+            --color-text-light: #6B6B6B; /* 灰墨 - 次要文本颜色 */
+            --color-bg: #F0F7F0;         /* 浅草绿 - 背景色 */
+            --color-card-bg: #FFFFFF;    /* 瓷白 - 卡片背景 */
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+            padding-top: 70px; /* 适配统一导航栏高度 */
+            scroll-behavior: smooth;
+        }
+
+        /* ========== 导航栏样式（和首页完全一致） ========== */
+        /* Logo样式 */
+        .logo {
+            position: fixed; 
+            top: 0px;
+            left: 80px;
+            font-size: 40px;
+            font-family: "隶书", "LiSu", serif;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            font-weight: normal;
+            z-index: 1000; 
+            text-decoration: none; /* 去除链接下划线 */
+        }
+
+        /* 导航栏核心 - 顶部通栏 */
+        .header-nav {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 998; 
+            display: flex;
+            justify-content: flex-end; /* 右对齐 */
+            align-items: center;
+            background-color: #2D6234;
+            padding: 15px 20px;
+            border-radius: 0;
+            height: 70px; 
+        }
+
+        /* 导航项容器 */
+        .nav-item {
+            position: relative;
+            margin: 0 10px;
+        }
+
+        /* 主导航链接 */
+        .header-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 20px;
+            font-size: 20px;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+            display: block;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .header-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+       /* 下拉菜单容器样式 */
+               .dropdown {
+                   position: absolute;
+                   top: 100%;
+                   left: 0;
+                   background: rgba(250, 245, 235, 0.95);
+                   border-radius: 6px;
+                   min-width: 120px;
+                   display: none;
+                   box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+                   z-index: 20;
+                   margin-top: 5px;
+                   border: 1px solid rgba(200, 180, 150, 0.3);
+                   padding: 3px 0;
+               }
+       			 
+               /* 下拉菜单内链接样式 */
+               .dropdown a {
+                   padding: 12px 18px;
+                   text-shadow: none;
+       				  color: #5a4028;
+                   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                   font-size: 15px;
+       				 position: relative; /* 为左侧竖杠提供定位参考 */
+       				line-height: 1.4; /* 固定行高，方便竖杠对齐文字 */
+               }
+       
+               /* 下拉菜单最后一个链接取消底部边框 */
+               .dropdown a:last-child {
+                   border-bottom: none;
+               }
+       
+               /* 下拉菜单链接 hover 效果 */
+               .dropdown a:hover {
+                  background: rgba(223, 209, 186, 1.0);
+       				color: #3d2a16;
+               }
+       			.dropdown a:hover::before {
+       			    content: ""; /* 伪元素必填空内容 */
+       			    position: absolute;
+       			    left: 0; /* 贴左侧对齐 */
+       			    /* 垂直居中定位：让竖杠与文字居中对齐，不顶上下边 */
+       			    top: 50%;
+       			    transform: translateY(-50%);
+       			    /* 调整高度：不设100%，改为适配文字高度的固定值（可微调） */
+       			    height: 16px; /* 关键：固定高度，不铺满链接，刚好对应文字高度 */
+       			    width: 2px; /* 竖杠宽度，保持不变 */
+       			    background-color: #a87f4e; /* 古风配色，可按需修改 */
+       			    transition: all 0.2s ease; /* 平滑过渡 */
+       			}
+       
+               /* 悬停导航项时显示下拉菜单 + 触发动画 */
+               .nav-item:hover .dropdown {
+                   display: block;
+                   animation: fadeDown 0.3s ease;
+               }
+       
+               /* 下拉菜单展开动画 */
+               @keyframes fadeDown {
+                   from {
+                       opacity: 0;
+                       transform: translateY(-4px);
+                   }
+                   to {
+                       opacity: 1;
+                       transform: translateY(0);
+                   }
+               }
+       			.nav-item {
+       					position: relative;
+       					}
+        /* 锚点偏移（避免导航栏遮挡） */
+        :target {
+            scroll-margin-top: 80px !important;
+        }
+
+        /* ========== 主体内容样式（保留夏季主题设计） ========== */
+        main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto 60px;
+        }
+
+        /* 标题区域 */
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--color-secondary);
+        }
+
+        .section-title {
+            font-family: "Ma Shan Zheng", cursive;
+            font-size: 2.8rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            letter-spacing: 4px;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--color-text-light);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* 文化列表网格 */
+        .customs-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        /* 文化卡片 */
+        .custom-item {
+            background-color: var(--color-card-bg);
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition-standard);
+            position: relative;
+            border: 1px solid #E0E0E0;
+        }
+
+        .custom-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--color-primary-light), var(--color-secondary));
+            opacity: 0;
+            transition: var(--transition-standard);
+        }
+
+        .custom-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .custom-item:hover::before {
+            opacity: 1;
+        }
+
+        /* 卡片图片容器 */
+        .custom-img-container {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+
+        .custom-img-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.02);
+            mix-blend-mode: multiply;
+        }
+
+        .custom-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-standard);
+            filter: saturate(1.1) contrast(1.05);
+        }
+
+        .custom-item:hover .custom-img {
+            transform: scale(1.08);
+        }
+
+        /* 卡片标签 */
+        .custom-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--color-secondary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+
+        /* 卡片内容 */
+        .custom-content {
+            padding: 25px;
+        }
+
+        .custom-title {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .custom-desc {
+            line-height: 1.7;
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+
+        .custom-read-more {
+            display: inline-block;
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition-standard);
+        }
+
+        .custom-read-more i {
+            margin-left: 5px;
+            transition: var(--transition-standard);
+        }
+
+        .custom-read-more:hover {
+            color: var(--color-primary);
+        }
+
+        .custom-read-more:hover i {
+            margin-left: 8px;
+        }
+
+        /* ========== 响应式适配（移动端） ========== */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+
+            .logo {
+                font-size: 30px;
+                left: 30px;
+                top: 15px;
+            }
+
+            .header-nav {
+                padding: 10px 15px;
+                height: 60px;
+            }
+
+            .header-nav a {
+                font-size: 14px;
+                padding: 6px 10px;
+                margin: 0 5px;
+            }
+
+            .dropdown {
+                min-width: 120px;
+            }
+
+            .dropdown a {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+
+            .customs-list {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+		/* ———— 左侧四季切换书签 · 动感加强版 ———— */
+		.season-bookmark {
+		  position: fixed;
+		  top: 50%;
+		  left: 0;
+		  transform: translateY(-50%);
+		  z-index: 999;
+		  display: flex;
+		  flex-direction: column;
+		  gap: 12px;
+		  padding: 20px 10px;
+		  background: rgba(255, 255, 255, 0.85);
+		  border-radius: 0 14px 14px 0;
+		  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+		  border: 1px solid rgba(0,0,0,0.05);
+		  backdrop-filter: blur(6px);
+		}
+		
+		.season-btn {
+		  writing-mode: vertical-rl;
+		  text-orientation: mixed;
+		  padding: 22px 10px;
+		  font-size: 22px;
+		  font-family: "Ma Shan Zheng", "隶书", "LiSu", serif;
+		  border-radius: 10px;
+		  cursor: pointer;
+		  text-decoration: none;
+		  letter-spacing: 4px;
+		  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+		  position: relative;
+		  overflow: hidden;
+		  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+		}
+		
+		.season-btn:hover {
+		  transform: translateX(6px) scale(1.06);
+		  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+		}
+		
+		.season-btn:active {
+		  transform: translateX(6px) scale(1.02);
+		}
+		
+		.season-btn.active {
+		  transform: translateX(8px);
+		  box-shadow: inset 0 4px 10px rgba(0,0,0,0.2);
+		  font-weight: bold;
+		}
+		
+		.season-btn.spring {
+		  background: #4D724D;
+		  color: #fff;
+		}
+		.season-btn.spring:hover {
+		  background: #7D9D7D;
+		}
+		
+		.season-btn.summer {
+		  background: #3A7D44;
+		  color: #fff;
+		}
+		.season-btn.summer:hover {
+		  background: #61A568;
+		}
+		
+		.season-btn.autumn {
+		  background: #8B4513;
+		  color: #fff;
+		}
+		.season-btn.autumn:hover {
+		  background: #B22222;
+		}
+		
+		.season-btn.winter {
+		  background: #1E3A5F;
+		  color: #fff;
+		}
+		.season-btn.winter:hover {
+		  background: #3D5A80;
+		}
+		
+		@media (max-width: 768px) {
+		  .season-bookmark {
+		    gap: 8px;
+		    padding: 14px 6px;
+		  }
+		  .season-btn {
+		    padding: 16px 6px;
+		    font-size: 18px;
+		  }
+		}
+		/* 主体内容淡入动画 —— 导航栏不变 */
+		main {
+		  opacity: 0;
+		  animation: mainFadeIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		  animation-delay: 0.1s;
+		}
+		
+		@keyframes mainFadeIn {
+		  from {
+		    opacity: 0;
+		    transform: translateY(12px);
+		  }
+		  to {
+		    opacity: 1;
+		    transform: translateY(0);
+		  }
+		}
+    </style>
+</head>
+<body>
+    <!-- ========== 导航栏（和首页完全一致） ========== -->
+    <a href="首页.html" class="logo">廿四风物志</a>
+    <nav class="header-nav">
+        <a href="首页.html">首页</a>
+        
+        <!-- 节气大全下拉菜单 -->
+        <div class="nav-item">
+            <a href="节气大全(二级).html">节气大全</a>
+        </div>
+        
+        <!-- 文化分类下拉菜单 -->
+        <div class="nav-item">
+            <a>文化分类</a>
+            <div class="dropdown">
+                <a href="春季文化.html">春季文化</a>
+                <a href="夏季文化.html">夏季文化</a>
+                <a href="秋季文化.html">秋季文化</a>
+                <a href="冬季文化.html">冬季文化</a>
+            </div>
+        </div>
+        
+        <a href="节气穿搭.html">节气穿搭</a>
+        <a href="关于我们.html">关于我们</a>
+    </nav>
+	<div class="season-bookmark">
+	  <a href="春季文化.html" class="season-btn spring">春</a>
+	  <a href="夏季文化.html" class="season-btn summer active">夏</a>
+	  <a href="秋季文化.html" class="season-btn autumn">秋</a>
+	  <a href="冬季文化.html" class="season-btn winter">冬</a>
+	</div>
+
+    <!-- ========== 主体内容（夏季文化） ========== -->
+    <main>
+        <div class="section-header">
+            <h1 class="section-title">夏季文化</h1>
+            <p class="section-subtitle">清热解暑，品味夏日里的传统智慧</p>
+        </div>
+        <div class="customs-list">
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/三新.jpg" alt="立夏尝新" class="custom-img">
+                    <span class="custom-tag">立夏</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">立夏尝新</h3>
+                    <p class="custom-desc">立夏有“尝新”习俗，人们品尝时令鲜物，如樱桃、青梅、新茶等，寓意迎接夏季的丰收与活力。民间有“立夏尝新，无不称心”的说法。</p>
+                    <a href="文化分类-立夏.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/苦菜.jpg" alt="小满吃苦菜" class="custom-img">
+                    <span class="custom-tag">小满</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">小满吃苦菜</h3>
+                    <p class="custom-desc">小满时节，苦菜生长茂盛。吃苦菜不仅能清热解毒、凉血止血，还带有“吃苦在前，享乐在后”的寓意，提醒人们珍惜当下的辛勤与未来的收获。</p>
+                    <a href="文化分类-小满.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/青梅.jpg" alt="芒种吃青梅" class="custom-img">
+                    <span class="custom-tag">芒种</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">芒种食青梅</h3>
+                    <p class="custom-desc">芒种前后，青梅成熟。民间有煮梅、食梅的习俗。青梅具有生津止渴、开胃消食的功效，能缓解夏季的闷热与食欲不振。</p>
+                    <a href="文化分类-芒种.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/凉面.jpg" alt="夏至吃面" class="custom-img">
+                    <span class="custom-tag">夏至</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">夏至吃凉面</h3>
+                    <p class="custom-desc">“冬至饺子夏至面”，夏至吃凉面是北方重要习俗。凉面清爽可口，能开胃消暑。此外，长长的面条也寓意着长寿，寄托了人们对健康的美好祝愿。</p>
+                    <a href="文化分类-夏至.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/藕.jpg" alt="小暑吃藕" class="custom-img">
+                    <span class="custom-tag">小暑</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">小暑吃藕</h3>
+                    <p class="custom-desc">小暑时节，莲藕正值旺季。莲藕清热生津、健脾开胃，非常适合夏季食用。民间也有“小暑吃藕，清爽过夏”的说法，认为吃藕能带来一夏的清凉。</p>
+                    <a href="文化分类-小暑.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/绿豆汤.jpg" alt="大暑喝绿豆汤" class="custom-img">
+                    <span class="custom-tag">大暑</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">大暑饮绿豆汤</h3>
+                    <p class="custom-desc">大暑是全年最热的节气，民间有喝绿豆汤的习俗。绿豆汤清热解毒、消暑利水，是天然的解暑饮品。喝绿豆汤寓意着驱散炎热，平安度夏。</p>
+                    <a href="文化分类-大暑.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========== 脚本（平滑滚动 + 交互） ========== -->
+    <script>
+        // 平滑滚动（锚点跳转）
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 阻止链接冒泡（避免下拉菜单点击后关闭）
+        document.querySelectorAll('a[href]:not([href^="#"])').forEach(link => {
+            link.addEventListener('click', e => e.stopPropagation());
+        });
+    </script>
+</body>
+</html>

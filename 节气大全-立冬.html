@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>廿四风物志-立冬</title>
+		<style>
+		        * {
+		            margin: 0;
+		            padding: 0;
+		            box-sizing: border-box;
+		            font-family: "微软雅黑", sans-serif;
+		        }
+		        body {
+		            background-color: #f5f0e5;
+		        }
+		        /* 导航栏核心样式 - 顶部通栏 */
+		        .header-nav {
+		            position: fixed; 
+		            top: 0;
+		            left: 0;
+		            right: 0;
+		            z-index: 998; 
+		            display: flex;
+		            justify-content: right; /* 水平靠右对齐 */
+		            align-items: center;
+		            gap: 1px;
+		            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+		            padding: 15px 20px;
+		            border-radius: 0; /* 取消圆角，通栏展示 */
+		            height: 70px; 
+		        }
+		        
+		        /* 导航项容器 - 包裹主菜单+下拉菜单 */
+		        .nav-item {
+		            position: relative;
+		            margin: 0 10px; /* 导航项之间的间距 */
+		        }
+		        
+		        /* 主导航链接基础样式 */
+		        .header-nav a {
+		            color: #fff;
+		            text-decoration: none;
+		            padding: 8px 20px; /* 扩大点击区域 */
+		            font-size: 20px;
+		            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+		            display: block;
+		            transition: background-color 0.3s;
+		            border-radius: 4px;
+		            white-space: nowrap; /* 防止文字换行 */
+		        }
+		        
+		        /* 主导航链接 hover 效果 */
+		        .header-nav a:hover {
+		            background: rgba(255, 255, 255, 0.2);
+		        }
+		        
+		        /* 下拉菜单容器样式 */
+		                     .dropdown {
+		                         position: absolute;
+		                         top: 100%;
+		                         left: 0;
+		                         background: rgba(250, 245, 235, 0.95);
+		                         border-radius: 6px;
+		                         min-width: 120px;
+		                         display: none;
+		                         box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+		                         z-index: 20;
+		                         margin-top: 5px;
+		                         border: 1px solid rgba(200, 180, 150, 0.3);
+		                         padding: 3px 0;
+		                     }
+		        			 
+		                     /* 下拉菜单内链接样式 */
+		                     .dropdown a {
+		                         padding: 12px 18px;
+		                         text-shadow: none;
+		        				  color: #5a4028;
+		                         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		                         font-size: 15px;
+		        				 position: relative; /* 为左侧竖杠提供定位参考 */
+		        				line-height: 1.4; /* 固定行高，方便竖杠对齐文字 */
+		                     }
+		             
+		                     /* 下拉菜单最后一个链接取消底部边框 */
+		                     .dropdown a:last-child {
+		                         border-bottom: none;
+		                     }
+		             
+		                     /* 下拉菜单链接 hover 效果 */
+		                     .dropdown a:hover {
+		                        background: rgba(223, 209, 186, 1.0);
+		        				color: #3d2a16;
+		                     }
+		        			.dropdown a:hover::before {
+		        			    content: ""; /* 伪元素必填空内容 */
+		        			    position: absolute;
+		        			    left: 0; /* 贴左侧对齐 */
+		        			    /* 垂直居中定位：让竖杠与文字居中对齐，不顶上下边 */
+		        			    top: 50%;
+		        			    transform: translateY(-50%);
+		        			    /* 调整高度：不设100%，改为适配文字高度的固定值（可微调） */
+		        			    height: 16px; /* 关键：固定高度，不铺满链接，刚好对应文字高度 */
+		        			    width: 2px; /* 竖杠宽度，保持不变 */
+		        			    background-color: #a87f4e; /* 古风配色，可按需修改 */
+		        			    transition: all 0.2s ease; /* 平滑过渡 */
+		        			}
+		             
+		                     /* 悬停导航项时显示下拉菜单 + 触发动画 */
+		                     .nav-item:hover .dropdown {
+		                         display: block;
+		                         animation: fadeDown 0.3s ease;
+		                     }
+		             
+		                     /* 下拉菜单展开动画 */
+		                     @keyframes fadeDown {
+		                         from {
+		                             opacity: 0;
+		                             transform: translateY(-4px);
+		                         }
+		                         to {
+		                             opacity: 1;
+		                             transform: translateY(0);
+		                         }
+		                     }
+		        			.nav-item {
+		        					position: relative;
+		        					}
+		        
+		        /* 锚点定位偏移（适配导航栏遮挡问题，属于导航栏配套优化） */
+		        :target {
+		            scroll-margin-top: 80px !important;
+		        }
+				.logo {
+				                position: fixed; 
+				                top: 10px;
+				                left: 80px;
+				                font-size: 40px;
+				                font-family: "隶书", "LiSu", serif;
+				                color: #fff;
+				                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+				                font-weight: normal;
+				                z-index: 1000; 
+				            }
+		        /* 头部背景图 */
+		        .header-bg {
+		            height: 450px;
+		            background: url('img/立冬（1）.jpg');
+		            background-size: cover;
+		            background-position: center;
+		        }
+		        /* 内容区域 */
+		        .content {
+		            max-width: 1200px;
+		            margin: -20px auto 40px;
+		            padding: 30px;
+		            background-color: #f5f0e5;
+		            border-radius: 10px;
+		            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		        }
+		        .title {
+		            font-size: 36px;
+		            color: #3D5A80;
+		            margin-bottom: 20px;
+		            font-family: "楷体", serif;
+		        }
+		        .date {
+		            text-align: right;
+		            font-size: 25px;
+		            color: #3D5A80;
+		            margin-bottom: 30px;
+					font-family:"Ma Shan Zheng", cursive;
+		        }
+		        .row {
+		            display: flex;
+		            flex-wrap: wrap;
+		            gap: 30px;
+		            margin-bottom: 30px;
+		        }
+		        .col {
+		            flex: 1;
+		            min-width: 300px;
+		        }
+		        .section-title {
+		            display: inline-block;
+		            background-color: #3D5A80;
+		            color: #fff;
+		            padding: 8px 20px;
+		            border-radius: 20px;
+		            font-family: "楷体", serif;
+		            font-size: 20px;
+		            margin-bottom: 15px;
+		        }
+		        .section-content {
+		            font-size: 16px;
+		            line-height: 1.8;
+		            color: #333;
+		        }
+		        .section-image {
+		            width: 100%;
+		            border-radius: 8px;
+		            margin-top: 10px;
+		        }
+				
+		    </style>
+	</head>
+	<body>
+		 <div class="logo">廿四风物志</div>
+		     <!-- 重构后的导航栏 - 带下拉菜单 -->
+		             <nav class="header-nav">
+		                 <a href="首页.html">首页</a >
+		                 
+		                <!-- 节气大全下拉菜单 -->
+		                <div class="nav-item">
+		                    <a href="节气大全(二级).html">节气大全</a>
+		                    
+		                </div>
+		                 
+		                <!-- 文化分类下拉菜单 -->
+		                <div class="nav-item">
+		                    <a>文化分类</a>
+		                    <div class="dropdown">
+		                        <a href="春季文化.html">春季文化</a>
+		                        <a href="夏季文化.html">夏季文化</a>
+		                        <a href="秋季文化.html">秋季文化</a>
+		                        <a href="冬季文化.html">冬季文化</a>
+		                    </div>
+		                </div>
+		                 
+		                 <a href="节气穿搭.html">节气穿搭</a >
+		                 <a href="关于我们.html">关于我们</a >
+		             </nav>
+		         </header>
+		 </div>
+		    <!-- 头部背景图 -->
+		    <div class="header-bg"></div>
+		    <!-- 内容区域 -->
+		    <div class="content">
+		        <h1 class="title">二十四节气·立冬</h1>
+		        <div class="date">每年11月7日-8日</div>
+		        <div class="row">
+		            <div class="col">
+		                <div class="section-title">节气简介</div>
+		                <div class="section-content">
+		                    立冬，为二十四节气之第十九节气，冬季之首节，又名“寒衣节”“冬节”。立，是“确立、开始”之意；冬，代表“闭藏、休养”。此时太阳到达黄经225°，天地间阳气渐收、阴气渐长，万物进入休养、收藏的状态。立冬不仅是季节的转折点，更承载着古人“秋收冬藏”的生存智慧，标志着寒冬的正式开启。
+		                </div>
+		                <img src="img/立冬（2）.jpg" alt="立冬景象" class="section-image" width="220px" height="300px">
+						
+						<div class="section-title">发展历程</div>
+						<div class="section-content">
+							立冬的节气内涵源于上古农耕文明，在传统社会中占据重要地位。秦汉时期，立冬已成为明确的岁时节点，朝廷会举行“迎冬”典礼，君臣穿黑色礼服、祭祀黑帝颛顼，以顺应冬气；民间则以立冬为农事收尾的标志，完成作物归仓、牲畜越冬准备，并通过“祭冬神”“卜岁”“饮冬酒”等仪式祈祷平安。随着时代演变，“补冬”“吃饺子”等习俗延续至今，成为立冬文化的核心载体。
+						</div>
+						<img src="img/立冬（3）.jpg" alt="立冬景象" class="section-image" width="220px" height="300px">
+						
+		            </div>
+		            <div class="col">
+		                <img src="img/立冬（4）.jpg" alt="立冬景象" class="section-image" width="220px" height="300px">
+		                <div class="section-title">气象变化</div>
+		                <div class="section-content">
+		                    立冬时节，亚洲大陆冷空气活动愈发频繁，蒙古冷高压势力增强，北方冷空气不断向南扩散，我国大部气温呈“断崖式”下降。北方地区气温多跌至0℃以下，开始出现初雪和冻土现象；南方虽未严寒，但气温显著回落，空气湿度降低、天气干燥，风力由偏暖转为偏寒。此时寒潮、霜冻等灾害性天气增多，昼夜温差进一步拉大，整体呈现“干冷、风劲、昼短夜长”的气候特征。
+		                </div>
+						<img src="img/立冬（5）.jpg" alt="立冬景象" class="section-image" width="220px" height="300px">
+						<div class="section-title">物候现象</div>
+						<div class="section-content">
+						   中国古代将立冬的十五天分为三候，精准概括了节气物候变化：“一候水始冰，二候地始冻，三候雉入大水为蜃”。一候水始冰，指北方江河开始凝结薄冰，水面渐次冰封；二候地始冻，土壤中的水分因低温冻结，地表变得坚硬；三候雉入大水为蜃，冬日难觅雉鸟踪迹，古人便附会其“潜入江海化为大蛤”，实则是鸟类迁徙或蛰伏、万物闭藏的自然现象，充满浪漫的生活联想。
+						</div>
+		            </div>
+					
+		    </div>
+	</body>
+</html>

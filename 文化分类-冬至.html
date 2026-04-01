@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>冬至 - 廿四风物志</title>
+    <!-- 引入外部字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* --- 基础与变量 (保留冬季主题适配色) --- */
+        :root {
+            --color-primary: #1E3A5F;    /* 深海蓝 - 主色调 */
+            --color-primary-light: #3D5A80;/* 冰蓝色 - 主色调浅色 */
+            --color-secondary: #FF6B6B;  /* 冬日红 - 辅助色 (节日氛围) */
+            --color-secondary-light: #FF9E7D;/* 淡珊瑚 - 辅助色浅色 */
+            --color-text: #333333;       /* 墨黑 - 正文颜色 */
+            --color-text-light: #6B6B6B; /* 灰墨 - 次要文本颜色 */
+            --color-bg: #F8F9FA;         /* 雪花白 - 背景色 */
+            --color-card-bg: #FFFFFF;    /* 瓷白 - 卡片背景 */
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.8;
+            padding-top: 70px; /* 适配统一导航栏高度 */
+            scroll-behavior: smooth;
+        }
+
+        /* ========== 导航栏样式（和首页完全一致） ========== */
+        /* Logo样式 */
+        .logo {
+            position: fixed; 
+            top: 0px;
+            left: 80px;
+            font-size: 40px;
+            font-family: "隶书", "LiSu", serif;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            font-weight: normal;
+            z-index: 1000; 
+            text-decoration: none; /* 去除链接下划线 */
+        }
+
+        /* 导航栏核心 - 顶部通栏 */
+        .header-nav {
+            position: fixed; 
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 998; 
+            display: flex;
+            justify-content: flex-end; /* 右对齐 */
+            align-items: center;
+            background-color: #14284A;
+            padding: 15px 20px;
+            border-radius: 0;
+            height: 70px; 
+        }
+
+        /* 导航项容器 */
+        .nav-item {
+            position: relative;
+            margin: 0 10px;
+        }
+
+        /* 主导航链接 */
+        .header-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 20px;
+            font-size: 20px;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+            display: block;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .header-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 下拉菜单容器样式 */
+                     .dropdown {
+                         position: absolute;
+                         top: 100%;
+                         left: 0;
+                         background: rgba(250, 245, 235, 0.95);
+                         border-radius: 6px;
+                         min-width: 120px;
+                         display: none;
+                         box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+                         z-index: 20;
+                         margin-top: 5px;
+                         border: 1px solid rgba(200, 180, 150, 0.3);
+                         padding: 3px 0;
+                     }
+        			 
+                     /* 下拉菜单内链接样式 */
+                     .dropdown a {
+                         padding: 12px 18px;
+                         text-shadow: none;
+        				  color: #5a4028;
+                         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                         font-size: 15px;
+        				 position: relative; /* 为左侧竖杠提供定位参考 */
+        				line-height: 1.4; /* 固定行高，方便竖杠对齐文字 */
+                     }
+             
+                     /* 下拉菜单最后一个链接取消底部边框 */
+                     .dropdown a:last-child {
+                         border-bottom: none;
+                     }
+             
+                     /* 下拉菜单链接 hover 效果 */
+                     .dropdown a:hover {
+                        background: rgba(223, 209, 186, 1.0);
+        				color: #3d2a16;
+                     }
+        			.dropdown a:hover::before {
+        			    content: ""; /* 伪元素必填空内容 */
+        			    position: absolute;
+        			    left: 0; /* 贴左侧对齐 */
+        			    /* 垂直居中定位：让竖杠与文字居中对齐，不顶上下边 */
+        			    top: 50%;
+        			    transform: translateY(-50%);
+        			    /* 调整高度：不设100%，改为适配文字高度的固定值（可微调） */
+        			    height: 16px; /* 关键：固定高度，不铺满链接，刚好对应文字高度 */
+        			    width: 2px; /* 竖杠宽度，保持不变 */
+        			    background-color: #a87f4e; /* 古风配色，可按需修改 */
+        			    transition: all 0.2s ease; /* 平滑过渡 */
+        			}
+             
+                     /* 悬停导航项时显示下拉菜单 + 触发动画 */
+                     .nav-item:hover .dropdown {
+                         display: block;
+                         animation: fadeDown 0.3s ease;
+                     }
+             
+                     /* 下拉菜单展开动画 */
+                     @keyframes fadeDown {
+                         from {
+                             opacity: 0;
+                             transform: translateY(-4px);
+                         }
+                         to {
+                             opacity: 1;
+                             transform: translateY(0);
+                         }
+                     }
+        			.nav-item {
+        					position: relative;
+        					}
+        /* 锚点偏移（避免导航栏遮挡） */
+        :target {
+            scroll-margin-top: 80px !important;
+        }
+
+        /* ========== 主体内容样式（保持原布局，替换冬至内容） ========== */
+        main {
+            width: 90%;
+            max-width: 900px; /* 内容宽度更窄，便于阅读 */
+            margin: 30px auto 80px;
+            background-color: var(--color-card-bg);
+            border-radius: var(--radius-medium);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden; /* 确保内部元素的圆角生效 */
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .content-container {
+            padding: 40px 50px;
+        }
+
+        .节气-header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--color-secondary-light);
+            padding-bottom: 20px;
+        }
+
+        .节气-title {
+            font-family: "Ma Shan Zheng", cursive;
+            font-size: 2.8rem;
+            color: var(--color-primary);
+            margin-bottom: 10px;
+        }
+
+        .节气-time {
+            color: var(--color-text-light);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .节气-quote {
+            font-size: 1.1rem;
+            color: var(--color-secondary);
+            font-weight: bold;
+        }
+        
+        .content-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-family: "Noto Serif SC", serif;
+            font-size: 1.6rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 4px solid var(--color-secondary);
+        }
+
+        .content-section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        .food-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .food-item {
+            background-color: var(--color-bg);
+            border-radius: var(--radius-small);
+            padding: 15px;
+            text-align: center;
+            transition: var(--transition-standard);
+        }
+
+        .food-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-soft);
+        }
+
+        .food-icon {
+            font-size: 2rem;
+            color: var(--color-secondary);
+            margin-bottom: 10px;
+        }
+
+        .food-name {
+            font-weight: bold;
+            color: var(--color-primary);
+            margin-bottom: 5px;
+        }
+        
+        .poem-section {
+            background-color: var(--color-bg);
+            border-radius: var(--radius-small);
+            padding: 25px;
+            font-style: italic;
+        }
+		
+        .poem-section p {
+            text-align: center !important; /* 强制居中，覆盖 justify */
+            margin-left: auto !important;
+            margin-right: auto !important;
+            text-justify: none; /* 取消两端对齐 */
+            line-height: 1.8; /* 可选：优化古诗行高 */
+		}
+		
+        .poem-title {
+            font-weight: bold;
+            font-style: normal;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+        
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-weight: bold;
+            transition: var(--transition-standard);
+        }
+
+        .back-link:hover {
+            color: var(--color-primary);
+        }
+
+        /* ========== 响应式适配（移动端） ========== */
+        @media (max-width: 768px) {
+            body {
+                padding-top: 60px;
+            }
+
+            .logo {
+                font-size: 30px;
+                left: 30px;
+                top: 15px;
+            }
+
+            .header-nav {
+                padding: 10px 15px;
+                height: 60px;
+            }
+
+            .header-nav a {
+                font-size: 14px;
+                padding: 6px 10px;
+                margin: 0 5px;
+            }
+
+            .dropdown {
+                min-width: 120px;
+            }
+
+            .dropdown a {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+
+            .content-container {
+                padding: 30px 20px;
+            }
+            
+            .节气-title {
+                font-size: 2.2rem;
+            }
+            
+            .food-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ========== 导航栏（和首页完全一致） ========== -->
+    <a href="index.html" class="logo">廿四风物志</a>
+    <nav class="header-nav">
+        <a href="首页.html">首页</a>
+        
+        <!-- 节气大全下拉菜单 -->
+        <div class="nav-item">
+            <a href="index.html#terms-all">节气大全</a>
+            
+        </div>
+        
+        <!-- 文化分类下拉菜单 -->
+        <div class="nav-item">
+            <a>文化分类</a>
+            <div class="dropdown">
+                <a href="春季文化.html">春季文化</a>
+                <a href="夏季文化.html">夏季文化</a>
+                <a href="秋季文化.html">秋季文化</a>
+                <a href="冬季文化.html">冬季文化</a>
+            </div>
+        </div>
+        
+        <a href="节气穿搭.html">节气穿搭</a>
+        <a href="关于我们.html">关于我们</a>
+    </nav>
+
+    <!-- ========== 主体内容（替换为冬至专属内容） ========== -->
+    <main>
+        <img src="img/头部冬至.png" alt="冬至" class="hero-image">
+        <div class="content-container">
+            <div class="节气-header">
+                <h1 class="节气-title">冬至</h1>
+                <div class="节气-time">每年12月21-23日，太阳到达黄经270°</div>
+                <div class="节气-quote">"冬至大如年，人间小团圆"</div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">食俗文化</h2>
+                <p>冬至是冬季最重要的节气，兼具自然与人文双重内涵，素有“冬至大如年”的说法。此时昼最短夜最长，民间形成了围绕“团圆”“温补”的丰富习俗传统。</p>
+                
+                <div class="food-grid">
+                    <div class="food-item">
+                        <div class="food-icon"><i class="fas fa-circle"></i></div>
+                        <h3 class="food-name">南方食汤圆</h3>
+                        <p>南方传统习俗，汤圆圆润软糯，寓意“团团圆圆”“圆圆满满”。部分地区有“吃了冬至圆，多了一岁”的说法，暗含辞旧迎新、平安顺遂的美好祈愿。</p>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon"><i class="fas fa-utensils"></i></div>
+                        <h3 class="food-name">北方吃饺子</h3>
+                        <p>北方经典习俗，“冬至不吃饺，冻掉耳朵没人管”。饺子形似耳朵，既应景御寒，又因“饺”通“交”，象征“阴极之至，阳气始生”的阴阳交替之意。</p>
+                    </div>
+                    <div class="food-item">
+                        <div class="food-icon"><i class="fas fa-fire"></i></div>
+                        <h3 class="food-name">数九消寒</h3>
+                        <p>冬至起进入“数九寒天”，民间流行“九九消寒图”（填字/画梅），每日填一笔或染一瓣，待九九八十一日完成时春回大地，是冬日里充满仪式感的民俗活动。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-section">
+                <h2 class="section-title">养生小贴士</h2>
+                <p>冬至养生遵循“冬藏”核心，此时阳气最弱、阴气最盛，养生重点在于温补阳气、敛阴护精，为来年阳气生发积蓄能量。</p>
+                <ul style="padding-left: 20px; margin-bottom: 15px;">
+                    <li><strong>饮食调养：</strong> 宜温补忌寒凉，多吃羊肉、牛肉、桂圆、核桃等温热性食物，搭配萝卜、白菜等疏泄食材，避免滋腻碍胃，兼顾温补与消化。</li>
+                    <li><strong>起居调养：</strong> 早睡晚起，保证充足睡眠以养阳气；注意全身保暖，重点防护颈肩、腰腹、足底，避免寒邪入侵经络，引发不适。</li>
+                    <li><strong>精神调养：</strong> 保持情绪平和内敛，避免烦躁、抑郁等不良情绪；可通过室内品茶、练字、听琴等静雅活动调节身心，顺应“冬藏”之性。</li>
+                </ul>
+            </div>
+
+            <div class="content-section poem-section">
+                <h2 class="section-title">相关诗句</h2>
+                <p class="poem-title">《冬至》· 杜甫</p>
+                <p>年年至日长为客，忽忽穷愁泥杀人。</p>
+                <p>江上形容吾独老，天边风俗自相亲。</p>
+                <p>杖藜雪后临丹壑，鸣玉朝来散紫宸。</p>
+                <p>心折此时无一寸，路迷何处见三秦。</p>
+            </div>
+            
+            <a href="冬季文化.html" class="back-link"><i class="fas fa-arrow-left"></i> 返回冬季文化</a>
+        </div>
+    </main>
+
+    <!-- ========== 脚本（平滑滚动 + 交互优化） ========== -->
+    <script>
+        // 平滑滚动（锚点跳转）
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // 阻止链接冒泡（避免下拉菜单点击后关闭）
+        document.querySelectorAll('a[href]:not([href^="#"])').forEach(link => {
+            link.addEventListener('click', e => e.stopPropagation());
+        });
+    </script>
+</body>
+</html>

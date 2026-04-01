@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>廿四风物志 - 春季文化</title>
+    <style>
+        /* --- 基础与变量 --- */
+        :root {
+            --color-primary: #4D724D;    /* 雅竹青 - 主色调 */
+            --color-primary-light: #7D9D7D;/* 浅竹青 - 主色调浅色 */
+            --color-secondary: #D9B38C;  /* 桃花坞 - 辅助色 */
+            --color-secondary-light: #F2D4B1;/* 淡粉桃 - 辅助色浅色 */
+            --color-text: #3A3A3A;       /* 墨黑 - 正文颜色 */
+            --color-text-light: #6B6B6B; /* 灰墨 - 次要文本颜色 */
+            --color-bg: #F9F6F0;         /* 宣纸白 - 背景色 */
+            --color-card-bg: #FFFFFF;    /* 瓷白 - 卡片背景 */
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.05);
+            --shadow-medium: 0 8px 30px rgba(0, 0, 0, 0.1);
+            --radius-small: 8px;
+            --radius-medium: 12px;
+            --transition-standard: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+		
+		/* 主体内容淡入动画 —— 导航栏不变 */
+		main {
+		  opacity: 0;
+		  animation: mainFadeIn 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+		  animation-delay: 0.1s;
+		}
+		
+		@keyframes mainFadeIn {
+		  from {
+		    opacity: 0;
+		    transform: translateY(12px);
+		  }
+		  to {
+		    opacity: 1;
+		    transform: translateY(0);
+		  }
+		}
+
+        body {
+            font-family: "Noto Serif SC", "Source Han Serif SC", "SimSun", serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            line-height: 1.7;
+            padding-top: 70px; 
+        }
+
+        /* --- 导航栏核心样式 - 顶部通栏 --- */
+       .header-nav {
+           position: fixed; 
+           top: 0;
+           left: 0;
+           right: 0;
+           z-index: 998; 
+           display: flex;
+           justify-content: flex-end; /* 右对齐 */
+           align-items: center;
+           background-color: #557150;
+           padding: 15px 20px;
+           border-radius: 0;
+           height: 70px; 
+       }
+
+        /* 导航项容器 - 包裹主菜单+下拉菜单 */
+        .nav-item {
+            position: relative;
+            margin: 0 4.8px; /* 导航项之间的间距 */
+        }
+
+        /* 主导航链接基础样式 */
+        .header-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 20px; /* 扩大点击区域 */
+            font-size: 20px;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+            display: block;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+            white-space: nowrap; /* 防止文字换行 */
+        }
+
+        /* 主导航链接 hover 效果 */
+        .header-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+     /* 下拉菜单容器样式 */
+             .dropdown {
+                 position: absolute;
+                 top: 100%;
+                 left: 0;
+                 background: rgba(250, 245, 235, 0.95);
+                 border-radius: 6px;
+                 min-width: 120px;
+                 display: none;
+                 box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+                 z-index: 20;
+                 margin-top: 5px;
+                 border: 1px solid rgba(200, 180, 150, 0.3);
+                 padding: 3px 0;
+             }
+			 
+             /* 下拉菜单内链接样式 */
+             .dropdown a {
+                 padding: 12px 18px;
+                 text-shadow: none;
+				  color: #5a4028;
+                 border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                 font-size: 15px;
+				 position: relative; /* 为左侧竖杠提供定位参考 */
+				line-height: 1.4; /* 固定行高，方便竖杠对齐文字 */
+             }
+     
+             /* 下拉菜单最后一个链接取消底部边框 */
+             .dropdown a:last-child {
+                 border-bottom: none;
+             }
+     
+             /* 下拉菜单链接 hover 效果 */
+             .dropdown a:hover {
+                background: rgba(223, 209, 186, 1.0);
+				color: #3d2a16;
+             }
+			.dropdown a:hover::before {
+			    content: ""; /* 伪元素必填空内容 */
+			    position: absolute;
+			    left: 0; /* 贴左侧对齐 */
+			    /* 垂直居中定位：让竖杠与文字居中对齐，不顶上下边 */
+			    top: 50%;
+			    transform: translateY(-50%);
+			    /* 调整高度：不设100%，改为适配文字高度的固定值（可微调） */
+			    height: 16px; /* 关键：固定高度，不铺满链接，刚好对应文字高度 */
+			    width: 2px; /* 竖杠宽度，保持不变 */
+			    background-color: #a87f4e; /* 古风配色，可按需修改 */
+			    transition: all 0.2s ease; /* 平滑过渡 */
+			}
+     
+             /* 悬停导航项时显示下拉菜单 + 触发动画 */
+             .nav-item:hover .dropdown {
+                 display: block;
+                 animation: fadeDown 0.3s ease;
+             }
+     
+             /* 下拉菜单展开动画 */
+             @keyframes fadeDown {
+                 from {
+                     opacity: 0;
+                     transform: translateY(-4px);
+                 }
+                 to {
+                     opacity: 1;
+                     transform: translateY(0);
+                 }
+             }
+			.nav-item {
+					position: relative;
+					}
+        /* 锚点定位偏移（适配导航栏遮挡问题，属于导航栏配套优化） */
+        :target {
+            scroll-margin-top: 80px !important;
+        }
+
+        /* logo样式适配 */
+        .logo {
+            position: fixed; 
+            top: 0px;
+            left: 80px;
+            font-size: 40px;
+            font-family: "隶书", "LiSu", serif;
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            font-weight: normal;
+            z-index: 1000; 
+            text-decoration: none;
+        }
+
+        /* --- 主体内容 Main --- */
+        main {
+            width: 90%;
+            max-width: 1200px;
+            margin: 40px auto 60px;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 50px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+        
+        .section-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background-color: var(--color-secondary);
+        }
+
+        .section-title {
+            font-family: "Ma Shan Zheng", cursive;
+            font-size: 2.8rem;
+            color: var(--color-primary);
+            margin-bottom: 15px;
+            letter-spacing: 4px;
+        }
+        
+        .section-subtitle {
+            font-size: 1rem;
+            color: var(--color-text-light);
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        .customs-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 30px;
+        }
+
+        .custom-item {
+            background-color: var(--color-card-bg);
+            border-radius: var(--radius-medium);
+            overflow: hidden;
+            box-shadow: var(--shadow-soft);
+            transition: var(--transition-standard);
+            position: relative;
+            border: 1px solid #E0E0E0;
+        }
+        
+        .custom-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--color-primary-light), var(--color-secondary));
+            opacity: 0;
+            transition: var(--transition-standard);
+        }
+
+        .custom-item:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-medium);
+        }
+        
+        .custom-item:hover::before {
+            opacity: 1;
+        }
+
+        .custom-img-container {
+            position: relative;
+            height: 220px;
+            overflow: hidden;
+        }
+		
+		.custom-img {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: cover;
+		    transition: var(--transition-standard);
+		    filter: saturate(1.05) contrast(1.05);
+		}
+		
+        
+        .custom-img-container::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0,0,0,0.03);
+            mix-blend-mode: multiply;
+        }
+
+        .custom-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition-standard);
+            filter: saturate(1.05) contrast(1.05);
+        }
+        
+        .custom-item:hover .custom-img {
+            transform: scale(1.08);
+        }
+        
+        .custom-tag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: var(--color-secondary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            z-index: 1;
+        }
+
+        .custom-content {
+            padding: 25px;
+        }
+
+        .custom-title {
+            font-size: 1.5rem;
+            color: var(--color-primary);
+            margin-bottom: 12px;
+            font-family: "Noto Serif SC", serif;
+            font-weight: 700;
+            line-height: 1.3;
+        }
+
+        .custom-desc {
+            line-height: 1.7;
+            color: var(--color-text-light);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        
+        .custom-read-more {
+            display: inline-block;
+            color: var(--color-secondary);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: var(--transition-standard);
+        }
+        
+        .custom-read-more i {
+            margin-left: 5px;
+            transition: var(--transition-standard);
+        }
+        
+        .custom-read-more:hover {
+            color: var(--color-primary);
+        }
+        
+        .custom-read-more:hover i {
+            margin-left: 8px;
+        }
+
+        /* --- 响应式设计 --- */
+        @media (max-width: 768px) {
+            .header-nav {
+                padding: 10px 15px;
+                height: 60px;
+            }
+            .header-nav a {
+                margin: 0 5px;
+                font-size: 14px;
+                padding: 6px 10px;
+            }
+            .dropdown {
+                min-width: 120px;
+            }
+            .dropdown a {
+                padding: 10px 15px;
+                font-size: 13px;
+            }
+            .logo {
+                font-size: 30px;
+                left: 30px;
+                top: 15px;
+            }
+            body {
+                padding-top: 60px;
+            }
+            .customs-list {
+                grid-template-columns: 1fr;
+            }
+            .section-title {
+                font-size: 2.2rem;
+            }
+        }
+		/* ———— 左侧四季切换书签 · 动感加强版 ———— */
+		.season-bookmark {
+		  position: fixed;
+		  top: 50%;
+		  left: 0;
+		  transform: translateY(-50%);
+		  z-index: 999;
+		  display: flex;
+		  flex-direction: column;
+		  gap: 12px;
+		  padding: 20px 10px;
+		  background: rgba(255, 255, 255, 0.85);
+		  border-radius: 0 14px 14px 0;
+		  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+		  border: 1px solid rgba(0,0,0,0.05);
+		  backdrop-filter: blur(6px);
+		}
+		
+		/* 季节按钮 - 更大、更古风、动画更强 */
+		.season-btn {
+		  writing-mode: vertical-rl;
+		  text-orientation: mixed;
+		  padding: 22px 10px;
+		  font-size: 22px;
+		  /* 这里换成你页面同款字体，更协调 */
+		  font-family: "Ma Shan Zheng", "隶书", "LiSu", serif;
+		  border-radius: 10px;
+		  cursor: pointer;
+		  text-decoration: none;
+		  letter-spacing: 4px;
+		  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+		  position: relative;
+		  overflow: hidden;
+		  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+		}
+		
+		/* 动态 hover 放大 + 发光 */
+		.season-btn:hover {
+		  transform: translateX(6px) scale(1.06);
+		  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+		}
+		
+		/* 点击动效 */
+		.season-btn:active {
+		  transform: translateX(6px) scale(1.02);
+		}
+		
+		/* 当前季节高亮 + 立体下沉 */
+		.season-btn.active {
+		  transform: translateX(8px);
+		  box-shadow: inset 0 4px 10px rgba(0,0,0,0.2);
+		  font-weight: bold;
+		}
+		
+		/* 春季 */
+		.season-btn.spring {
+		  background: #4D724D;
+		  color: #fff;
+		}
+		.season-btn.spring:hover {
+		  background: #7D9D7D;
+		}
+		
+		/* 夏季 */
+		.season-btn.summer {
+		  background: #3A7D44;
+		  color: #fff;
+		}
+		.season-btn.summer:hover {
+		  background: #61A568;
+		}
+		
+		/* 秋季 */
+		.season-btn.autumn {
+		  background: #8B4513;
+		  color: #fff;
+		}
+		.season-btn.autumn:hover {
+		  background: #B22222;
+		}
+		
+		/* 冬季 */
+		.season-btn.winter {
+		  background: #1E3A5F;
+		  color: #fff;
+		}
+		.season-btn.winter:hover {
+		  background: #3D5A80;
+		}
+		
+		/* 移动端适配 */
+		@media (max-width: 768px) {
+		  .season-bookmark {
+		    gap: 8px;
+		    padding: 14px 6px;
+		  }
+		  .season-btn {
+		    padding: 16px 6px;
+		    font-size: 18px;
+		  }
+		}
+
+    </style>
+    <!-- 引入外部字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- logo单独放置 -->
+    <a href="首页.html" class="logo">廿四风物志</a>
+    
+    <!-- 导航栏 -->
+    <nav class="header-nav">
+        <div class="nav-item"><a href="首页.html">首页</a></div>
+        <div class="nav-item">
+            <a href="节气大全(二级).html">节气大全</a>
+        </div>
+        <div class="nav-item">
+            <a>文化分类</a>
+            <div class="dropdown">
+                <a href="春季文化.html">春季文化</a>
+                <a href="夏季文化.html">夏季文化</a>
+                <a href="秋季文化.html">秋季文化</a>
+                <a href="冬季文化.html">冬季文化</a>
+            </div>
+        </div>
+        <div class="nav-item"><a href="节气穿搭.html">节气穿搭</a></div>
+        <div class="nav-item"><a href="关于我们.html">关于我们</a></div>
+    </nav>
+	
+	<!-- 左侧四季书签 -->
+	<div class="season-bookmark">
+	  <a href="春季文化.html" class="season-btn spring active">春</a>
+	  <a href="夏季文化.html" class="season-btn summer">夏</a>
+	  <a href="秋季文化.html" class="season-btn autumn">秋</a>
+	  <a href="冬季文化.html" class="season-btn winter">冬</a>
+	</div>
+
+    <main>
+        <div class="section-header">
+            <h1 class="section-title">春季文化</h1>
+            <p class="section-subtitle">品味时令，感受传统文化的温度</p>
+        </div>
+        <div class="customs-list">
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/春饼.jpg" alt="立春吃春饼" class="custom-img">
+                    <span class="custom-tag">立春</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">咬春吃春饼</h3>
+                    <p class="custom-desc">立春时节，民间有“咬春”习俗，吃春饼寓意咬住春天，祈求新岁顺遂。春饼卷着合菜（豆芽、韭菜、粉丝等），口感清爽，象征迎春纳福。</p>
+                    <a href="文化分类-立春.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/龙须面.jpg" alt="雨水吃龙须面" class="custom-img">
+                    <span class="custom-tag">雨水</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">品龙须面</h3>
+                    <p class="custom-desc">雨水节气，北方有吃龙须面的习俗。龙须面纤细如丝，寓意顺顺当当、长长久久。搭配鲜嫩的春笋、虾仁烹制，口感爽滑，应和春日水润之气。</p>
+                    <a href="文化分类-雨水.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/梨汤.jpg" alt="惊蛰吃梨" class="custom-img">
+                    <span class="custom-tag">惊蛰</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">惊蛰吃梨</h3>
+                    <p class="custom-desc">惊蛰时节，乍暖还寒，气候干燥。民间认为吃梨能润肺止咳、清热解毒。也有“惊蛰吃梨，一年都精神”的说法，寓意着驱散冬日的沉闷，迎接生机勃勃的春天。</p>
+                    <a href="文化分类-惊蛰.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/春菜.jpg" alt="春分吃春菜" class="custom-img">
+                    <span class="custom-tag">春分</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">食春菜</h3>
+                    <p class="custom-desc">春分日，岭南一带流行“吃春菜”。春菜是一种野苋菜，与鱼片滚汤，名曰“春汤”。民间有谚：“春汤灌脏，洗涤肝肠。阖家老少，平安健康。”</p>
+                    <a href="文化分类-春分.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/青团.jpg" alt="清明吃青团" class="custom-img">
+                    <span class="custom-tag">清明</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">食青团</h3>
+                    <p class="custom-desc">清明时节，江南地区必吃青团。以艾草汁拌糯米粉，包入豆沙、咸蛋黄肉松等馅料，色泽青绿，软糯清香，既是节令食品，也寄托对先人的思念。</p>
+                    <a href="文化分类-清明.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="custom-item">
+                <div class="custom-img-container">
+                    <img src="img/品茶.jpg" alt="谷雨喝茶" class="custom-img">
+                    <span class="custom-tag">谷雨</span>
+                </div>
+                <div class="custom-content">
+                    <h3 class="custom-title">品谷雨茶</h3>
+                    <p class="custom-desc">谷雨是春季最后一个节气，此时采摘的茶叶鲜嫩，称为“谷雨茶”。民间认为喝谷雨茶能清火、辟邪、明目。南方有“谷雨摘茶习俗，传说这天的茶喝了会更聪明。</p>
+                    <a href="文化分类-谷雨.html" class="custom-read-more">了解更多 <i class="fas fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 平滑滚动脚本 -->
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

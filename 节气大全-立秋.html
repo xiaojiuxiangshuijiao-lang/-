@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>廿四风物志-立秋</title>
+		<style>
+		        * {
+		            margin: 0;
+		            padding: 0;
+		            box-sizing: border-box;
+		            font-family: "微软雅黑", sans-serif;
+		        }
+		        body {
+		            background-color: #f5f0e5;
+		        }
+		        /* 导航栏核心样式 - 顶部通栏 */
+		        .header-nav {
+		            position: fixed; 
+		            top: 0;
+		            left: 0;
+		            right: 0;
+		            z-index: 998; 
+		            display: flex;
+		            justify-content: right; /* 水平靠右对齐 */
+		            align-items: center;
+		            gap: 1px;
+		            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+		            padding: 15px 20px;
+		            border-radius: 0; /* 取消圆角，通栏展示 */
+		            height: 70px; 
+		        }
+		        
+		        /* 导航项容器 - 包裹主菜单+下拉菜单 */
+		        .nav-item {
+		            position: relative;
+		            margin: 0 10px; /* 导航项之间的间距 */
+		        }
+		        
+		        /* 主导航链接基础样式 */
+		        .header-nav a {
+		            color: #fff;
+		            text-decoration: none;
+		            padding: 8px 20px; /* 扩大点击区域 */
+		            font-size: 20px;
+		            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+		            display: block;
+		            transition: background-color 0.3s;
+		            border-radius: 4px;
+		            white-space: nowrap; /* 防止文字换行 */
+		        }
+		        
+		        /* 主导航链接 hover 效果 */
+		        .header-nav a:hover {
+		            background: rgba(255, 255, 255, 0.2);
+		        }
+		        
+		       /* 下拉菜单容器样式 */
+		               .dropdown {
+		                   position: absolute;
+		                   top: 100%;
+		                   left: 0;
+		                   background: rgba(250, 245, 235, 0.95);
+		                   border-radius: 6px;
+		                   min-width: 120px;
+		                   display: none;
+		                   box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+		                   z-index: 20;
+		                   margin-top: 5px;
+		                   border: 1px solid rgba(200, 180, 150, 0.3);
+		                   padding: 3px 0;
+		               }
+		       			 
+		               /* 下拉菜单内链接样式 */
+		               .dropdown a {
+		                   padding: 12px 18px;
+		                   text-shadow: none;
+		       				  color: #5a4028;
+		                   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		                   font-size: 15px;
+		       				 position: relative; /* 为左侧竖杠提供定位参考 */
+		       				line-height: 1.4; /* 固定行高，方便竖杠对齐文字 */
+		               }
+		       
+		               /* 下拉菜单最后一个链接取消底部边框 */
+		               .dropdown a:last-child {
+		                   border-bottom: none;
+		               }
+		       
+		               /* 下拉菜单链接 hover 效果 */
+		               .dropdown a:hover {
+		                  background: rgba(223, 209, 186, 1.0);
+		       				color: #3d2a16;
+		               }
+		       			.dropdown a:hover::before {
+		       			    content: ""; /* 伪元素必填空内容 */
+		       			    position: absolute;
+		       			    left: 0; /* 贴左侧对齐 */
+		       			    /* 垂直居中定位：让竖杠与文字居中对齐，不顶上下边 */
+		       			    top: 50%;
+		       			    transform: translateY(-50%);
+		       			    /* 调整高度：不设100%，改为适配文字高度的固定值（可微调） */
+		       			    height: 16px; /* 关键：固定高度，不铺满链接，刚好对应文字高度 */
+		       			    width: 2px; /* 竖杠宽度，保持不变 */
+		       			    background-color: #a87f4e; /* 古风配色，可按需修改 */
+		       			    transition: all 0.2s ease; /* 平滑过渡 */
+		       			}
+		       
+		               /* 悬停导航项时显示下拉菜单 + 触发动画 */
+		               .nav-item:hover .dropdown {
+		                   display: block;
+		                   animation: fadeDown 0.3s ease;
+		               }
+		       
+		               /* 下拉菜单展开动画 */
+		               @keyframes fadeDown {
+		                   from {
+		                       opacity: 0;
+		                       transform: translateY(-4px);
+		                   }
+		                   to {
+		                       opacity: 1;
+		                       transform: translateY(0);
+		                   }
+		               }
+		       			.nav-item {
+		       					position: relative;
+		       					}
+		        /* 锚点定位偏移（适配导航栏遮挡问题，属于导航栏配套优化） */
+		        :target {
+		            scroll-margin-top: 80px !important;
+		        }
+				.logo {
+				                position: fixed; 
+				                top: 10px;
+				                left: 80px;
+				                font-size: 40px;
+				                font-family: "隶书", "LiSu", serif;
+				                color: #fff;
+				                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+				                font-weight: normal;
+				                z-index: 1000; 
+				            }
+		        /* 头部背景图 */
+		        .header-bg {
+		            height: 450px;
+		            background: url('img/立秋6.jpg');
+		            background-size: cover;
+		            background-position: center;
+		        }
+		        /* 内容区域 */
+		        .content {
+		            max-width: 1200px;
+		            margin: -20px auto 40px;
+		            padding: 30px;
+		            background-color: #f5f0e5;
+		            border-radius: 10px;
+		            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		        }
+		        .title {
+		            font-size: 36px;
+		            color: #C87941;
+		            margin-bottom: 20px;
+		            font-family: "楷体", serif;
+		        }
+		        .date {
+		            text-align: right;
+		            font-size: 25px;
+		            color: #C87941;
+		            margin-bottom: 30px;
+					font-family:"Ma Shan Zheng", cursive;
+		        }
+		        .row {
+		            display: flex;
+		            flex-wrap: wrap;
+		            gap: 30px;
+		            margin-bottom: 30px;
+		        }
+		        .col {
+		            flex: 1;
+		            min-width: 300px;
+		        }
+		        .section-title {
+		            display: inline-block;
+		            background-color: #C87941;
+		            color: #fff;
+		            padding: 8px 20px;
+		            border-radius: 20px;
+		            font-family: "楷体", serif;
+		            font-size: 20px;
+		            margin-bottom: 15px;
+		        }
+		        .section-content {
+		            font-size: 16px;
+		            line-height: 1.8;
+		            color: #333;
+		        }
+		        .section-image {
+		            width: 100%;
+		            border-radius: 8px;
+		            margin-top: 10px;
+		        }
+		    </style>
+	</head>
+	<body>
+		 <div class="logo">廿四风物志</div>
+		     <!-- 重构后的导航栏 - 带下拉菜单 -->
+		             <nav class="header-nav">
+		                 <a href="首页.html">首页</a >
+		                 
+		                <!-- 节气大全下拉菜单 -->
+		                <div class="nav-item">
+		                    <a href="节气大全(二级).html">节气大全</a>
+		                </div>
+		                 
+		                <!-- 文化分类下拉菜单 -->
+		                <div class="nav-item">
+		                    <a>文化分类</a>
+		                    <div class="dropdown">
+		                        <a href="春季文化.html">春季文化</a>
+		                        <a href="夏季文化.html">夏季文化</a>
+		                        <a href="秋季文化.html">秋季文化</a>
+		                        <a href="冬季文化.html">冬季文化</a>
+		                    </div>
+		                </div>
+		                 
+		                 <a href="节气穿搭.html">节气穿搭</a >
+		                 <a href="关于我们.html">关于我们</a >
+		             </nav>
+		         </header>
+		 </div>
+		    <!-- 头部背景图 -->
+		    <div class="header-bg"></div>
+		    <!-- 内容区域 -->
+		    <div class="content">
+		        <h1 class="title">二十四节气·立秋</h1>
+		        <div class="date">每年8月7日-9日</div>
+		        <div class="row">
+		            <div class="col">
+		                <div class="section-title">节气简介</div>
+		                <div class="section-content">
+		                    立秋，为二十四节气之第 13 个，又名交秋。立，是 “开始” 之意；秋，代表成熟、收敛。在自然界，立秋最显著的特点就是万物从繁茂转向饱满，立秋乃作物待收、季节转凉之义也，意味着秋收的序幕已开启。
+		                </div>
+		                <img src="img/立秋9.jpg" alt="立秋景象" class="section-image" width="220px" height="300px">
+						
+						<div class="section-title">发展历程</div>
+						<div class="section-content">
+							廿四节气是上古农耕文明的产物，它在中国传统农耕社会中占有极其重要的位置。秦汉以前，南北各地风俗文化不同，一些地方岁首礼俗所重的不是阴历正月朔日，而是干支廿四节气的立秋。立秋岁首对于传统农耕社会具有重要的意义，重大的晒秋备收、啃秋祛暑、拜神祈丰等庆典均安排在立秋日及其前后时段举行。
+						</div>
+						<img src="img/立秋8.jpg" alt="立秋景象" class="section-image" width="220px" height="300px">
+						
+		            </div>
+		            <div class="col">
+		                <img src="img/立秋5.jpg" alt="立秋景象" class="section-image" width="220px" height="300px">
+		                <div class="section-title">气象变化</div>
+		                <div class="section-content">
+		                    立秋时节，太阳达黄经 135°，“秋老虎” 余温仍在，但冷空气渐活跃，蒙古冷高压势力开始抬头；在强空气影响的间隙期，偏北风频次增加，并伴有明显的气温波动过程。立秋，在自然界，最显著的特点是万物开始有成熟的迹象。
+		                </div>
+						<img src="img/立秋10.jpg" alt="立秋景象" class="section-image" width="220px" height="300px">
+						<div class="section-title">物候现象</div>
+						<div class="section-content">
+						   中国古代一些著作将立秋的十五天分三候：“一候凉风至，二候白露生，三候寒蝉鸣”，说的是北风携凉，空气渐燥。立秋五日后，清晨水汽在草木间凝露，再过五日，寒蝉感知秋意，在枝间开始发出凄切的鸣响。
+						</div>
+		            </div>
+					
+		    </div>
+	</body>
+</html>

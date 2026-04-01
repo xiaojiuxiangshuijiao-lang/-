@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>廿四风物志-小雪</title>
+		<style>
+		        * {
+		            margin: 0;
+		            padding: 0;
+		            box-sizing: border-box;
+		            font-family: "微软雅黑", sans-serif;
+		        }
+		        body {
+		            background-color: #f5f0e5;
+		        }
+		        /* 导航栏核心样式 - 顶部通栏 */
+		        .header-nav {
+		            position: fixed; 
+		            top: 0;
+		            left: 0;
+		            right: 0;
+		            z-index: 998; 
+		            display: flex;
+		            justify-content: right; /* 水平靠右对齐 */
+		            align-items: center;
+		            gap: 1px;
+		            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+		            padding: 15px 20px;
+		            border-radius: 0; /* 取消圆角，通栏展示 */
+		            height: 70px; 
+		        }
+		        
+		        /* 导航项容器 - 包裹主菜单+下拉菜单 */
+		        .nav-item {
+		            position: relative;
+		            margin: 0 10px; /* 导航项之间的间距 */
+		        }
+		        
+		        /* 主导航链接基础样式 */
+		        .header-nav a {
+		            color: #fff;
+		            text-decoration: none;
+		            padding: 8px 20px; /* 扩大点击区域 */
+		            font-size: 20px;
+		            text-shadow: 0 0 3px rgba(0, 0, 0, 0.7);
+		            display: block;
+		            transition: background-color 0.3s;
+		            border-radius: 4px;
+		            white-space: nowrap; /* 防止文字换行 */
+		        }
+		        
+		        /* 主导航链接 hover 效果 */
+		        .header-nav a:hover {
+		            background: rgba(255, 255, 255, 0.2);
+		        }
+		        
+		        /* 下拉菜单容器样式 */
+		                     .dropdown {
+		                         position: absolute;
+		                         top: 100%;
+		                         left: 0;
+		                         background: rgba(250, 245, 235, 0.95);
+		                         border-radius: 6px;
+		                         min-width: 120px;
+		                         display: none;
+		                         box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+		                         z-index: 20;
+		                         margin-top: 5px;
+		                         border: 1px solid rgba(200, 180, 150, 0.3);
+		                         padding: 3px 0;
+		                     }
+		        			 
+		                     /* 下拉菜单内链接样式 */
+		                     .dropdown a {
+		                         padding: 12px 18px;
+		                         text-shadow: none;
+		        				  color: #5a4028;
+		                         border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+		                         font-size: 15px;
+		        				 position: relative; /* 为左侧竖杠提供定位参考 */
+		        				line-height: 1.4; /* 固定行高，方便竖杠对齐文字 */
+		                     }
+		             
+		                     /* 下拉菜单最后一个链接取消底部边框 */
+		                     .dropdown a:last-child {
+		                         border-bottom: none;
+		                     }
+		             
+		                     /* 下拉菜单链接 hover 效果 */
+		                     .dropdown a:hover {
+		                        background: rgba(223, 209, 186, 1.0);
+		        				color: #3d2a16;
+		                     }
+		        			.dropdown a:hover::before {
+		        			    content: ""; /* 伪元素必填空内容 */
+		        			    position: absolute;
+		        			    left: 0; /* 贴左侧对齐 */
+		        			    /* 垂直居中定位：让竖杠与文字居中对齐，不顶上下边 */
+		        			    top: 50%;
+		        			    transform: translateY(-50%);
+		        			    /* 调整高度：不设100%，改为适配文字高度的固定值（可微调） */
+		        			    height: 16px; /* 关键：固定高度，不铺满链接，刚好对应文字高度 */
+		        			    width: 2px; /* 竖杠宽度，保持不变 */
+		        			    background-color: #a87f4e; /* 古风配色，可按需修改 */
+		        			    transition: all 0.2s ease; /* 平滑过渡 */
+		        			}
+		             
+		                     /* 悬停导航项时显示下拉菜单 + 触发动画 */
+		                     .nav-item:hover .dropdown {
+		                         display: block;
+		                         animation: fadeDown 0.3s ease;
+		                     }
+		             
+		                     /* 下拉菜单展开动画 */
+		                     @keyframes fadeDown {
+		                         from {
+		                             opacity: 0;
+		                             transform: translateY(-4px);
+		                         }
+		                         to {
+		                             opacity: 1;
+		                             transform: translateY(0);
+		                         }
+		                     }
+		        			.nav-item {
+		        					position: relative;
+		        					}
+		        
+		        /* 锚点定位偏移（适配导航栏遮挡问题，属于导航栏配套优化） */
+		        :target {
+		            scroll-margin-top: 80px !important;
+		        }
+				.logo {
+				                position: fixed; 
+				                top: 10px;
+				                left: 80px;
+				                font-size: 40px;
+				                font-family: "隶书", "LiSu", serif;
+				                color: #fff;
+				                text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+				                font-weight: normal;
+				                z-index: 1000; 
+				            }
+		        /* 头部背景图 */
+		        .header-bg {
+		            height: 450px;
+		            background: url('img/小雪（1）.jpg');
+		            background-size: cover;
+		            background-position: center;
+		        }
+		        /* 内容区域 */
+		        .content {
+		            max-width: 1200px;
+		            margin: -20px auto 40px;
+		            padding: 30px;
+		            background-color: #f5f0e5;
+		            border-radius: 10px;
+		            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+		        }
+		        .title {
+		            font-size: 36px;
+		            color: #6b2021;
+		            margin-bottom: 20px;
+		            font-family: "楷体", serif;
+		        }
+		        .date {
+		            text-align: right;
+		            font-size: 25px;
+		            color: #6b2021;
+		            margin-bottom: 30px;
+					font-family:"Ma Shan Zheng", cursive;
+		        }
+		        .row {
+		            display: flex;
+		            flex-wrap: wrap;
+		            gap: 30px;
+		            margin-bottom: 30px;
+		        }
+		        .col {
+		            flex: 1;
+		            min-width: 300px;
+		        }
+		        .section-title {
+		            display: inline-block;
+		            background-color: #6b2021;
+		            color: #fff;
+		            padding: 8px 20px;
+		            border-radius: 20px;
+		            font-family: "楷体", serif;
+		            font-size: 20px;
+		            margin-bottom: 15px;
+		        }
+		        .section-content {
+		            font-size: 16px;
+		            line-height: 1.8;
+		            color: #333;
+		        }
+		        .section-image {
+		            width: 100%;
+		            border-radius: 8px;
+		            margin-top: 10px;
+		        }
+		    </style>
+	</head>
+	<body>
+		 <div class="logo">廿四风物志</div>
+		     <!-- 重构后的导航栏 - 带下拉菜单 -->
+		             <nav class="header-nav">
+		                 <a href="首页.html">首页</a >
+		                 
+		                <!-- 节气大全下拉菜单 -->
+		                <div class="nav-item">
+		                    <a href="节气大全(二级).html">节气大全</a>
+		                </div>
+		                 
+		                <!-- 文化分类下拉菜单 -->
+		                <div class="nav-item">
+		                    <a>文化分类</a>
+		                    <div class="dropdown">
+		                        <a href="春季文化.html">春季文化</a>
+		                        <a href="夏季文化.html">夏季文化</a>
+		                        <a href="秋季文化.html">秋季文化</a>
+		                        <a href="冬季文化.html">冬季文化</a>
+		                    </div>
+		                </div>
+		                 
+		                 <a href="节气穿搭.html">节气穿搭</a >
+		                 <a href="关于我们.html">关于我们</a >
+		             </nav>
+		         </header>
+		 </div>
+		    <!-- 头部背景图 -->
+		    <div class="header-bg"></div>
+		    <!-- 内容区域 -->
+		    <div class="content">
+		        <h1 class="title">二十四节气·小雪</h1>
+		        <div class="date">每年11月22日-23日</div>
+		        <div class="row">
+		            <div class="col">
+		                <div class="section-title">节气简介</div>
+		                <div class="section-content">
+		                    小雪，为二十四节气之第二十节气，冬季第二个节气。“小雪”是反映降水与气温的节气，此时太阳到达黄经240°，意味着天气寒冷，降水形式由雨变为雪，但雪量较小、未形成积雪，故得名“小雪”。小雪时节，万物潜藏，天地闭塞转入严寒的冬季，民间素有“小雪封山，大雪封河”之说，标志着冬季寒冷天气的进一步加深。
+		                </div>
+		                <img src="img/小雪（2）.jpg" alt="小雪景象" class="section-image" width="220px" height="300px">
+						
+						<div class="section-title">发展历程</div>
+						<div class="section-content">
+							小雪的节气文化源于上古农耕文明，古人根据小雪时节的气候特征安排农事与生活。秦汉时期，小雪已被明确纳入二十四节气体系，作为“冬藏”的重要节点——民间开始“收菜藏粮”，将白菜、萝卜等蔬菜腌制储存，为寒冬储备食物；同时，北方地区开始准备抵御严寒，修缮房屋、加固门窗。随着时代发展，“腌腊肉”“晒鱼干”“吃糍粑”等习俗在南北各地传承，成为小雪文化的鲜明标识，承载着人们顺应时节、储备生活的智慧。
+						</div>
+						<img src="img/小雪（3）.jpg" alt="小雪景象" class="section-image" width="220px" height="300px">
+						
+		            </div>
+		            <div class="col">
+		                <img src="img/小雪（4）.jpg" alt="小雪景象" class="section-image" width="220px" height="300px">
+		                <div class="section-title">气象变化</div>
+		                <div class="section-content">
+		                    小雪时节，亚洲高压势力进一步增强，冷空气活动更加频繁，我国大部气温持续走低，华北及以北地区气温普遍降至0℃以下，开始出现初雪天气，降雪多为小雪或雨夹雪，难以形成积雪；南方地区气温也显著下降，多阴雨寡照天气，空气湿度大、体感阴冷。此时，昼夜温差极大，风力偏强，寒潮过程增多，北方地区开始进入“冻土期”，南方则逐渐步入“湿冷模式”，整体气候呈现“寒而未极、湿冷交织”的特点。
+						</div>
+						<img src="img/小雪（5）.jpg" alt="小雪景象" class="section-image" width="220px" height="300px">
+						<div class="section-title">物候现象</div>
+						<div class="section-content">
+						   中国古代将小雪的十五天分为三候，精准描绘了节气物候变化：“一候虹藏不见，二候天气上升地气下降，三候闭塞而成冬”。一候虹藏不见，因气温降低、降水转为雪，彩虹不再出现；二候天气上升地气下降，天空阳气上升，地下阴气下沉，天地间阴阳不交、万物沉寂；三候闭塞而成冬，天地闭塞不通，万物停止生长，正式进入严寒闭藏的冬季，体现了自然界“休养生息”的规律。
+						</div>
+		            </div>
+					
+		    </div>
+	</body>
+</html>

@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>关于我们-节气养生</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: "Microsoft Yahei", sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f0e5;
+            color: #333;
+            padding-top: 70px;
+            scroll-behavior: smooth;
+        }
+        .header-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 998;
+            display: flex;
+            justify-content: right;
+            align-items: center;
+            gap: 1px;
+            background-color: rgba(188, 143,107, 0.8);
+            padding: 15px 20px;
+            border-radius: 0;
+            height: 70px;
+        }
+        .nav-item {
+            position: relative;
+            margin: 0 10px;
+        }
+        .header-nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 20px;
+            font-size: 20px;
+            text-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+            display: block;
+            transition: background-color 0.3s;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+        .header-nav a:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        .dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: rgba(250, 245, 235, 0.95);
+            border-radius: 6px;
+            min-width: 120px;
+            display: none;
+            box-shadow: 0 3px 8px rgba(100, 80, 50, 0.15);
+            z-index: 20;
+            margin-top: 5px;
+            border: 1px solid rgba(200, 180, 150, 0.3);
+            padding: 3px 0;
+        }
+        .dropdown a {
+            padding: 12px 18px;
+            text-shadow: none;
+            color: #5a4028;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 15px;
+            position: relative;
+            line-height: 1.4;
+        }
+        .dropdown a:last-child {
+            border-bottom: none;
+        }
+        .dropdown a:hover {
+            background: rgba(223, 209, 186, 1.0);
+            color: #3d2a16;
+        }
+        .dropdown a:hover::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 16px;
+            width: 2px;
+            background-color: #a87f4e;
+            transition: all 0.2s ease;
+        }
+        .nav-item:hover .dropdown {
+            display: block;
+            animation: fadeDown 0.3s ease;
+        }
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        :target {
+            scroll-margin-top: 80px !important;
+        }
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header h1 {
+            font-size: 30px;
+            color: #8b5a2b;
+        }
+        .header p {
+            font-size: 20px;
+            color: #555;
+            margin-top: 10px;
+        }
+        .intro-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .intro-text {
+            flex: 1 1 300px;
+        }
+        .intro-text h2 {
+            font-size: 26px;
+            color: #8b5a2b;
+            margin-bottom: 15px;
+        }
+        .intro-text p, .intro-text ul {
+            font-size: 20px;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        .intro-text ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .intro-image {
+            flex: 1 1 300px;
+            text-align: center;
+        }
+        .intro-image img {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .contact-section {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 40px;
+        }
+        .contact-info, .message-form {
+            flex: 1 1 300px;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .contact-info h2, .message-form h2 {
+            font-size: 26px;
+            color: #8b5a2b;
+            margin-bottom: 30px;
+        }
+        .contact-info p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+        }
+        .contact-info .icon {
+            width: 30px;
+            height: 30px;
+            background-color: #e8d8c3;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+        }
+        .message-form form label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 20px;
+        }
+        .message-form form input[type="text"],
+        .message-form form input[type="email"] {
+            width: 80%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .message-form form textarea {
+            width: 80%;
+            height: 120px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            resize: vertical;
+        }
+        .submit-btn, .view-records-btn {
+            padding: 10px 20px;
+            background-color: #e8d8c3;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-right: 10px;
+            margin-top: 15px;
+        }
+        .submit-btn:hover, .view-records-btn:hover {
+            background-color: #66b1ff;
+        }
+        .records-section {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .record-item {
+            border-bottom: 1px solid #eee;
+            padding: 15px 0;
+        }
+        .record-item:last-child {
+            border-bottom: none;
+        }
+        .record-date {
+            color: #888;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .record-content {
+            font-size: 16px;
+        }
+        .no-records {
+            color: #888;
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* ======================
+           升级：论坛社区（带点赞+回复+删除）
+        ====================== */
+        .forum-section {
+            margin-top: 60px;
+            padding-top: 40px;
+            border-top: 2px solid #e8d8c3;
+        }
+        .forum-title {
+            text-align: center;
+            font-size: 28px;
+            color: #8b5a2b;
+            margin-bottom: 30px;
+        }
+        .forum-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+        .post-card {
+            flex: 1 1 400px;
+            background: #fff;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        }
+        .post-card h3 {
+            font-size: 22px;
+            color: #8b5a2b;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #f0e6d6;
+        }
+        .form-group {
+            margin-bottom: 18px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: bold;
+            color: #5a4028;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+        .post-btn {
+            padding: 10px 24px;
+            background: #8b5a2b;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: .3s;
+        }
+        .post-btn:hover {
+            background: #a87f4e;
+        }
+        .thread-list {
+            flex: 2 1 600px;
+        }
+        .thread-item {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 16px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            transition: .2s;
+        }
+        .thread-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+        }
+        .thread-head {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #888;
+        }
+        .thread-title {
+            font-size: 19px;
+            font-weight: bold;
+            color: #3d2a16;
+            margin-bottom: 8px;
+        }
+        .thread-content {
+            font-size: 16px;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom:12px;
+        }
+        .thread-actions {
+            display: flex;
+            gap:12px;
+            margin-bottom:10px;
+        }
+        .like-btn, .del-btn, .reply-toggle-btn {
+            padding:6px 10px;
+            border-radius:6px;
+            border:none;
+            cursor:pointer;
+            font-size:14px;
+            display:flex;
+            align-items:center;
+            gap:4px;
+        }
+        .like-btn { background:#f6f0e9; color:#8b5a2b; }
+        .like-btn.active { background:#fbe9e7; color:#e57373; }
+        .del-btn { background:#fef1f1; color:#d32f2f; }
+        .reply-toggle-btn { background:#e9f1f9; color:#2962ff; }
+
+        .reply-area {
+            margin-top:12px;
+            display:none;
+        }
+        .reply-area.show {
+            display:block;
+        }
+        .reply-input {
+            width:100%;
+            padding:8px 12px;
+            border:1px solid #ddd;
+            border-radius:6px;
+            margin-bottom:8px;
+        }
+        .reply-submit {
+            padding:6px 14px;
+            background:#8b5a2b;
+            color:#fff;
+            border:none;
+            border-radius:6px;
+            cursor:pointer;
+        }
+        .reply-list {
+            margin-top:12px;
+            padding-left:10px;
+            border-left:2px solid #e8d8c3;
+        }
+        .reply-item {
+            padding:8px 0;
+            font-size:14px;
+            color:#555;
+        }
+        .empty-tip {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+            background: #fff;
+            border-radius: 10px;
+        }
+
+        @media (max-width: 768px) {
+            body { padding-top: 60px; }
+            .header-nav { padding: 10px 15px; height: 60px; }
+            .header-nav a { margin: 0 5px; font-size: 14px; padding: 6px 10px; }
+            .dropdown { min-width: 120px; }
+            .dropdown a { padding: 10px 15px; font-size: 13px; }
+        }
+        .scroll-hint {
+            position: fixed;
+            top: 50%;
+            right: 30px;
+            background-color: rgba(139, 90, 43, 0.9);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            z-index: 999;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            animation: fadeInUp 0.5s ease;
+        }
+        .scroll-hint .arrow {
+            font-size: 20px;
+            animation: bounce 1.5s infinite;
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(8px); }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <nav class="header-nav">
+        <a href="首页.html">首页</a>
+        <div class="nav-item">
+            <a href="节气大全(二级).html">节气大全</a>
+        </div>
+        <div class="nav-item">
+            <a>文化分类</a>
+            <div class="dropdown">
+                <a href="春季文化.html">春季文化</a>
+                <a href="夏季文化.html">夏季文化</a>
+                <a href="秋季文化.html">秋季文化</a>
+                <a href="冬季文化.html">冬季文化</a>
+            </div>
+        </div>
+        <a href="节气穿搭.html">节气穿搭</a>
+        <a href="关于我们.html">关于我们</a>
+    </nav>
+
+    <div class="scroll-hint" id="scrollHint">
+        <span>向下滑动查看留言记录 ↓</span>
+        <span class="arrow">↓</span>
+    </div>
+
+    <div class="container">
+        <!-- 原有内容完全保留 -->
+        <div class="header">
+            <h1>关于我们</h1>
+            <p>“以节气为笔，绘四季养生图——让传统节气智慧，融入现代人的日常健康”</p>
+        </div>
+
+        <div class="intro-section">
+            <div class="intro-text">
+                <h2>栏目介绍</h2>
+                <p>你是否想了解节气却觉得内容枯燥？想养生又不知道对应节气该怎么做？我们就是为解决这些问题而来，让节气不只是日期，养生不再复杂。</p>
+                <h2>内容涵盖</h2>
+                <ul>
+                    <li>节气基本知识</li>
+                    <li>传统习俗</li>
+                    <li>养生之道</li>
+                </ul>
+                <h2>目标受众</h2>
+                <ul>
+                    <li>对节气文化感兴趣的人</li>
+                    <li>想要研究养生之道的人等</li>
+                </ul>
+            </div>
+            <div class="intro-image">
+                <img src="../廿四风物志/img/1.jpg" alt="节气养生场景">
+            </div>
+        </div>
+
+        <div class="contact-section">
+            <div class="contact-info">
+                <h2>联系我们</h2>
+                <p><span class="icon">地</span>地址：扬州大学</p>
+                <p><span class="icon">邮</span>邮箱：2312540645@qq.com</p>
+            </div>
+            <div class="message-form">
+                <h2>留言咨询</h2>
+                <form id="messageForm">
+                    <label for="name">姓名</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="email">邮箱</label>
+                    <input type="email" id="email" name="email" required>
+                    <label for="subject">主题</label>
+                    <input type="text" id="subject" name="subject" required>
+                    <label for="message">留言内容</label>
+                    <textarea id="message" name="message" required></textarea>
+                    <button type="submit" class="submit-btn">提交留言</button>
+                    <button type="button" class="view-records-btn" id="viewRecordsBtn">查看记录</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="records-section" id="recordsSection" style="display: none;">
+            <h2>留言记录</h2>
+            <button class="submit-btn" id="clearRecordsBtn" style="margin-bottom: 15px;">清空所有记录</button>
+            <div id="recordsContainer"></div>
+        </div>
+
+        <!-- ======================
+             升级论坛：点赞 + 回复 + 删除
+        ====================== -->
+        <div class="forum-section">
+            <h2 class="forum-title">🌿 节气养生论坛 · 互动社区</h2>
+            <div class="forum-layout">
+                <div class="post-card">
+                    <h3>发布新话题</h3>
+                    <form id="postForm">
+                        <div class="form-group">
+                            <label>标题</label>
+                            <input type="text" id="topicTitle" placeholder="请输入话题标题" required>
+                        </div>
+                        <div class="form-group">
+                            <label>内容</label>
+                            <textarea id="topicContent" rows="5" placeholder="分享你的节气心得、疑问、感悟..." required></textarea>
+                        </div>
+                        <button type="submit" class="post-btn">发布话题</button>
+                    </form>
+                </div>
+
+                <div class="thread-list">
+                    <h3>最新讨论</h3>
+                    <div id="threadContainer"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ====================
+        // 原有留言板逻辑
+        // ====================
+        function getRecords() {
+            const records = localStorage.getItem('messageRecords');
+            return records ? JSON.parse(records) : [];
+        }
+        function saveRecord(record) {
+            const records = getRecords();
+            records.push(record);
+            localStorage.setItem('messageRecords', JSON.stringify(records));
+        }
+        function displayRecords() {
+            const recordsSection = document.getElementById('recordsSection');
+            const recordsContainer = document.getElementById('recordsContainer');
+            const records = getRecords();
+            document.getElementById('clearRecordsBtn').addEventListener('click', function() {
+                if (confirm('确定要清空所有留言记录吗？清空后无法恢复！')) {
+                    localStorage.removeItem('messageRecords');
+                    displayRecords();
+                    alert('记录已清空！');
+                }
+            });
+            recordsContainer.innerHTML = '';
+            if (records.length === 0) {
+                recordsContainer.innerHTML = '<div class="no-records">暂无留言记录</div>';
+            } else {
+                records.reverse().forEach(record => {
+                    const el = document.createElement('div');
+                    el.className = 'record-item';
+                    el.innerHTML = `
+                        <div class="record-date">${record.date}</div>
+                        <div class="record-content"><strong>姓名：</strong>${record.name}</div>
+                        <div class="record-content"><strong>邮箱：</strong>${record.email}</div>
+                        <div class="record-content"><strong>主题：</strong>${record.subject}</div>
+                        <div class="record-content"><strong>留言：</strong>${record.message}</div>
+                    `;
+                    recordsContainer.appendChild(el);
+                });
+            }
+            recordsSection.style.display = 'block';
+        }
+        function showScrollHint() {
+            const scrollHint = document.getElementById('scrollHint');
+            scrollHint.style.display = 'flex';
+            setTimeout(() => { scrollHint.style.display = 'none'; }, 5000);
+        }
+        function scrollToRecords() {
+            document.getElementById('recordsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+        document.getElementById('messageForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+            const dateString = new Date().toLocaleString('zh-CN');
+            saveRecord({ name, email, subject, message, date: dateString });
+            alert('留言提交成功！');
+            showScrollHint();
+            displayRecords();
+            scrollToRecords();
+            this.reset();
+        });
+        document.getElementById('viewRecordsBtn').addEventListener('click', function() {
+            displayRecords();
+            scrollToRecords();
+        });
+
+        // ====================
+        // 增强版论坛：点赞 + 回复 + 删除
+        // ====================
+        const FORUM_KEY = 'solar_forum_topics';
+
+        function getTopics() {
+            return JSON.parse(localStorage.getItem(FORUM_KEY) || '[]');
+        }
+
+        function saveTopics(topics) {
+            localStorage.setItem(FORUM_KEY, JSON.stringify(topics));
+        }
+
+        function renderTopics() {
+            const container = document.getElementById('threadContainer');
+            const list = getTopics();
+            if (list.length === 0) {
+                container.innerHTML = '<div class="empty-tip">暂无话题，快来发表第一条吧～</div>';
+                return;
+            }
+            container.innerHTML = list.map((t, idx) => `
+                <div class="thread-item" data-index="${idx}">
+                    <div class="thread-head">
+                        <span>${t.time}</span>
+                    </div>
+                    <div class="thread-title">${t.title}</div>
+                    <div class="thread-content">${t.content}</div>
+
+                    <div class="thread-actions">
+                        <button class="like-btn ${t.liked?'active':''}" data-index="${idx}">
+                            <i class="fa-solid fa-heart"></i> ${t.like||0}
+                        </button>
+                        <button class="reply-toggle-btn" data-index="${idx}">
+                            <i class="fa-solid fa-reply"></i> 回复
+                        </button>
+                        <button class="del-btn" data-index="${idx}">
+                            <i class="fa-solid fa-trash"></i> 删除
+                        </button>
+                    </div>
+
+                    <div class="reply-area" data-index="${idx}">
+                        <input class="reply-input" placeholder="写下你的回复..." />
+                        <button class="reply-submit" data-index="${idx}">发送</button>
+                        <div class="reply-list">
+                            ${(t.replies||[]).map(r => `
+                                <div class="reply-item">${r}</div>
+                            `).join('')}
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            bindForumEvents();
+        }
+
+        function bindForumEvents() {
+            // 点赞
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const i = btn.dataset.index;
+                    const list = getTopics();
+                    list[i].like = (list[i].like||0) + (list[i].liked ? -1 : 1);
+                    list[i].liked = !list[i].liked;
+                    saveTopics(list);
+                    renderTopics();
+                });
+            });
+
+            // 回复显示/隐藏
+            document.querySelectorAll('.reply-toggle-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const area = document.querySelector(`.reply-area[data-index="${btn.dataset.index}"]`);
+                    area.classList.toggle('show');
+                });
+            });
+
+            // 发送回复
+            document.querySelectorAll('.reply-submit').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const i = btn.dataset.index;
+                    const input = document.querySelector(`.reply-area[data-index="${i}"] .reply-input`);
+                    const val = input.value.trim();
+                    if (!val) return;
+                    const list = getTopics();
+                    if (!list[i].replies) list[i].replies = [];
+                    list[i].replies.push(val);
+                    saveTopics(list);
+                    renderTopics();
+                });
+            });
+
+            // 删除帖子
+            document.querySelectorAll('.del-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    if (!confirm('确定删除该话题？')) return;
+                    const i = btn.dataset.index;
+                    const list = getTopics();
+                    list.splice(i, 1);
+                    saveTopics(list);
+                    renderTopics();
+                });
+            });
+        }
+
+        // 发布帖子
+        document.getElementById('postForm').addEventListener('submit', e => {
+            e.preventDefault();
+            const title = document.getElementById('topicTitle').value.trim();
+            const content = document.getElementById('topicContent').value.trim();
+            if (!title || !content) return;
+            const list = getTopics();
+            list.unshift({
+                id: Date.now(), title, content,
+                time: new Date().toLocaleString('zh-CN'),
+                like:0, liked:false, replies:[]
+            });
+            saveTopics(list);
+            renderTopics();
+            this.reset();
+            alert('发布成功！');
+        });
+
+        window.addEventListener('DOMContentLoaded', renderTopics);
+    </script>
+</body>
+</html>
