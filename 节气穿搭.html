@@ -252,10 +252,10 @@
 </head>
 
 <body class="bg-neutral min-h-screen font-sans">
-	<a href="首页.html" class="logo">廿四风物志</a>
+	<a href="index.html" class="logo">廿四风物志</a>
 	<!-- 重构后的导航栏 - 带下拉菜单 -->
 	        <nav class="header-nav">
-	            <a href="首页.html">首页</a>
+	            <a href="index.html">首页</a>
 	            
 	            <!-- 节气大全下拉菜单 -->
 	            <div class="nav-item">
@@ -320,7 +320,7 @@
           <!-- 角色基底 -->
           <div id="characterBase" class="w-full h-full relative">
             <!-- 角色身体部分 - 这些将通过JS控制显示/隐藏 -->
-            <img src="img/春分.png" alt="角色基底" class="w-full h-full object-contain">
+            <img src="春分.png" alt="角色基底" class="w-full h-full object-contain">
             
             
             <div id="clothesLayers" class="absolute inset-0">
@@ -403,65 +403,65 @@
   <script>
     // 二十四节气数据
     const solarTerms = [
-      { name: "立春", season: "spring", description: "立春，春季的开始，天气逐渐回暖，但仍有寒意，需注意保暖。",image:"img/立春.png" },
-      { name: "雨水", season: "spring", description: "雨水，降水开始增多，气温回升，早晚温差大，注意增减衣物。",image:"img/雨水.png"},
-      { name: "惊蛰", season: "spring", description: "惊蛰，春雷始鸣，万物复苏，气温波动较大，注意防春寒。",image:"img/惊蛰.png"},
-      { name: "春分", season: "spring", description: "春分，昼夜平分，气候温和，雨水充沛，万物复苏，正是踏青好时节。",image:"img/春分.png" },
-      { name: "清明", season: "spring", description: "清明，气清景明，万物皆显，气温适宜，适合户外活动。" ,image:"img/清明.png"},
-      { name: "谷雨", season: "spring", description: "谷雨，雨水增多，有利于谷物生长，天气转暖，春意渐浓。" ,image:"img/谷雨.png"},
-      { name: "立夏", season: "summer", description: "立夏，夏季的开始，气温明显升高，雷雨增多，注意防暑。" ,image:"img/立夏.png"},
-      { name: "小满", season: "summer", description: "小满，麦类作物开始饱满，气温进一步升高，湿度增大。" ,image:"img/小满.png"},
-      { name: "芒种", season: "summer", description: "芒种，麦类等有芒作物成熟，天气炎热，进入梅雨季节。" ,image:"img/芒种.png"},
-      { name: "夏至", season: "summer", description: "夏至，白天最长，夜晚最短，气温高，湿度大，注意防暑降温。" ,image:"img/夏至.png"},
-      { name: "小暑", season: "summer", description: "小暑，天气开始炎热，但还未到最热，雷暴天气增多。" ,image:"img/小暑.png"},
-      { name: "大暑", season: "summer", description: "大暑，一年中最热的时期，高温潮湿，需注意防暑降温。" ,image:"img/大暑.png"},
-      { name: "立秋", season: "autumn", description: "立秋，秋季的开始，气温开始下降，早晚温差增大。" ,image:"img/立秋.png"},
-      { name: "处暑", season: "autumn", description: "处暑，炎热即将过去，气温逐渐下降，秋高气爽。" ,image:"img/处暑.png"},
-      { name: "白露", season: "autumn", description: "白露，气温下降快，夜间露水凝结，早晚凉意明显。" ,image:"img/白露.png"},
-      { name: "秋分", season: "autumn", description: "秋分，昼夜平分，气候凉爽宜人，是收获的季节。" ,image:"img/秋分.png"},
-      { name: "寒露", season: "autumn", description: "寒露，气温更低，露水带寒，开始出现霜冻，注意保暖。" ,image:"img/寒露.png"},
-      { name: "霜降", season: "autumn", description: "霜降，气温骤降，出现霜冻，草木开始枯黄，需注意防寒。" ,image:"img/霜降.png"},
-      { name: "立冬", season: "winter", description: "立冬，冬季的开始，气温显著下降，开始进入寒冷季节。" ,image:"img/立冬.png"},
-      { name: "小雪", season: "winter", description: "小雪，开始降雪，但雪量较小，气温持续下降。" ,image:"img/小雪.png"},
-      { name: "大雪", season: "winter", description: "大雪，降雪量增多，气温更低，可能出现积雪。" ,image:"img/大雪.png"},
-      { name: "冬至", season: "winter", description: "冬至，白天最短，夜晚最长，开始进入数九寒天。" ,image:"img/冬至.png"},
-      { name: "小寒", season: "winter", description: "小寒，天气寒冷但还未到极点，注意防寒保暖。" ,image:"img/小寒.png"},
-      { name: "大寒", season: "winter", description: "大寒，一年中最冷的时期，气温极低，注意防冻保暖。" ,image:"img/大寒.png"}
+      { name: "立春", season: "spring", description: "立春，春季的开始，天气逐渐回暖，但仍有寒意，需注意保暖。",image:"立春.png" },
+      { name: "雨水", season: "spring", description: "雨水，降水开始增多，气温回升，早晚温差大，注意增减衣物。",image:"雨水.png"},
+      { name: "惊蛰", season: "spring", description: "惊蛰，春雷始鸣，万物复苏，气温波动较大，注意防春寒。",image:"惊蛰.png"},
+      { name: "春分", season: "spring", description: "春分，昼夜平分，气候温和，雨水充沛，万物复苏，正是踏青好时节。",image:"春分.png" },
+      { name: "清明", season: "spring", description: "清明，气清景明，万物皆显，气温适宜，适合户外活动。" ,image:"清明.png"},
+      { name: "谷雨", season: "spring", description: "谷雨，雨水增多，有利于谷物生长，天气转暖，春意渐浓。" ,image:"谷雨.png"},
+      { name: "立夏", season: "summer", description: "立夏，夏季的开始，气温明显升高，雷雨增多，注意防暑。" ,image:"立夏.png"},
+      { name: "小满", season: "summer", description: "小满，麦类作物开始饱满，气温进一步升高，湿度增大。" ,image:"小满.png"},
+      { name: "芒种", season: "summer", description: "芒种，麦类等有芒作物成熟，天气炎热，进入梅雨季节。" ,image:"芒种.png"},
+      { name: "夏至", season: "summer", description: "夏至，白天最长，夜晚最短，气温高，湿度大，注意防暑降温。" ,image:"夏至.png"},
+      { name: "小暑", season: "summer", description: "小暑，天气开始炎热，但还未到最热，雷暴天气增多。" ,image:"小暑.png"},
+      { name: "大暑", season: "summer", description: "大暑，一年中最热的时期，高温潮湿，需注意防暑降温。" ,image:"大暑.png"},
+      { name: "立秋", season: "autumn", description: "立秋，秋季的开始，气温开始下降，早晚温差增大。" ,image:"立秋.png"},
+      { name: "处暑", season: "autumn", description: "处暑，炎热即将过去，气温逐渐下降，秋高气爽。" ,image:"处暑.png"},
+      { name: "白露", season: "autumn", description: "白露，气温下降快，夜间露水凝结，早晚凉意明显。" ,image:"白露.png"},
+      { name: "秋分", season: "autumn", description: "秋分，昼夜平分，气候凉爽宜人，是收获的季节。" ,image:"秋分.png"},
+      { name: "寒露", season: "autumn", description: "寒露，气温更低，露水带寒，开始出现霜冻，注意保暖。" ,image:"寒露.png"},
+      { name: "霜降", season: "autumn", description: "霜降，气温骤降，出现霜冻，草木开始枯黄，需注意防寒。" ,image:"霜降.png"},
+      { name: "立冬", season: "winter", description: "立冬，冬季的开始，气温显著下降，开始进入寒冷季节。" ,image:"立冬.png"},
+      { name: "小雪", season: "winter", description: "小雪，开始降雪，但雪量较小，气温持续下降。" ,image:"小雪.png"},
+      { name: "大雪", season: "winter", description: "大雪，降雪量增多，气温更低，可能出现积雪。" ,image:"大雪.png"},
+      { name: "冬至", season: "winter", description: "冬至，白天最短，夜晚最长，开始进入数九寒天。" ,image:"冬至.png"},
+      { name: "小寒", season: "winter", description: "小寒，天气寒冷但还未到极点，注意防寒保暖。" ,image:"小寒.png"},
+      { name: "大寒", season: "winter", description: "大寒，一年中最冷的时期，气温极低，注意防冻保暖。" ,image:"大寒.png"}
     ];
     
     // 服装数据
     const clothesData = {
       coat: [
-        { id: "coat1", name: "薄外套", image: "img/薄外套.png", seasons: ["spring", "autumn"] },
-        { id: "coat2", name: "厚外套", image: "img/厚外套.png", seasons: ["winter"] },
-        { id: "coat3", name: "风衣", image: "img/风衣.png", seasons: ["spring", "autumn"] },
-        { id: "coat4", name: "夹克", image: "img/夹克.png", seasons: ["spring", "autumn"] },
-        { id: "coat5", name: "羽绒服", image: "img/羽绒服.png", seasons: ["winter"] },
-        { id: "coat6", name: "防晒衣", image: "img/防晒衣.png", seasons: ["summer"] }
+        { id: "coat1", name: "薄外套", image: "薄外套.png", seasons: ["spring", "autumn"] },
+        { id: "coat2", name: "厚外套", image: "厚外套.png", seasons: ["winter"] },
+        { id: "coat3", name: "风衣", image: "风衣.png", seasons: ["spring", "autumn"] },
+        { id: "coat4", name: "夹克", image: "夹克.png", seasons: ["spring", "autumn"] },
+        { id: "coat5", name: "羽绒服", image: "羽绒服.png", seasons: ["winter"] },
+        { id: "coat6", name: "防晒衣", image: "防晒衣.png", seasons: ["summer"] }
       ],
       top: [
-        { id: "top1", name: "T恤", image: "img/T恤.png", seasons: ["summer"] },
-        { id: "top2", name: "衬衫", image: "img/衬衫.png", seasons: ["spring", "autumn"] },
-        { id: "top3", name: "毛衣", image: "img/毛衣.png", seasons: ["autumn", "winter"] },
-        { id: "top4", name: "卫衣", image: "img/卫衣.png", seasons: ["spring", "autumn"] },
-        { id: "top5", name: "长袖T恤", image: "img/长袖T恤.png", seasons: ["spring", "autumn"] },
-        { id: "top6", name: "保暖内衣", image: "img/保暖内衣.png", seasons: ["winter"] }
+        { id: "top1", name: "T恤", image: "T恤.png", seasons: ["summer"] },
+        { id: "top2", name: "衬衫", image: "衬衫.png", seasons: ["spring", "autumn"] },
+        { id: "top3", name: "毛衣", image: "毛衣.png", seasons: ["autumn", "winter"] },
+        { id: "top4", name: "卫衣", image: "卫衣.png", seasons: ["spring", "autumn"] },
+        { id: "top5", name: "长袖T恤", image: "长袖T恤.png", seasons: ["spring", "autumn"] },
+        { id: "top6", name: "保暖内衣", image: "保暖内衣.png", seasons: ["winter"] }
       ],
       shoes: [
-        { id: "shoes1", name: "运动鞋", image: "img/运动鞋.png", seasons: ["all"] },
-        { id: "shoes2", name: "皮鞋", image: "img/皮鞋.png", seasons: ["all"] },
-        { id: "shoes3", name: "凉鞋", image: "img/凉鞋.png", seasons: ["summer"] },
-        { id: "shoes4", name: "靴子", image: "img/靴子.png", seasons: ["autumn", "winter"] },
-        { id: "shoes5", name: "帆布鞋", image: "img/帆布鞋.png", seasons: ["spring", "summer"] },
-        { id: "shoes6", name: "棉鞋", image: "img/棉鞋.png", seasons: ["winter"] }
+        { id: "shoes1", name: "运动鞋", image: "运动鞋.png", seasons: ["all"] },
+        { id: "shoes2", name: "皮鞋", image: "皮鞋.png", seasons: ["all"] },
+        { id: "shoes3", name: "凉鞋", image: "凉鞋.png", seasons: ["summer"] },
+        { id: "shoes4", name: "靴子", image: "靴子.png", seasons: ["autumn", "winter"] },
+        { id: "shoes5", name: "帆布鞋", image: "帆布鞋.png", seasons: ["spring", "summer"] },
+        { id: "shoes6", name: "棉鞋", image: "棉鞋.png", seasons: ["winter"] }
       ],
       accessory: [
-        { id: "acc1", name: "帽子", image: "img/帽子.png", seasons: ["all"] },
-        { id: "acc2", name: "围巾", image: "img/围巾.png", seasons: ["autumn", "winter"] },
-        { id: "acc3", name: "太阳镜", image: "img/墨镜.png", seasons: ["summer"] },
-        { id: "acc4", name: "手套", image: "img/手套.png", seasons: ["winter"] },
-        { id: "acc5", name: "手表", image: "img/手表.png", seasons: ["all"] },
-        { id: "acc6", name: "雨伞", image: "img/雨伞.png", seasons: ["spring", "summer"] }
+        { id: "acc1", name: "帽子", image: "帽子.png", seasons: ["all"] },
+        { id: "acc2", name: "围巾", image: "围巾.png", seasons: ["autumn", "winter"] },
+        { id: "acc3", name: "太阳镜", image: "墨镜.png", seasons: ["summer"] },
+        { id: "acc4", name: "手套", image: "手套.png", seasons: ["winter"] },
+        { id: "acc5", name: "手表", image: "手表.png", seasons: ["all"] },
+        { id: "acc6", name: "雨伞", image: "雨伞.png", seasons: ["spring", "summer"] }
       ]
     };
     
